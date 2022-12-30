@@ -145,3 +145,85 @@ void find_connected_components( const std::vector<std::vector<int>> & input_edge
     }
     
 }
+
+
+void find_connected_components_old(const std::vector<std::vector<int>> & input_edges,
+                                const std::vector<int> & degrees,
+                                const std::vector<int> & genera,
+                                std::vector<std::vector<std::vector<int>>> & edges_of_cc,
+                                std::vector<std::vector<int>> & degrees_of_cc,
+                                std::vector<std::vector<int>> & genera_of_cc)
+{
+
+    // (1) Find all vertices, but avoid duplicates
+    std::vector<int> vertices;
+    vertices.reserve(2*input_edges.size());
+    for (int i = 0; i < input_edges.size(); i++){
+        if (!(std::count(vertices.begin(), vertices.end(), input_edges[i][0]))) {
+            vertices.push_back(input_edges[i][0]);
+        }
+        if (!(std::count(vertices.begin(), vertices.end(), input_edges[i][1]))) {
+            vertices.push_back(input_edges[i][1]);
+        }
+    }
+    
+    // (2) Construct three maps:
+    // vertex_correspondence: our vertex names (e.g. "0, 2, 5, 6, ...") -> "0, 1, 2, 3, ..."
+    // degree_correspondence: new vertex indices "0, 1, 2, 3, ..." -> degree on this vertex
+    // genera_correspondence: new vertex indices "0, 1, 2, 3, ..." -> genus on this vertex
+    std::map<int, int> vertex_correspondence;
+    std::map<int, int> degree_correspondence;
+    std::map<int, int> genus_correspondence;
+    for (int i = 0; i < vertices.size(); i++){
+        vertex_correspondence.insert(std::pair<int, int>(vertices[i], i));
+        degree_correspondence.insert(std::pair<int, int>(i, degrees[vertices[i]]));
+        genus_correspondence.insert(std::pair<int, int>(i, genera[vertices[i]]));
+    }
+    
+    // (3) Form list of edges with new new vertex indices (-> can be easily processed below)
+    std::vector<std::vector<int>> edges;
+    edges.reserve(input_edges.size());
+    for (int i = 0; i < input_edges.size(); i++){
+        edges.push_back({vertex_correspondence[input_edges[i][0]], vertex_correspondence[input_edges[i][1]]});
+    }
+    
+    // (4) Compute the connected components
+    std::vector<std::vector<int>> vertices_of_cc;
+    std::vector<int> parent(vertices.size());
+    std::iota(std::begin(parent), std::end(parent), 0);
+    for (int i = 0; i < edges.size(); i++){
+        parent[merge(parent, edges[i][0])] = merge(parent, edges[i][1]);
+    }
+    for (int i = 0; i < vertices.size(); i++) {
+        parent[i] = merge(parent, parent[i]);
+    }
+    std::map<int, std::vector<int>> m;
+    for (int i = 0; i < vertices.size(); i++) {
+        m[parent[i]].push_back(i);
+    }
+    for (auto it = m.begin(); it != m.end(); it++){
+        vertices_of_cc.push_back(it->second);
+    }
+    
+    // (5) Construct edge list of the connected components
+    edges_of_cc.resize(vertices_of_cc.size());
+    for (int i = 0; i < edges.size(); i++){
+        for (int j = 0; j < vertices_of_cc.size(); j++){
+            if (std::count(vertices_of_cc[j].begin(), vertices_of_cc[j].end(), edges[i][0])){
+                edges_of_cc[j].push_back(edges[i]);
+                break;
+            }
+        }
+    }
+    
+    // (6) Construct list of degrees and genera
+    degrees_of_cc.resize(vertices_of_cc.size());
+    genera_of_cc.resize(vertices_of_cc.size());
+    for (int i = 0; i < vertices_of_cc.size(); i++){
+        for (int j = 0; j < vertices_of_cc[i].size(); j++){
+            degrees_of_cc[i].push_back(degree_correspondence[vertices_of_cc[i][j]]);
+            genera_of_cc[i].push_back(genus_correspondence[vertices_of_cc[i][j]]);
+        }
+    }
+
+}

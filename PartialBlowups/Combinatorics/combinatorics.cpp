@@ -124,7 +124,9 @@ void comp_partitions_with_nodes(const int & N,
         // The vertices are labeled from 0 to degrees.size() - 1.
         // This is crucial for the computation of h0.
         bool lb;
-        if (h0_on_nodal_curve(degrees, nodal_edges, genera, lb) == N){
+        int h0;
+        h0_on_nodal_curve(degrees, nodal_edges, genera, h0, lb);
+        if (h0 == N){
             partitions.push_back(naive_partitions[i]);
         }
     

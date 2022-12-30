@@ -138,7 +138,8 @@ void worker(            const std::vector<int> degrees,
                 // (0) Initialize variables to sort the setup correctly
                 bool unsorted_setup = false;
                 bool lbs_test;
-                int current_h0 = h0_on_nodal_curve(degrees, nodal_edges, genera, lbs_test);
+                int current_h0;
+                h0_on_nodal_curve(degrees, nodal_edges, genera, current_h0, lbs_test);
                 
                 // (1) Handle setup for which we merely have a lower bound
                 if (lbs_test){
@@ -190,7 +191,8 @@ void worker(            const std::vector<int> degrees,
                     // (3.3) Check which connected components could be sorted by our algorithms
                     for (int j = 0; j < edges_of_cc.size(); j++){
                         bool lower_bound_for_cc;
-                        int h0_of_cc = h0_on_nodal_curve(degs_of_cc[j], edges_of_cc[j], gens_of_cc[j], lower_bound_for_cc);
+                        int h0_of_cc;
+                        h0_on_nodal_curve(degs_of_cc[j], edges_of_cc[j], gens_of_cc[j], h0_of_cc, lower_bound_for_cc);
                         if (lower_bound_for_cc){
                             std::vector<std::vector<int>> new_unsorted_setup;
                             new_unsorted_setup.push_back(gens_of_cc[j]);
