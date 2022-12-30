@@ -6,6 +6,19 @@ int h0_on_rational_tree(const std::vector<int>& degrees,
                         const std::vector<std::vector<int>>& nodal_edges)
 {
     
+    // initialize h0
+    int h0 = 0;
+        
+    // Handle degenerate case of no edges
+    if (nodal_edges.size() == 0){
+        for (int i = 0; i < degrees.size(); i++){
+            if (degrees[i] >= 0){
+                h0 += degrees[i] + 1;
+            }
+        }
+        return h0;
+    }
+    
     // Find all vertices (avoiding duplicated) and sort them in ascending order
     std::vector<int> vertices;
     vertices.reserve(2*nodal_edges.size());
@@ -77,9 +90,6 @@ int h0_on_rational_tree(const std::vector<int>& degrees,
         simple_edges = new_edges;
                 
     }
-    
-    // initialize h0
-    int h0 = 0;
     
     // is there at least one component with non-negative degree?
     bool positive_component = false;

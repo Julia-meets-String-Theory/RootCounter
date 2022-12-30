@@ -135,21 +135,19 @@ void worker(            const std::vector<int> degrees,
             // no action required -> we can increase the counted numbers
             else{
                 
-                // define variable to quantify is the setup could not be sorted completely
+                // (0) Initialize variables to sort the setup correctly
                 bool unsorted_setup = false;
-                
-                int dummy_h0;
                 bool lbs_test;
-                h0_on_nodal_curve(degrees, nodal_edges, genera, dummy_h0, lbs_test);
+                int current_h0 = h0_on_nodal_curve(degrees, nodal_edges, genera, lbs_test);
                 
-                
-                // Case 1: We have computed merely a lower bound
+                // (1) Handle setup for which we merely have a lower bound
                 if (lbs_test){
                     total_unclear = total_unclear + (boost::multiprecision::int128_t) currentSnapshot.mult * number_local_roots;
                     unsorted_setup = true;
                 }
                 
-                // Case 2: We have perse not just a lower bound, but need to be more careful with (g = 1, d = 0).
+                // (2) Handle setup for which we perse have more than just a lower bound
+                // Be careful to handle (g = 1, d = 0) correctly!
                 if (!lbs_test){
                     
                     // Count number of bundles for which we identified h0 exactly.
@@ -170,10 +168,10 @@ void worker(            const std::vector<int> degrees,
                     
                 }
                 
-                // save unsorted setup
+                // (3) Save unsorted setup to a file
                 if (display_unsorted_setups and unsorted_setup){
                     
-                    // (1) Compute the normalized degrees
+                    // (3.1) Normalize the degrees
                     std::vector<int> normalized_degrees;
                     for (int j = 0; j < degrees.size(); j++){
                         if ((degrees[j] - outfluxes[i][j]) % root == 0){
@@ -184,17 +182,16 @@ void worker(            const std::vector<int> degrees,
                         }
                     }
                                         
-                    // (2) Compute the connected components and save them (modulo removal of duplicates)
+                    // (3.2) Compute the connected components and save them (modulo removal of duplicates)
                     std::vector<std::vector<std::vector<int>>> edges_of_cc;
                     std::vector<std::vector<int>> degs_of_cc, gens_of_cc;
                     find_connected_components(nodal_edges, normalized_degrees, genera, edges_of_cc, degs_of_cc, gens_of_cc);
                     
-                    // (3) Check which connected components could be sorted by our algorithms
+                    // (3.3) Check which connected components could be sorted by our algorithms
                     for (int j = 0; j < edges_of_cc.size(); j++){
-                        int h0_of_cc;
-                        bool exact_result_for_cc;
-                        h0_on_nodal_curve(degs_of_cc[j], edges_of_cc[j], gens_of_cc[j], h0_of_cc, exact_result_for_cc);
-                        if (exact_result_for_cc){
+                        bool lower_bound_for_cc;
+                        int h0_of_cc = h0_on_nodal_curve(degs_of_cc[j], edges_of_cc[j], gens_of_cc[j], lower_bound_for_cc);
+                        if (lower_bound_for_cc){
                             std::vector<std::vector<int>> new_unsorted_setup;
                             new_unsorted_setup.push_back(gens_of_cc[j]);
                             new_unsorted_setup.push_back(degs_of_cc[j]);
@@ -207,6 +204,7 @@ void worker(            const std::vector<int> degrees,
                     }
                     
                 }
+                
             }
             
         }

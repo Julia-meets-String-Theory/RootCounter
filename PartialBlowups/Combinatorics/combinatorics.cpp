@@ -109,20 +109,22 @@ void comp_partitions_with_nodes(const int & N,
                 }
             }
             else{
-                // On a g = 1 curve, h0 = 0 does not imply that d < 0.
-                // Rather, we could also have a non-trivial d = 0 bundle.
-                // Since we are currently only computing a lower bound for any g = 1 setup, it should be ok to place -1.
+                // H0 on the component is trivial.
+                // On a g = 1 curve, this can mean we have a d = 0 or d < 0 line bundle there.
+                // On a g = 0 curve however, it must be a d < 0 line bundle.
+                // Crucially, the degree does not matter for the computation of h0.
+                // So w.l.o.g., we take d = -1.
                 degrees.push_back(-1);
             }
         }
-        
-        // Compute h0 and if this is a lower bound
-        int h0;
-        bool lower_bound;
-        h0_on_nodal_curve(degrees, nodal_edges, genera, h0, lower_bound);
-        
-        // Check if ok and if so add to the list of results
-        if (h0 == N){
+                
+        // CONVENTION ON GRAPHS:
+        // ---------------------
+        // There are as many vertices as degrees.size().
+        // The vertices are labeled from 0 to degrees.size() - 1.
+        // This is crucial for the computation of h0.
+        bool lb;
+        if (h0_on_nodal_curve(degrees, nodal_edges, genera, lb) == N){
             partitions.push_back(naive_partitions[i]);
         }
     
