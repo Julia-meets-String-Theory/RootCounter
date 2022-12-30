@@ -24,7 +24,12 @@ int h0_on_connected_nodal_curve(const std::vector<int>& degrees,
             return h0_on_rational_tree(degrees, nodal_edges);
         }
         
-        // (2.3) For all remaining cases, compute a lower bound
+        // (2.3) Compute h0 for a rational bi-circuit
+        if (betti_number(nodal_edges) == 1 && rational && degrees.size() == 2){
+            return h0_on_rational_bi_circuit(degrees, nodal_edges, lower_bound);
+        }
+        
+        // (2.4) For all remaining cases, compute a lower bound
         lower_bound = true;
         int number_nodes = nodal_edges.size();
         int local_sections = 0;
