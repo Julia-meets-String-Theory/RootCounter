@@ -64,6 +64,7 @@ class Test : public CPPUNIT_NS::TestCase
   CPPUNIT_TEST_SUITE(Test);
   CPPUNIT_TEST(test1);
   CPPUNIT_TEST(test2);
+  CPPUNIT_TEST(test3);
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -71,6 +72,7 @@ public:
   void tearDown(void) {}
 
 protected:
+
   void test1(void) {
     std::vector<std::vector<int>> edges = {{0,1},{0,2},{3,4},{3,4},{5,6},{6,7}};
     if (3 != number_connected_components(edges)){
@@ -87,6 +89,39 @@ protected:
       std::cout << "Wrong Betti number found.\n";
       std::cout << "Found " << std::to_string(number_connected_components(edges)) << " but should  be 1.\n";
       print_vector_of_vector("Edges\n", edges);
+      exit(1);
+    }
+  }
+
+  void test3(void) {
+    std::vector<std::vector<int>> edges = {{1,2},{3,4},{2,5},{6,4},{7,8},{0,9}};
+    std::vector<int> degrees = {-2,3,4,-1,0,5,7,8,-9,9};
+    std::vector<int> genera = {0,1,0,1,0,1,0,1,0,1};
+    std::vector<std::vector<std::vector<int>>> edges_of_cc;
+    std::vector<std::vector<int>> degs_of_cc, gens_of_cc;
+    find_connected_components(edges, degrees, genera, edges_of_cc, degs_of_cc, gens_of_cc);
+    std::vector<std::vector<std::vector<int>>> expected_edges_of_cc = {{{0,1},{2,1}},{{0,1},{1,2}},{{0,1}},{{0,1}}};
+    std::vector<std::vector<int>> expected_degs_of_cc = {{-1,0,7},{3,4,5},{8,-9},{-2,9}};
+    std::vector<std::vector<int>> expected_gens_of_cc = {{1,0,0},{1,0,1},{1,0},{0,1}};
+    if ((edges_of_cc != expected_edges_of_cc) || (degs_of_cc != expected_degs_of_cc) || (gens_of_cc != expected_gens_of_cc)){
+      std::cout << "Wrong connected components computed.\n";
+      std::cout << "Found the following connected components\n\n";
+      for (int i = 0; i < edges_of_cc.size(); i++){
+        std::cout << "Component " << std::to_string(i) << "\n";
+        print_vector_of_vector("Edges:\n", edges_of_cc[i]);
+        print_vector("Degrees: ", degs_of_cc[i]);
+        print_vector("Genera: ", gens_of_cc[i]);
+        std::cout << "\n";
+      }
+      std::cout << "-------------------------------------------";
+      std::cout << "Expected the following connected components\n\n";
+      for (int i = 0; i < expected_edges_of_cc.size(); i++){
+        std::cout << "Component " << std::to_string(i) << "\n";
+        print_vector_of_vector("Edges:\n", expected_edges_of_cc[i]);
+        print_vector("Degrees: ", expected_degs_of_cc[i]);
+        print_vector("Genera: ", expected_gens_of_cc[i]);
+        std::cout << "\n";
+      }
       exit(1);
     }
   }
