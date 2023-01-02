@@ -63,6 +63,7 @@ class Test : public CPPUNIT_NS::TestCase
 {
   CPPUNIT_TEST_SUITE(Test);
   CPPUNIT_TEST(test1);
+  CPPUNIT_TEST(test2);
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -74,11 +75,22 @@ protected:
     std::vector<std::vector<int>> edges = {{0,1},{0,2},{3,4},{3,4},{5,6},{6,7}};
     if (3 != number_connected_components(edges)){
       std::cout << "Wrong number of connected components found.\n";
-      std::cout << "Should be " << std::to_string(number_connected_components(edges)) << " connected components\n";
+      std::cout << "Found " << std::to_string(number_connected_components(edges)) << " connected components but should be 3.\n";
       print_vector_of_vector("Edges\n", edges);
       exit(1);
     }
   }
+
+  void test2(void) {
+    std::vector<std::vector<int>> edges = {{3,4},{3,4}};
+    if (1 != betti_number(edges)){
+      std::cout << "Wrong Betti number found.\n";
+      std::cout << "Found " << std::to_string(number_connected_components(edges)) << " but should  be 1.\n";
+      print_vector_of_vector("Edges\n", edges);
+      exit(1);
+    }
+  }
+
 };
 
 
