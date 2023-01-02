@@ -38,8 +38,6 @@ test:
 
 clean: uninstall
 
-uninstall: uninstall-boost-from-source
-	(cd src/ && rm -f root_counter.o && rm -f rootCounter && rm -f rootCounterTest)
-
-uninstall-boost-from-source:
-	(cd src/boost && rm -r -f boost_1_77_0 && rm -r -f library)
+uninstall:
+	(rm -r -f src/boost/boost_1_77_0 && rm -r -f src/boost/library)
+	(rm -f src/root_counter.o && rm -f src/rootCounter && rm -f src/rootCounterTest)
