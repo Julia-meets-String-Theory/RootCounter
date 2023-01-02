@@ -2,20 +2,20 @@ name: C++ CI
 
 on:
   push:
-      branches: [master]
   pull_request:
-      branches: [master]
+  schedule:
+    - cron: "0 0 * * *"
 
 jobs:
-  build-and-test:
-      runs-on: ubuntu-latest
-      steps:
+  test:
+    runs-on: [ubuntu-latest]
+    steps:
       - uses: actions/checkout@v2
       - name: install cppunit
-      run: sudo apt install -y libcppunit-dev
+        run: sudo apt install -y libcppunit-dev
       - name: configure
-      run: ./configure
+        run: ./configure
       - name: make
-      run: make
+        run: make
       - name: make test
-      run: make test
+        run: make test
