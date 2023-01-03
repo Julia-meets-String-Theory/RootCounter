@@ -2,8 +2,7 @@
 // Compute h0 on a CONNECTED tree-like rational curve (no check for connected conducted)
 // Compute h0 on a CONNECTED tree-like rational curve (no check for connected conducted)
 
-int h0_on_rational_tree(const std::vector<int>& degrees,
-                        const std::vector<std::vector<int>>& nodal_edges)
+int h0_on_connected_rational_tree(const std::vector<int>& degrees, const std::vector<std::vector<int>>& nodal_edges)
 {
     
     // initialize h0

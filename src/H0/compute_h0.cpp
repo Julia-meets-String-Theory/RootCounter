@@ -21,7 +21,7 @@ int h0_on_connected_nodal_curve(const std::vector<int>& degrees,
         
         // (2.2) Compute h0 for a rational tree
         if (betti_number(nodal_edges) == 0 && rational){
-            return h0_on_rational_tree(degrees, nodal_edges);
+            return h0_on_connected_rational_tree(degrees, nodal_edges);
         }
         
         // (2.3) Compute h0 for a rational bi-circuit
