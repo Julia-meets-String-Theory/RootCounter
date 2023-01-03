@@ -8,7 +8,7 @@ int h0_on_rational_tree(const std::vector<int>& degrees,
     
     // initialize h0
     int h0 = 0;
-        
+
     // Handle degenerate case of no edges
     if (nodal_edges.size() == 0){
         for (int i = 0; i < degrees.size(); i++){
@@ -19,34 +19,14 @@ int h0_on_rational_tree(const std::vector<int>& degrees,
         return h0;
     }
     
-    // Find all vertices (avoiding duplicated) and sort them in ascending order
-    std::vector<int> vertices;
-    vertices.reserve(2*nodal_edges.size());
-    for (int i = 0; i < nodal_edges.size(); i++){
-        if (!(std::count(vertices.begin(), vertices.end(), nodal_edges[i][0]))) {
-            vertices.push_back(nodal_edges[i][0]);
-        }
-        if (!(std::count(vertices.begin(), vertices.end(), nodal_edges[i][1]))) {
-            vertices.push_back(nodal_edges[i][1]);
-        }
-    }
-    
-    // make copy of the degrees
+    // make a copy of degrees and nodal edges
     std::vector<int> simple_degrees(degrees.begin(), degrees.end());
-    
-    // establish vertex correspondence: input vertex names (e.g. "0, 2, 5, 6, ...") -> "0, 1, 2, 3, ..."
-    std::map<int, int> vertex_correspondence;
-    for (int i = 0; i < vertices.size(); i++){
-        vertex_correspondence.insert(std::pair<int, int>(vertices[i], i));
-    }
-    
-    // adjust list of edges accordingly
     std::vector<std::vector<int>> simple_edges;
     simple_edges.reserve(nodal_edges.size());
     for (int i = 0; i < nodal_edges.size(); i++){
-        simple_edges.push_back({vertex_correspondence[nodal_edges[i][0]], vertex_correspondence[nodal_edges[i][1]]});
+        simple_edges.push_back(nodal_edges[i]);
     }
-    
+
     // simplify the graph as much as possible
     while(true){
         

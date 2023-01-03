@@ -65,6 +65,10 @@ class Test : public CPPUNIT_NS::TestCase
   CPPUNIT_TEST(test1);
   CPPUNIT_TEST(test2);
   CPPUNIT_TEST(test3);
+  CPPUNIT_TEST(test4);
+  CPPUNIT_TEST(test5);
+  CPPUNIT_TEST(test6);
+  CPPUNIT_TEST(test7);
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -73,27 +77,27 @@ public:
 
 protected:
 
-  void test1(void) {
+  void test1(void){
     std::vector<std::vector<int>> edges = {{0,1},{0,2},{3,4},{3,4},{5,6},{6,7}};
     if (3 != number_connected_components(edges)){
-      std::cout << "Wrong number of connected components found.\n";
+      std::cout << " Wrong number of connected components found.\n";
       std::cout << "Found " << std::to_string(number_connected_components(edges)) << " connected components but should be 3.\n";
       print_vector_of_vector("Edges\n", edges);
       exit(1);
     }
   }
 
-  void test2(void) {
+  void test2(void){
     std::vector<std::vector<int>> edges = {{3,4},{3,4}};
     if (1 != betti_number(edges)){
-      std::cout << "Wrong Betti number found.\n";
-      std::cout << "Found " << std::to_string(number_connected_components(edges)) << " but should  be 1.\n";
+      std::cout << " Wrong Betti number found.\n";
+      std::cout << "Found " << std::to_string(number_connected_components(edges)) << " but should be 1.\n";
       print_vector_of_vector("Edges\n", edges);
       exit(1);
     }
   }
 
-  void test3(void) {
+  void test3(void){
     std::vector<std::vector<int>> edges = {{1,2},{3,4},{2,5},{6,4},{7,8},{0,9}};
     std::vector<int> degrees = {-2,3,4,-1,0,5,7,8,-9,9};
     std::vector<int> genera = {0,1,0,1,0,1,0,1,0,1};
@@ -104,7 +108,7 @@ protected:
     std::vector<std::vector<int>> expected_degs_of_cc = {{-1,0,7},{3,4,5},{8,-9},{-2,9}};
     std::vector<std::vector<int>> expected_gens_of_cc = {{1,0,0},{1,0,1},{1,0},{0,1}};
     if ((edges_of_cc != expected_edges_of_cc) || (degs_of_cc != expected_degs_of_cc) || (gens_of_cc != expected_gens_of_cc)){
-      std::cout << "Wrong connected components computed.\n";
+      std::cout << " Wrong connected components computed.\n";
       std::cout << "Found the following connected components\n\n";
       for (int i = 0; i < edges_of_cc.size(); i++){
         std::cout << "Component " << std::to_string(i) << "\n";
@@ -122,6 +126,94 @@ protected:
         print_vector("Genera: ", expected_gens_of_cc[i]);
         std::cout << "\n";
       }
+      exit(1);
+    }
+  }
+
+  void test4(void){
+    std::vector<std::vector<int>> edges = {{1,2},{1,3},{2,3}};
+    std::vector<int> degrees = {3,-1,-1,1};
+    std::vector<int> genera = {0,1,0,0};
+    int h0;
+    bool bound;
+    h0_on_nodal_curve_new(degrees, edges, genera, h0, bound);
+    if (h0 != 4 || bound != true){
+      std::cout << " Wrong cohomology computation.\n";
+      if (h0 != 4){
+        std::cout << "Found " << std::to_string(h0) << " but should be 4.\n";
+      }
+      if (bound != true){
+        std::cout << "Found lower bound false but should be true.\n";
+      }
+      print_vector("Degrees ", degrees);
+      print_vector("Genera ", genera);
+      print_vector_of_vector("Edges\n", edges);
+      exit(1);
+    }
+  }
+
+  void test5(void){
+    std::vector<std::vector<int>> edges = {{1,2},{1,3},{2,3}};
+    std::vector<int> degrees = {6,-1,-1,-1};
+    std::vector<int> genera = {0,1,0,0};
+    int h0;
+    bool bound;
+    h0_on_nodal_curve_new(degrees, edges, genera, h0, bound);
+    if (h0 != 7 || bound != true){
+      std::cout << " Wrong cohomology computation.\n";
+      if (h0 != 7){
+        std::cout << "Found " << std::to_string(h0) << " but should be 7.\n";
+      }
+      if (bound != true){
+        std::cout << "Found lower bound false but should be true.\n";
+      }
+      print_vector("Degrees ", degrees);
+      print_vector("Genera ", genera);
+      print_vector_of_vector("Edges\n", edges);
+      exit(1);
+    }
+  }
+
+  void test6(void){
+    std::vector<std::vector<int>> edges = {{2,3},{3,0}};
+    std::vector<int> degrees = {-1,1,-1,4};
+    std::vector<int> genera = {0,1,0,0};
+    int h0;
+    bool bound;
+    h0_on_nodal_curve_new(degrees, edges, genera, h0, bound);
+    if (h0 != 4 || bound != false){
+      std::cout << " Wrong cohomology computation.\n";
+      if (h0 != 4){
+        std::cout << "Found " << std::to_string(h0) << " but should be 4.\n";
+      }
+      if (bound != false){
+        std::cout << "Found lower bound true but should be false.\n";
+      }
+      print_vector("Degrees ", degrees);
+      print_vector("Genera ", genera);
+      print_vector_of_vector("Edges\n", edges);
+      exit(1);
+    }
+  }
+
+  void test7(void){
+    std::vector<std::vector<int>> edges = {{2,3},{3,0}};
+    std::vector<int> degrees = {-1,-1,5,-1};
+    std::vector<int> genera = {0,1,0,0};
+    int h0;
+    bool bound;
+    h0_on_nodal_curve_new(degrees, edges, genera, h0, bound);
+    if (h0 != 5 || bound != false){
+      std::cout << " Wrong cohomology computation.\n";
+      if (h0 != 5){
+        std::cout << "Found " << std::to_string(h0) << " but should be 5.\n";
+      }
+      if (bound != false){
+        std::cout << "Found lower bound true but should be false.\n";
+      }
+      print_vector("Degrees ", degrees);
+      print_vector("Genera ", genera);
+      print_vector_of_vector("Edges\n", edges);
       exit(1);
     }
   }
