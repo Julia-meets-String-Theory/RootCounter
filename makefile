@@ -13,12 +13,16 @@ install: uninstall
 # Test the software
 # Test the software
 
+alltest: test \
+	QSMtest
+
 test:
 	chmod +x src/rootCounterTest
-	chmod +x src/QSMTest
 	src/./rootCounterTest
-	src/./QSMTest
 
+QSMtest:
+	chmod +x src/QSMTest
+	src/./QSMTest
 
 
 
@@ -28,5 +32,4 @@ test:
 clean: uninstall
 
 uninstall:
-	(rm -r -f src/boost/boost_1_77_0 && rm -r -f src/boost/library)
 	(rm -f src/root_counter.o && rm -f src/rootCounter && rm -f src/rootCounterTest && rm -f src/QSMTest)
