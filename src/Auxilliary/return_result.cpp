@@ -14,7 +14,8 @@ void return_result(const std::string & full_path,
                             const int & b1,
                             const std::chrono::steady_clock::time_point & before,
                             const std::chrono::steady_clock::time_point & after,
-                            const bool & display_details)
+                            const bool & display_details,
+                            const std::vector<std::vector<std::vector<int>>> & unsorted)
 {
     
     // print result
@@ -127,6 +128,45 @@ void return_result(const std::string & full_path,
     ofile << "]];";
     ofile.close();
     
+    std::remove("UnsortedSetups.txt");
+    std::ofstream MyFile("UnsortedSetups.txt");
+    for (int i = 0; i < unsorted.size(); i++){
+
+        // extract the data of the setup
+        std::vector<int> unsorted_genera = unsorted[i][0];
+        std::vector<int> unsorted_degrees = unsorted[i][1];
+        int h0_of_cc = unsorted[i][2][0];
+        std::vector<std::vector<int>> nodal_edges_of_setup;
+        for (int j = 3; j < unsorted[i].size(); j++){
+            nodal_edges_of_setup.push_back(unsorted[i][j]);
+        }
+
+        MyFile << "##################\n";
+        MyFile << "Edges: [";
+        for (int j = 0; j < nodal_edges_of_setup.size() - 1; j++){
+            MyFile << "[" << std::to_string(nodal_edges_of_setup[j][0]) << ", " << std::to_string(nodal_edges_of_setup[j][1]) << "], ";
+        }
+        MyFile << "[" << std::to_string(nodal_edges_of_setup[nodal_edges_of_setup.size() - 1][0]) << ", " << std::to_string(nodal_edges_of_setup[nodal_edges_of_setup.size() - 1][1]) << "]]\n";
+
+        MyFile << "Genera: [";
+        for (int j = 0; j < unsorted_genera.size() - 1; j++){
+            MyFile << std::to_string(unsorted_genera[j]) << ", ";
+        }
+        MyFile << std::to_string(unsorted_genera[unsorted_genera.size() - 1]) << "]\n";
+
+        MyFile << "Degrees: [";
+        for (int j = 0; j < unsorted_degrees.size() - 1; j++){
+            MyFile << std::to_string(unsorted_degrees[j]) << ", ";
+        }
+        MyFile << std::to_string(unsorted_degrees[unsorted_degrees.size() - 1]) << "]\n";
+
+        MyFile << "Lower bound on h0: " << std::to_string(h0_of_cc) << "\n";
+
+        MyFile << "##################\n\n";
+
+    }
+    MyFile.close();
+
 }
 
 
