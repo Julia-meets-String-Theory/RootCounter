@@ -139,7 +139,7 @@ void comp_partitions_with_nodes(const int & N,
 // (3) Compute number of partitions of an integer f.
 
 // Task: Compute the number of partitions of an integer f into n integers w1, ... ,wn with values 1 <= w1, ..., wn < r.
-// Careful: THE ORDER DOES MATTER!
+// Careful: THE ORDER DOES MATTER! I.e. 3 = 0 + 1 + 2 is not considered the same as 3 = 2 + 1 + 0!
 
 boost::multiprecision::int128_t partition_helper(const int & f, const int & n, const int & r, std::vector<std::vector<boost::multiprecision::int128_t>> & memory)
 {

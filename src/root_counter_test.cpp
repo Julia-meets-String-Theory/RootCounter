@@ -120,7 +120,7 @@ protected:
     std::vector<int> genera = {0,1,0,0};
     int h0;
     bool bound;
-    h0_on_nodal_curve_new(degrees, edges, genera, h0, bound);
+    h0_on_nodal_curve(degrees, edges, genera, h0, bound);
     if (h0 != 4 || bound != true){
       std::cout << " Wrong cohomology computation.\n";
       if (h0 != 4){
@@ -142,7 +142,7 @@ protected:
     std::vector<int> genera = {0,1,0,0};
     int h0;
     bool bound;
-    h0_on_nodal_curve_new(degrees, edges, genera, h0, bound);
+    h0_on_nodal_curve(degrees, edges, genera, h0, bound);
     if (h0 != 7 || bound != true){
       std::cout << " Wrong cohomology computation.\n";
       if (h0 != 7){
@@ -164,7 +164,7 @@ protected:
     std::vector<int> genera = {0,1,0,0};
     int h0;
     bool bound;
-    h0_on_nodal_curve_new(degrees, edges, genera, h0, bound);
+    h0_on_nodal_curve(degrees, edges, genera, h0, bound);
     if (h0 != 4 || bound != false){
       std::cout << " Wrong cohomology computation.\n";
       if (h0 != 4){
@@ -186,7 +186,7 @@ protected:
     std::vector<int> genera = {0,1,0,0};
     int h0;
     bool bound;
-    h0_on_nodal_curve_new(degrees, edges, genera, h0, bound);
+    h0_on_nodal_curve(degrees, edges, genera, h0, bound);
     if (h0 != 5 || bound != false){
       std::cout << " Wrong cohomology computation.\n";
       if (h0 != 5){
