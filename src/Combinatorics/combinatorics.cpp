@@ -93,7 +93,8 @@ void comp_partitions_with_nodes(const int & N,
         comp_partitions(N+i, genera.size(), std::vector<int>(genera.size(),0), std::vector<int>(genera.size(),N+i), naive_partitions);
     }
     
-    // Check boundary conditions for each naive partition
+    // Check if this partition of h0 can be realized
+    // I.e. compute degrees that yield these h0 and check if an exact result/lower bound then matches the desired h0.
     for (int i = 0; i < naive_partitions.size(); i++){
         
         // Find degrees corresponding to h0
@@ -108,24 +109,14 @@ void comp_partitions_with_nodes(const int & N,
                 }
             }
             else{
-                // H0 on the component is trivial.
-                // On a g = 1 curve, this can mean we have a d = 0 or d < 0 line bundle there.
-                // On a g = 0 curve however, it must be a d < 0 line bundle.
-                // Crucially, the degree does not matter for the computation of h0.
-                // So w.l.o.g., we take d = -1.
+                // W.l.o.g., we take d = -1.
                 degrees.push_back(-1);
             }
         }
-                
-        // CONVENTION ON GRAPHS:
-        // ---------------------
-        // There are as many vertices as degrees.size().
-        // The vertices are labeled from 0 to degrees.size() - 1.
-        // This is crucial for the computation of h0.
+
+        // Check if this results at h0
         bool lb;
-        int h0;
-        h0_on_nodal_curve(degrees, nodal_edges, genera, h0, lb);
-        if (h0 == N){
+        if (h0_on_nodal_curve(degrees, nodal_edges, genera, lb) == N){
             partitions.push_back(naive_partitions[i]);
         }
     

@@ -54,10 +54,9 @@ int h0_on_connected_nodal_curve(const std::vector<int>& degrees,
 // Should this not be possible (e.g. because of high genus components), then a lower bound is computed instead.
 // This method will modify the referenced boolean lower_bound to be true if we merely computed a lower bound.
 // Otherwise, it will be set to be false.
-void h0_on_nodal_curve(const std::vector<int>& degrees,
+int h0_on_nodal_curve(const std::vector<int>& degrees,
                         const std::vector<std::vector<int>>& nodal_edges,
                         const std::vector<int> & genera,
-                        int & h0,
                         bool & lower_bound)
 {
     
@@ -70,9 +69,10 @@ void h0_on_nodal_curve(const std::vector<int>& degrees,
     find_connected_components(nodal_edges, degrees, genera, edges_of_cc, degs_of_cc, gens_of_cc);
     
     // (2) Compute h0 by iterating over the connected components
-    h0 = 0;
+    int h0 = 0;
     for (int i = 0; i < edges_of_cc.size(); i++){
         h0 += h0_on_connected_nodal_curve(degs_of_cc[i], edges_of_cc[i], gens_of_cc[i], lower_bound);
     }
-    
+    return h0;
+
 }
