@@ -6,15 +6,15 @@ int h0_on_connected_nodal_curve(const std::vector<int>& degrees,
                                  bool & lower_bound)
 {
     
-    // (1) A single component that is not self-connected
-    if (degrees.size() == 1 && nodal_edges.size() == 0){
+    // (1) No edge, so must be a single component that is not self-connected.
+    if (nodal_edges.size() == 0){
         if (degrees[0] >= 0){
             return degrees[0] - genera[0] + 1;
         }
     }
     
-    // (2) At least two components
-    if (degrees.size() > 1){
+    // (2) At least one edge, i.e. two components.
+    if (nodal_edges.size() > 0){
     
         // (2.1) Is there a non-rational component?
         bool rational = (*std::max_element(std::begin(genera), std::end(genera)) == 0);
@@ -44,7 +44,7 @@ int h0_on_connected_nodal_curve(const std::vector<int>& degrees,
         
     }
     
-    // Standard return value if all else fails
+    // (3) Standard return value if all else fails
     return 0;
     
 }
