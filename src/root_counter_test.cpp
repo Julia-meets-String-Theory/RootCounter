@@ -71,6 +71,7 @@ class Test : public CPPUNIT_NS::TestCase
   CPPUNIT_TEST(test7);
   CPPUNIT_TEST(test8);
   CPPUNIT_TEST(test9);
+  CPPUNIT_TEST(test10);
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -79,8 +80,7 @@ public:
 
 protected:
 
-  // (1) Tests for graph functionality
-  // (1) Tests for graph functionality
+  // (2.1) Tests of graph functionality
 
   void test1(void){
     std::vector<std::vector<int>> edges = {{0,1},{0,2},{3,4},{3,4},{5,6},{6,7}};
@@ -135,8 +135,7 @@ protected:
     }
   }
 
-  // (2) Tests for h0 computations
-  // (2) Tests for h0 computations
+  // (2.2) Tests of h0 computations
 
   void test4(void){
     std::vector<std::vector<int>> edges = {{1,2},{1,3},{2,3}};
@@ -226,8 +225,7 @@ protected:
     }
   }
 
-  // (3) Tests for combinatoric computations
-  // (3) Tests for combinatoric computations
+  // (2.3) Tests of combinatoric computations
 
   void test8(void){
     std::vector<std::vector<int>> partitions;
@@ -241,7 +239,6 @@ protected:
   }
 
   void test9(void){
-
     std::vector<std::vector<int>> nodal_edges = {{0,1},{1,2}};
     std::vector<int> genera = {0,0,0};
     std::vector<std::vector<int>> partitions;
@@ -250,6 +247,16 @@ protected:
       std::cout << " Wrong partitions computed.\n";
       print_vector_of_vector("Goal: Partition h0 = 2 on a rational tree with edges\n", nodal_edges);
       print_vector_of_vector("Found the following partitions\n", partitions);
+      exit(1);
+    }
+  }
+
+  void test10(void){
+    boost::multiprecision::int128_t np = number_partitions(10,3,5);
+    if (np != 6){
+      std::cout << " Wrong partitions computed.\n";
+      std::cout << "Goal: Partition N = 10 into 3 integers w1, w2, w3 with 1 <= w1, w2, w3 <= 4.\n";
+      std::cout << "Found " << np << " partitions, but should be 6.\n";
       exit(1);
     }
   }
