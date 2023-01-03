@@ -5,25 +5,12 @@
 
 // Include standard functionality
 #include <algorithm>
-#include <cassert>
-#include <chrono>
-#include <functional>
-#include <fstream>
-#include <iostream>
-#include <mutex>
 #include <numeric>
-#include <set>
-#include <sstream>
 #include <stack>
-#include <thread>
 #include <vector>
 
 // Include functionality of boost
 #include <boost/multiprecision/cpp_int.hpp>
-#include <boost/thread/mutex.hpp>
-#include <boost/thread/thread.hpp>
-#include <boost/multiprecision/cpp_bin_float.hpp>
-boost::mutex myGuard, myGuard2, myGuard3;
 
 // Include functionality of cppunit test
 #include <cppunit/TestRunner.h>
@@ -32,25 +19,15 @@ boost::mutex myGuard, myGuard2, myGuard3;
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/BriefTestProgressListener.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
-bool display_more_details = false;
-bool display_unsorted_setups = true;
-std::vector<std::vector<std::vector<int>>> unsorted;
+
 // Include specialized code that will be tested here
 #include "Auxilliary/print_vectors.cpp"
-#include "Auxilliary/handle_input.cpp"
-#include "Auxilliary/return_result.cpp"
 #include "Graphs/graphs.cpp"
 #include "Graphs/compute_graph_information.cpp"
 #include "H0/compute_h0_on_circuit.cpp"
 #include "H0/compute_h0_on_tree.cpp"
 #include "H0/compute_h0.cpp"
 #include "Combinatorics/combinatorics.cpp"
-#include "RootCounter/rootCounter-v3.cpp"
-#include "RootCounter/iterator.cpp"
-
-// Optimizations for speedup
-#pragma GCC optimize("Ofast")
-#pragma GCC target("avx,avx2,fma")
 
 
 
