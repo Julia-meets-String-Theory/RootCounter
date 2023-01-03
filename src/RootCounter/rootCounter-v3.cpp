@@ -237,7 +237,7 @@ std::vector<boost::multiprecision::int128_t> parallel_root_counter(
     // (1) Partition h0
     // (1) Partition h0
     std::vector<std::vector<int>> partitions;
-    comp_partitions_with_nodes(h0_value, degrees.size(), nodal_edges, genera, partitions);
+    comp_partitions_with_nodes(h0_value, nodal_edges, genera, partitions);
     
     
     // (2) Find fluxes corresponding to partitions

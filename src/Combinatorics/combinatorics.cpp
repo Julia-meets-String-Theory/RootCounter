@@ -82,7 +82,6 @@ void comp_partitions(
 
 // This works for any tree-like blowup and is used for this particular purpose.
 void comp_partitions_with_nodes(const int & N,
-                                const int & n,
                                 const std::vector<std::vector<int>> & nodal_edges,
                                 const std::vector<int> & genera,
                                 std::vector<std::vector<int>> & partitions)
@@ -91,7 +90,7 @@ void comp_partitions_with_nodes(const int & N,
     // Compute all partitions with "naive" total sum ranging between N and N + nodal_edges.size()
     std::vector<std::vector<int>> naive_partitions;
     for (int i = 0; i <= nodal_edges.size(); i++){
-        comp_partitions(N+i, n, std::vector<int>(n,0), std::vector<int>(n,N+i), naive_partitions);
+        comp_partitions(N+i, genera.size(), std::vector<int>(genera.size(),0), std::vector<int>(genera.size(),N+i), naive_partitions);
     }
     
     // Check boundary conditions for each naive partition
@@ -142,10 +141,7 @@ void comp_partitions_with_nodes(const int & N,
 // Task: Compute the number of partitions of an integer f into n integers w1, ... ,wn with values 1 <= w1, ..., wn < r.
 // Careful: THE ORDER DOES MATTER!
 
-boost::multiprecision::int128_t partition_helper(const int & f,
-                                                                            const int & n,
-                                                                            const int & r,
-                                                                            std::vector<std::vector<boost::multiprecision::int128_t>> & memory)
+boost::multiprecision::int128_t partition_helper(const int & f, const int & n, const int & r, std::vector<std::vector<boost::multiprecision::int128_t>> & memory)
 {
     
     // initialize the counter

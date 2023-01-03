@@ -69,6 +69,8 @@ class Test : public CPPUNIT_NS::TestCase
   CPPUNIT_TEST(test5);
   CPPUNIT_TEST(test6);
   CPPUNIT_TEST(test7);
+  CPPUNIT_TEST(test8);
+  CPPUNIT_TEST(test9);
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -76,6 +78,9 @@ public:
   void tearDown(void) {}
 
 protected:
+
+  // (1) Tests for graph functionality
+  // (1) Tests for graph functionality
 
   void test1(void){
     std::vector<std::vector<int>> edges = {{0,1},{0,2},{3,4},{3,4},{5,6},{6,7}};
@@ -129,6 +134,9 @@ protected:
       exit(1);
     }
   }
+
+  // (2) Tests for h0 computations
+  // (2) Tests for h0 computations
 
   void test4(void){
     std::vector<std::vector<int>> edges = {{1,2},{1,3},{2,3}};
@@ -218,8 +226,35 @@ protected:
     }
   }
 
-};
+  // (3) Tests for combinatoric computations
+  // (3) Tests for combinatoric computations
 
+  void test8(void){
+    std::vector<std::vector<int>> partitions;
+    comp_partitions(3,2,{0,0},{3,3}, partitions);
+    if (partitions.size() != 4){
+      std::cout << " Wrong partitions computed.\n";
+      std::cout << "Goal: Partition N = 3 into a sum of 2 integers n1, n2 with 0 <= n1 <= 3 and 0 <= n2 <= 3.\n";
+      print_vector_of_vector("Found partitions\n", partitions);
+      exit(1);
+    }
+  }
+
+  void test9(void){
+
+    std::vector<std::vector<int>> nodal_edges = {{0,1},{1,2}};
+    std::vector<int> genera = {0,0,0};
+    std::vector<std::vector<int>> partitions;
+    comp_partitions_with_nodes(2,nodal_edges,genera,partitions);
+    if (partitions.size() != 15){
+      std::cout << " Wrong partitions computed.\n";
+      print_vector_of_vector("Goal: Partition h0 = 2 on a rational tree with edges\n", nodal_edges);
+      print_vector_of_vector("Found the following partitions\n", partitions);
+      exit(1);
+    }
+  }
+
+};
 
 
 
