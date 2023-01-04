@@ -2,8 +2,7 @@
 // (0) Thread-safe addition to the result
 // (0) Thread-safe addition to the result
 
-void UpdateCountsThreadSafe(std::vector<boost::multiprecision::int128_t> & central,
-                                                 const std::vector<boost::multiprecision::int128_t> & changes)
+void UpdateCountsThreadSafe(std::vector<boost::multiprecision::int128_t> & central, const std::vector<boost::multiprecision::int128_t> & changes)
 {
     boost::mutex::scoped_lock lock(myGuard2);
     central[0] += (boost::multiprecision::int128_t) (changes[0]);
@@ -71,6 +70,7 @@ void runner(const std::vector<std::vector<int>> edges,
     }
     
 }
+
 
 
 // (3) Iterate over partial blowups
@@ -162,9 +162,6 @@ void iterator(const std::vector<std::vector<int>> & edges,
                 boost::thread_group threadList;
                 int package_size = (int) combinations.size()/total_number_threads;
                 int number_sub_threads = 1;
-                if (display_more_details){
-                    std::cout << "Computing in " << total_number_threads << " parallel threads (average load: " << package_size << ")...\n";
-                }
                 for (int i = 0; i < total_number_threads; i++)
                 {
                     if (i < total_number_threads - 1){
@@ -188,9 +185,6 @@ void iterator(const std::vector<std::vector<int>> & edges,
                 boost::thread_group threadList;
                 int package_size = 1;
                 int number_sub_threads = std::floor((total_number_threads - combinations.size())/combinations.size());
-                if (display_more_details){
-                    std::cout << "Computing in " << combinations.size() << " parallel threads (average load: " << package_size << ")...\n";
-                }
                 for (int i = 0; i < combinations.size(); i++)
                 {
                     if (i < combinations.size() - 1){
@@ -210,9 +204,6 @@ void iterator(const std::vector<std::vector<int>> & edges,
             
         }
         else if (total_number_threads == 1){
-            if (display_more_details){
-                std::cout << "Computing in one thread...\n";
-            }
             runner(edges, degrees, genera, genus, root, h0_value, combinations, total_number_threads, boost::ref(sums));
         }
         
@@ -240,8 +231,7 @@ void count_roots(const std::string input,
     std::vector<int> degrees, genera;
     std::vector<std::vector<int>> edges;
     int genus, root, number_threads, h0Min, h0Max, numNodesMin, numNodesMax;
-    bool display_details;
-    parse_input(input, degrees, genera, edges, genus, root, number_threads, h0Min, h0Max, numNodesMin, numNodesMax, display_details);
+    parse_input(input, degrees, genera, edges, genus, root, number_threads, h0Min, h0Max, numNodesMin, numNodesMax);
 
     // (2) Consistency check
     consistency_check(genus, genera, degrees, edges, root, h0Min, h0Max, numNodesMin, numNodesMax, number_threads);
@@ -270,7 +260,7 @@ void count_roots(const std::string input,
 
     // (3) Return the result
     if (details){
-        return_result(full_path, n_exact, n_lower_bound, numNodesMax - numNodesMin, numNodesMin, genus, root, h0Min, h0Max, betti_number(edges), before, after, display_details, unsorted);
+        return_result(full_path, n_exact, n_lower_bound, numNodesMax - numNodesMin, numNodesMin, genus, root, h0Min, h0Max, betti_number(edges), before, after, unsorted);
     }
 
 }

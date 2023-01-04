@@ -23,7 +23,6 @@
 boost::mutex myGuard, myGuard2, myGuard3;
 
 // Determine how the output looks like
-bool display_more_details = false;
 bool display_unsorted_setups = true;
 
 // Set up vector to save unsorted setups

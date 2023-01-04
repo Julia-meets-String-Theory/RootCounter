@@ -1,7 +1,3 @@
-// (1) Parse input
-// (1) Parse input
-// (1) Parse input
-
 void parse_input(const std::string & input_string,
                             std::vector<int> & degrees,
                             std::vector<int> & genera,
@@ -12,8 +8,7 @@ void parse_input(const std::string & input_string,
                             int & h0Min,
                             int & h0Max,
                             int & numNodesMin,
-                            int & numNodesMax,
-                            bool & display_details)
+                            int & numNodesMax)
 {
     
     // (1) Parse input string into integers
@@ -50,103 +45,8 @@ void parse_input(const std::string & input_string,
     numNodesMin = input[2 * number_vertices + 2 + 2 * numberEdges + 5];
     numNodesMax = input[2 * number_vertices + 2 + 2 * numberEdges + 6];
     
-    // (5) Read-off if we are to display details
-    int details = input[2 * number_vertices + 2 + 2 * numberEdges + 7];
-    if (details >= 0){display_details = true;}
-    else{display_details = false;}
-    
 }
 
-
-// (2) Parse simple input
-// (2) Parse simple input
-// (2) Parse simple input
-
-void parse_simple_input(const std::string & input_string,
-                            std::vector<int> & degrees,
-                            std::vector<int> & genera,
-                            std::vector<std::vector<int>> & edges,
-                            int & genus,
-                            int & root,
-                            int & number_threads,
-                            int & h0Min,
-                            int & h0Max,
-                            int & numNodesMin,
-                            int & numNodesMax,
-                            bool & display_details)
-{
-    
-    // (0) Parse input string into integers
-    std::stringstream iss(input_string);
-    std::vector<int> input;
-    int number;
-    while (iss >> number){
-        input.push_back(number);
-    }
-    
-    // (1) Set universal parameters
-    number_threads = 8;
-    h0Min = 0;
-    numNodesMin = 0;
-    display_details = true;
-
-    // (2) Read-off edges
-    for (int i = 0; i < (int)((input.size()/2)-1); i++){
-        std::vector<int> helper(2);
-        helper[0] = input[2*i];
-        helper[1] = input[2*i+1];
-        edges.push_back(helper);
-    }
-    
-    // (3) Read-off number of vertices
-    int number_vertices = 0;
-    for (int i = 0; i < edges.size(); i++){
-        int max_vertex = *std::max_element(edges[i].begin(), edges[i].end());
-        if (max_vertex > number_vertices){
-            number_vertices = max_vertex;
-        }
-    }
-    number_vertices++;
-    
-    // (4) Determine genus, root and maximal number of nodes
-    genus = edges.size() + 1 - number_vertices;
-    root = input[input.size()-2];
-    numNodesMax = edges.size();
-    
-    // (5) Find degress, h0Max and set the genera to 0
-    std::vector<int> edges_per_component(number_vertices,0);
-    for (int i = 0; i < edges.size(); i ++){
-        edges_per_component[input[2*i]]++;
-        edges_per_component[input[2*i+1]]++;
-    }
-    h0Max = 0;
-    int power = input[input.size()-1];
-    for (int i=0; i < number_vertices; i++){
-        int d = edges_per_component[i]-2;
-        degrees.push_back(d*power);
-        if (d >= 0){
-            h0Max += d*power+1;
-        }
-        genera.push_back(0);
-    }
-    
-    // (6) Print data
-    /*std::cout << "\n";
-    print_vector_of_vector("Edges\n", edges);
-    print_vector("Genera: ", genera);
-    print_vector("Degrees: ", degrees);
-    print_vector("Edges per component: ", edges_per_component);
-    std::cout << "Root: " << root << "\n";
-    std::cout << "Total genus: " << genus << "\n";
-    std::cout << "H0Max: " << h0Max << "\n";
-    std::cout << "\n";*/
-    
-}
-
-
-// (3) Consistency check on input
-// (3) Consistency check on input
-// (3) Consistency check on input
 
 void consistency_check(const int & genus,
                                       const std::vector<int> & genera,

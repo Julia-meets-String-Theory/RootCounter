@@ -6,9 +6,6 @@ void UpdateCountThreadSafe(std::vector<boost::multiprecision::int128_t> & centra
     boost::mutex::scoped_lock lock(myGuard);
     central[0] += change_clear;
     central[1] += change_unclear;
-    if (display_more_details){
-        std::cout << "Worker complete: " << change_clear << " (" << change_unclear << ")\n";
-    }
 }
 
 
@@ -320,9 +317,6 @@ std::vector<boost::multiprecision::int128_t> parallel_root_counter(
     if (thread_number > 1){
         boost::thread_group threadList;
         int package_size = (int) outfluxes.size()/thread_number;
-        if (display_more_details){
-            std::cout << "Computing in " << thread_number << " parallel threads (average load: " << package_size << ")...\n";
-        }
         for (int i = 0; i < thread_number; i++)
         {
             if (i < thread_number - 1){
@@ -339,23 +333,12 @@ std::vector<boost::multiprecision::int128_t> parallel_root_counter(
         threadList.join_all();
     }
     else if (thread_number == 1){
-        if (display_more_details){
-            std::cout << "Computing in one thread...\n";
-        }
         worker(degrees, genera, nodal_edges, root, graph_stratification, outfluxes, boost::ref(sums));
     }
     std::chrono::steady_clock::time_point later = std::chrono::steady_clock::now();
     
-    
-    // (4) inform about the result
-    // (4) inform about the result
-    if (display_more_details){
-        std::cout << "\nTime for run: " << std::chrono::duration_cast<std::chrono::seconds>(later - now).count() << "[s]\n";
-        std::cout << "Total clear: " << sums[0] << "\n\n";
-        std::cout << "Total unclear: " << sums[1] << "\n\n";
-    }
-    
-    // (5) return the result
+    // (4) return the result
+    // (4) return the result
     std::vector<boost::multiprecision::int128_t> result = {sums[0], sums[1]};
     return result;
     
