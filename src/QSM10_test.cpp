@@ -44,6 +44,7 @@ std::vector<std::vector<std::vector<int>>> unsorted;
 #include "Auxilliary/sum_vectors.cpp"
 #include "Auxilliary/handle_input.cpp"
 #include "Auxilliary/return_result.cpp"
+#include "Auxilliary/test_results.cpp"
 #include "Graphs/graphs.cpp"
 #include "Graphs/compute_graph_information.cpp"
 #include "H0/compute_h0_on_circuit.cpp"
@@ -76,14 +77,9 @@ public:
 
 protected:
 
-  // (2.1) Tests root counts for some QSMs
-
   void test_polytope_88(void){
-    // (a) Compute the roots
     std::vector<std::vector<boost::multiprecision::int128_t>> n_exact, n_lower_bound;
     count_roots("5 16 80 32 16 16 0 1 0 0 0 9 4 0 0 3 2 3 2 4 0 1 1 4 1 3 1 2 1 2 6 20 8 3 5 0 9", n_exact, n_lower_bound);
-
-    // (b) Setup our expectation
     std::vector<std::vector<boost::multiprecision::int128_t>> n_exact_expected =
     {{781680888, 163221088, 13270504, 504800, 0, 0, 0, 0, 0, 0},
       {25196800, 5967200, 399200, 0, 0, 0, 0, 0, 0, 0},
@@ -92,25 +88,7 @@ protected:
     {{62712, 206886912, 66014696, 9318400, 692000, 24800, 1600, 0, 0, 0},
       {0, 5200000, 1355600, 88800, 0, 0, 0, 0, 0, 0},
       {0, 7200, 0, 0, 0, 0, 0, 0, 0, 0}};
-
-    // (c) Compare computed and expected results
-    if (sum(n_exact) + sum(n_lower_bound) != sum(n_exact_expected) + sum(n_lower_bound_expected)){
-        std::cout << "\n\nNot all roots have been found!\n";
-        print_vector_of_vector("Found exact results:\n", n_exact);
-        print_vector_of_vector("Expected exact results:\n", n_exact_expected);
-        print_vector_of_vector("Found lower bounds:\n", n_lower_bound);
-        print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
-    }
-    if (n_exact != n_exact_expected){
-      print_vector_of_vector("\n\nFound exact results:\n", n_exact);
-      print_vector_of_vector("Expected exact results:\n", n_exact_expected);
-      exit(1);
-    }
-    if (n_lower_bound != n_lower_bound_expected){
-      print_vector_of_vector("\n\nFound lower bounds:\n", n_lower_bound);
-      print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
-      exit(1);
-    }
+    comparer(n_exact, n_lower_bound, n_exact_expected, n_lower_bound_expected);
   }
 
 };

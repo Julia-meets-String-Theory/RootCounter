@@ -44,6 +44,7 @@ std::vector<std::vector<std::vector<int>>> unsorted;
 #include "Auxilliary/sum_vectors.cpp"
 #include "Auxilliary/handle_input.cpp"
 #include "Auxilliary/return_result.cpp"
+#include "Auxilliary/test_results.cpp"
 #include "Graphs/graphs.cpp"
 #include "Graphs/compute_graph_information.cpp"
 #include "H0/compute_h0_on_circuit.cpp"
@@ -79,122 +80,36 @@ public:
 
 protected:
 
-  // (2.1) Tests root counts for some QSMs
-
   void test_polytope_8(void){
-    // (a) Compute the roots
     std::vector<std::vector<boost::multiprecision::int128_t>> n_exact, n_lower_bound;
     count_roots("4 12 36 12 12 0 1 0 0 6 3 0 2 0 2 3 0 1 1 3 1 2 4 12 8 3 3 0 6", n_exact, n_lower_bound);
-
-    // (b) Setup our expectation
     std::vector<std::vector<boost::multiprecision::int128_t>> n_exact_expected = {{142560, 47520, 0, 0, 0, 0, 0}};
     std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected = {{0, 47520, 4752, 6336, 0, 0, 144}};
-
-    // (c) Compare computed and expected results
-    if (sum(n_exact) + sum(n_lower_bound) != sum(n_exact_expected) + sum(n_lower_bound_expected)){
-        std::cout << "\n\nNot all roots have been found!\n";
-        print_vector_of_vector("Found exact results:\n", n_exact);
-        print_vector_of_vector("Expected exact results:\n", n_exact_expected);
-        print_vector_of_vector("Found lower bounds:\n", n_lower_bound);
-        print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
-    }
-    if (n_exact != n_exact_expected){
-      print_vector_of_vector("\n\nFound exact results:\n", n_exact);
-      print_vector_of_vector("Expected exact results:\n", n_exact_expected);
-      exit(1);
-    }
-    if (n_lower_bound != n_lower_bound_expected){
-      print_vector_of_vector("\n\nFound lower bounds:\n", n_lower_bound);
-      print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
-      exit(1);
-    }
+    comparer(n_exact, n_lower_bound, n_exact_expected, n_lower_bound_expected);
   }
 
   void test_polytope_4(void){
-    // (a) Compute the roots
     std::vector<std::vector<boost::multiprecision::int128_t>> n_exact, n_lower_bound;
     count_roots("4 12 24 24 12 0 0 0 0 7 3 0 2 0 2 3 1 0 1 3 1 2 1 2 4 12 8 3 3 0 7", n_exact, n_lower_bound);
-
-    // (b) Setup our expectation
     std::vector<std::vector<boost::multiprecision::int128_t>> n_exact_expected = {{11110, 7601, 1562, 264, 0, 0, 0, 0}};
     std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected = {{0, 0, 110, 11, 66, 11, 0, 1}};
-
-    // (c) Compare computed and expected results
-    if (sum(n_exact) + sum(n_lower_bound) != sum(n_exact_expected) + sum(n_lower_bound_expected)){
-        std::cout << "\n\nNot all roots have been found!\n";
-        print_vector_of_vector("Found exact results:\n", n_exact);
-        print_vector_of_vector("Expected exact results:\n", n_exact_expected);
-        print_vector_of_vector("Found lower bounds:\n", n_lower_bound);
-        print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
-    }
-    if (n_exact != n_exact_expected){
-      print_vector_of_vector("\n\nFound exact results:\n", n_exact);
-      print_vector_of_vector("Expected exact results:\n", n_exact_expected);
-      exit(1);
-    }
-    if (n_lower_bound != n_lower_bound_expected){
-      print_vector_of_vector("\n\nFound lower bounds:\n", n_lower_bound);
-      print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
-      exit(1);
-    }
+    comparer(n_exact, n_lower_bound, n_exact_expected, n_lower_bound_expected);
   }
 
   void test_polytope_134(void){
-    // (a) Compute the roots
     std::vector<std::vector<boost::multiprecision::int128_t>> n_exact, n_lower_bound;
     count_roots("5 12 24 12 12 12 0 0 0 0 0 8 3 0 4 0 2 3 2 4 1 0 1 3 1 4 1 2 4 12 8 3 3 0 8", n_exact, n_lower_bound);
-
-    // (b) Setup our expectation
     std::vector<std::vector<boost::multiprecision::int128_t>> n_exact_expected = {{10010, 8360, 1782, 484, 55, 0, 0, 0, 0}};
     std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected = {{0, 0, 0, 0, 0, 44, 0, 0, 1}};
-
-    // (c) Compare computed and expected results
-    if (sum(n_exact) + sum(n_lower_bound) != sum(n_exact_expected) + sum(n_lower_bound_expected)){
-        std::cout << "\n\nNot all roots have been found!\n";
-        print_vector_of_vector("Found exact results:\n", n_exact);
-        print_vector_of_vector("Expected exact results:\n", n_exact_expected);
-        print_vector_of_vector("Found lower bounds:\n", n_lower_bound);
-        print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
-    }
-    if (n_exact != n_exact_expected){
-      print_vector_of_vector("\n\nFound exact results:\n", n_exact);
-      print_vector_of_vector("Expected exact results:\n", n_exact_expected);
-      exit(1);
-    }
-    if (n_lower_bound != n_lower_bound_expected){
-      print_vector_of_vector("\n\nFound lower bounds:\n", n_lower_bound);
-      print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
-      exit(1);
-    }
+    comparer(n_exact, n_lower_bound, n_exact_expected, n_lower_bound_expected);
   }
 
   void test_polytope_128(void){
-    // (a) Compute the roots
     std::vector<std::vector<boost::multiprecision::int128_t>> n_exact, n_lower_bound;
     count_roots("6 12 12 12 12 12 12 0 0 0 0 0 0 9 3 0 5 0 5 3 0 4 2 3 1 5 2 4 1 4 1 2 4 12 8 3 3 0 9", n_exact, n_lower_bound);
-
-    // (b) Setup our expectation
     std::vector<std::vector<boost::multiprecision::int128_t>> n_exact_expected = {{8910, 9240, 1650, 814, 66, 33, 0, 0, 0, 0}};
     std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected = {{0, 0, 0, 0, 0, 0, 22, 0, 0, 1}};
-
-    // (c) Compare computed and expected results
-    if (sum(n_exact) + sum(n_lower_bound) != sum(n_exact_expected) + sum(n_lower_bound_expected)){
-        std::cout << "\n\nNot all roots have been found!\n";
-        print_vector_of_vector("Found exact results:\n", n_exact);
-        print_vector_of_vector("Expected exact results:\n", n_exact_expected);
-        print_vector_of_vector("Found lower bounds:\n", n_lower_bound);
-        print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
-    }
-    if (n_exact != n_exact_expected){
-      print_vector_of_vector("\n\nFound exact results:\n", n_exact);
-      print_vector_of_vector("Expected exact results:\n", n_exact_expected);
-      exit(1);
-    }
-    if (n_lower_bound != n_lower_bound_expected){
-      print_vector_of_vector("\n\nFound lower bounds:\n", n_lower_bound);
-      print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
-      exit(1);
-    }
+    comparer(n_exact, n_lower_bound, n_exact_expected, n_lower_bound_expected);
   }
 
 };
