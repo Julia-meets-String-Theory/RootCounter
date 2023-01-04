@@ -7,7 +7,7 @@ on:
     - cron: "0 0 * * *"
 
 jobs:
-  QSMtest:
+  QSM6Test:
     runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
@@ -19,5 +19,5 @@ jobs:
         run: ./configure
       - name: make
         run: make
-      - name: make QSM test
-        run: make QSMtest
+      - name: QSM6 test
+        run: make QSM6_test

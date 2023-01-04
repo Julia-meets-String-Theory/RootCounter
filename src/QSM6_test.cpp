@@ -49,8 +49,8 @@ std::vector<std::vector<std::vector<int>>> unsorted;
 #include "H0/compute_h0_on_tree.cpp"
 #include "H0/compute_h0.cpp"
 #include "Combinatorics/combinatorics.cpp"
-#include "RootCounter/rootCounter-v3.cpp"
-#include "RootCounter/iterator.cpp"
+#include "Counter/rootCounter-v3.cpp"
+#include "Counter/iterator.cpp"
 
 // Optimizations for speedup
 #pragma GCC optimize("Ofast")
