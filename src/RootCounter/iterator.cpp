@@ -229,30 +229,26 @@ void iterator(const std::vector<std::vector<int>> & edges,
 // (4) Root counter main method
 // (4) Root counter main method
 // (4) Root counter main method
-
-void count_roots(const std::string & full_path,
-                 const int & genus,
-                 const std::vector<int> & unsorted_genera,
-                 const std::vector<int> & unsorted_degrees,
-                 const std::vector<std::vector<int>> & edges,
-                 const int & root,
-                 const int & h0Min,
-                 const int & h0Max,
-                 const int & numNodesMin,
-                 const int & numNodesMax,
-                 const int & number_threads,
-                 const bool & display_details)
+void count_roots(const std::string input,
+                 const std::string & full_path,
+                 const bool & details,
+                 std::vector<std::vector<boost::multiprecision::int128_t>> & n_exact,
+                 std::vector<std::vector<boost::multiprecision::int128_t>> & n_lower_bound)
 {
 
+    // (1) Parse input
+    std::vector<int> degrees, genera;
+    std::vector<std::vector<int>> edges;
+    int genus, root, number_threads, h0Min, h0Max, numNodesMin, numNodesMax;
+    bool display_details;
+    parse_input(input, degrees, genera, edges, genus, root, number_threads, h0Min, h0Max, numNodesMin, numNodesMax, display_details);
 
-    // (1) Consistency check
-    consistency_check(genus, unsorted_genera, unsorted_degrees, edges, root, h0Min, h0Max, numNodesMin, numNodesMax, number_threads);
+    // (2) Consistency check
+    consistency_check(genus, genera, degrees, edges, root, h0Min, h0Max, numNodesMin, numNodesMax, number_threads);
 
-
-    // (2) Count root bundles
+    // (3) Count root bundles
     std::chrono::steady_clock::time_point before = std::chrono::steady_clock::now();
-    int lower_bound = (int) (std::accumulate(unsorted_degrees.begin(),unsorted_degrees.end(),0)/root) - genus + 1;
-    std::vector<std::vector<boost::multiprecision::int128_t>> n_exact, n_lower_bound;
+    int lower_bound = (int) (std::accumulate(degrees.begin(),degrees.end(),0)/root) - genus + 1;
     for (int h0_value = h0Min; h0_value <= h0Max; h0_value++){
 
         // Are we below the lower bound? -> Answer is trivial
@@ -265,15 +261,23 @@ void count_roots(const std::string & full_path,
 
         // Compute number of root bundles
         std::vector<boost::multiprecision::int128_t> results_exact, results_lower_bound;
-        iterator(edges, unsorted_degrees, unsorted_genera, genus, root, h0_value, numNodesMin, numNodesMax, number_threads, results_exact, results_lower_bound);
+        iterator(edges, degrees, genera, genus, root, h0_value, numNodesMin, numNodesMax, number_threads, results_exact, results_lower_bound);
         n_exact.push_back(results_exact);
         n_lower_bound.push_back(results_lower_bound);
 
     }
     std::chrono::steady_clock::time_point after = std::chrono::steady_clock::now();
 
-
     // (3) Return the result
-    return_result(full_path, n_exact, n_lower_bound, numNodesMax - numNodesMin, numNodesMin, genus, root, h0Min, h0Max, betti_number(edges), before, after, display_details, unsorted);
+    if (details){
+        return_result(full_path, n_exact, n_lower_bound, numNodesMax - numNodesMin, numNodesMin, genus, root, h0Min, h0Max, betti_number(edges), before, after, display_details, unsorted);
+    }
 
+}
+
+void count_roots(const std::string input,
+                 std::vector<std::vector<boost::multiprecision::int128_t>> & n_exact,
+                 std::vector<std::vector<boost::multiprecision::int128_t>> & n_lower_bound)
+{
+    count_roots(input, "", false, n_exact, n_lower_bound);
 }

@@ -48,21 +48,13 @@ std::vector<std::vector<std::vector<int>>> unsorted;
 
 // The main routine
 int main(int argc, char* argv[]) {
-    
-    // (1) Parse the input
     if (argc != 2) {
         std::cout << "Error - number of arguments must be exactly 1 and not " << argc << "\n";
-        std::cout << argv[ 0 ] << "\n";
-        return 0;
+        std::cout << argv[0] << "\n";
     }
-    std::vector<int> unsorted_degrees, unsorted_genera;
-    std::vector<std::vector<int>> edges;
-    int genus, root, number_threads, h0Min, h0Max, numNodesMin, numNodesMax;
-    bool display_details;
-    parse_input(argv[1], unsorted_degrees, unsorted_genera, edges, genus, root, number_threads, h0Min, h0Max, numNodesMin, numNodesMax, display_details);
-    
-    // (2) Count rooot bundles
-    count_roots(argv[0], genus, unsorted_genera, unsorted_degrees, edges, root, h0Min, h0Max, numNodesMin, numNodesMax, number_threads, display_details);
+    else{
+        std::vector<std::vector<boost::multiprecision::int128_t>> n_exact, n_lower_bound;
+        count_roots(argv[1], argv[0], true, n_exact, n_lower_bound);
+    }
     return 0;
-    
 }

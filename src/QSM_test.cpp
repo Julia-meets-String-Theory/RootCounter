@@ -64,44 +64,6 @@ std::vector<std::vector<std::vector<int>>> unsorted;
 // 2. Write tests
 // ####################
 
-void test_count_roots(std::string input,
-                      std::vector<std::vector<boost::multiprecision::int128_t>> & n_exact,
-                      std::vector<std::vector<boost::multiprecision::int128_t>> & n_lower_bound)
-{
-
-    // (1) Parse input
-    std::vector<int> unsorted_degrees, unsorted_genera;
-    std::vector<std::vector<int>> edges;
-    int genus, root, number_threads, h0Min, h0Max, numNodesMin, numNodesMax;
-    bool display_details;
-    parse_input(input, unsorted_degrees, unsorted_genera, edges, genus, root, number_threads, h0Min, h0Max, numNodesMin, numNodesMax, display_details);
-
-    // (2) Consistency check
-    consistency_check(genus, unsorted_genera, unsorted_degrees, edges, root, h0Min, h0Max, numNodesMin, numNodesMax, number_threads);
-
-    // (3) Count root bundles
-    int lower_bound = (int) (std::accumulate(unsorted_degrees.begin(),unsorted_degrees.end(),0)/root) - genus + 1;
-    for (int h0_value = h0Min; h0_value <= h0Max; h0_value++){
-
-        // Are we below the lower bound? -> Answer is trivial
-        if (h0_value < lower_bound){
-            std::vector<boost::multiprecision::int128_t> result(numNodesMax - numNodesMin + 1,0);
-            n_exact.push_back(result);
-            n_lower_bound.push_back(result);
-            continue;
-        }
-
-        // Compute number of root bundles
-        std::vector<boost::multiprecision::int128_t> results_exact, results_lower_bound;
-        iterator(edges, unsorted_degrees, unsorted_genera, genus, root, h0_value, numNodesMin, numNodesMax, number_threads, results_exact, results_lower_bound);
-        n_exact.push_back(results_exact);
-        n_lower_bound.push_back(results_lower_bound);
-
-    }
-
-}
-
-
 class Test : public CPPUNIT_NS::TestCase
 {
   CPPUNIT_TEST_SUITE(Test);
@@ -122,7 +84,7 @@ protected:
   void test_polytope_8(void){
     // (a) Compute the roots
     std::vector<std::vector<boost::multiprecision::int128_t>> n_exact, n_lower_bound;
-    test_count_roots("4 12 36 12 12 0 1 0 0 6 3 0 2 0 2 3 0 1 1 3 1 2 4 12 8 3 3 0 6 1", n_exact, n_lower_bound);
+    count_roots("4 12 36 12 12 0 1 0 0 6 3 0 2 0 2 3 0 1 1 3 1 2 4 12 8 3 3 0 6 1", n_exact, n_lower_bound);
 
     // (b) Setup our expectation
     std::vector<std::vector<boost::multiprecision::int128_t>> n_exact_expected = {{142560, 47520, 0, 0, 0, 0, 0}};
@@ -144,7 +106,7 @@ protected:
   void test_polytope_4(void){
     // (a) Compute the roots
     std::vector<std::vector<boost::multiprecision::int128_t>> n_exact, n_lower_bound;
-    test_count_roots("4 12 24 24 12 0 0 0 0 7 3 0 2 0 2 3 1 0 1 3 1 2 1 2 4 12 8 3 3 0 7 1", n_exact, n_lower_bound);
+    count_roots("4 12 24 24 12 0 0 0 0 7 3 0 2 0 2 3 1 0 1 3 1 2 1 2 4 12 8 3 3 0 7 1", n_exact, n_lower_bound);
 
     // (b) Setup our expectation
     std::vector<std::vector<boost::multiprecision::int128_t>> n_exact_expected = {{11110, 7601, 1562, 264, 0, 0, 0, 0}};
@@ -166,7 +128,7 @@ protected:
   void test_polytope_134(void){
     // (a) Compute the roots
     std::vector<std::vector<boost::multiprecision::int128_t>> n_exact, n_lower_bound;
-    test_count_roots("5 12 24 12 12 12 0 0 0 0 0 8 3 0 4 0 2 3 2 4 1 0 1 3 1 4 1 2 4 12 8 3 3 0 8 1", n_exact, n_lower_bound);
+    count_roots("5 12 24 12 12 12 0 0 0 0 0 8 3 0 4 0 2 3 2 4 1 0 1 3 1 4 1 2 4 12 8 3 3 0 8 1", n_exact, n_lower_bound);
 
     // (b) Setup our expectation
     std::vector<std::vector<boost::multiprecision::int128_t>> n_exact_expected = {{10010, 8360, 1782, 484, 55, 0, 0, 0, 0}};
@@ -188,7 +150,7 @@ protected:
   void test_polytope_128(void){
     // (a) Compute the roots
     std::vector<std::vector<boost::multiprecision::int128_t>> n_exact, n_lower_bound;
-    test_count_roots("6 12 12 12 12 12 12 0 0 0 0 0 0 9 3 0 5 0 5 3 0 4 2 3 1 5 2 4 1 4 1 2 4 12 8 3 3 0 9 1", n_exact, n_lower_bound);
+    count_roots("6 12 12 12 12 12 12 0 0 0 0 0 0 9 3 0 5 0 5 3 0 4 2 3 1 5 2 4 1 4 1 2 4 12 8 3 3 0 9 1", n_exact, n_lower_bound);
 
     // (b) Setup our expectation
     std::vector<std::vector<boost::multiprecision::int128_t>> n_exact_expected = {{8910, 9240, 1650, 814, 66, 33, 0, 0, 0, 0}};
