@@ -41,6 +41,7 @@ std::vector<std::vector<std::vector<int>>> unsorted;
 
 // Include my specialized files
 #include "Auxilliary/print_vectors.cpp"
+#include "Auxilliary/sum_vectors.cpp"
 #include "Auxilliary/handle_input.cpp"
 #include "Auxilliary/return_result.cpp"
 #include "Graphs/graphs.cpp"
@@ -90,13 +91,20 @@ protected:
     std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected = {{0, 47520, 4752, 6336, 0, 0, 144}};
 
     // (c) Compare computed and expected results
+    if (sum(n_exact) + sum(n_lower_bound) != sum(n_exact_expected) + sum(n_lower_bound_expected)){
+        std::cout << "\n\nNot all roots have been found!\n";
+        print_vector_of_vector("Found exact results:\n", n_exact);
+        print_vector_of_vector("Expected exact results:\n", n_exact_expected);
+        print_vector_of_vector("Found lower bounds:\n", n_lower_bound);
+        print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
+    }
     if (n_exact != n_exact_expected){
-      print_vector_of_vector("Found exact results:\n", n_exact);
+      print_vector_of_vector("\n\nFound exact results:\n", n_exact);
       print_vector_of_vector("Expected exact results:\n", n_exact_expected);
       exit(1);
     }
     if (n_lower_bound != n_lower_bound_expected){
-      print_vector_of_vector("Found lower bounds:\n", n_lower_bound);
+      print_vector_of_vector("\n\nFound lower bounds:\n", n_lower_bound);
       print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
       exit(1);
     }
@@ -112,13 +120,20 @@ protected:
     std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected = {{0, 0, 110, 11, 66, 11, 0, 1}};
 
     // (c) Compare computed and expected results
+    if (sum(n_exact) + sum(n_lower_bound) != sum(n_exact_expected) + sum(n_lower_bound_expected)){
+        std::cout << "\n\nNot all roots have been found!\n";
+        print_vector_of_vector("Found exact results:\n", n_exact);
+        print_vector_of_vector("Expected exact results:\n", n_exact_expected);
+        print_vector_of_vector("Found lower bounds:\n", n_lower_bound);
+        print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
+    }
     if (n_exact != n_exact_expected){
-      print_vector_of_vector("Found exact results:\n", n_exact);
+      print_vector_of_vector("\n\nFound exact results:\n", n_exact);
       print_vector_of_vector("Expected exact results:\n", n_exact_expected);
       exit(1);
     }
     if (n_lower_bound != n_lower_bound_expected){
-      print_vector_of_vector("Found lower bounds:\n", n_lower_bound);
+      print_vector_of_vector("\n\nFound lower bounds:\n", n_lower_bound);
       print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
       exit(1);
     }
@@ -134,13 +149,20 @@ protected:
     std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected = {{0, 0, 0, 0, 0, 44, 0, 0, 1}};
 
     // (c) Compare computed and expected results
+    if (sum(n_exact) + sum(n_lower_bound) != sum(n_exact_expected) + sum(n_lower_bound_expected)){
+        std::cout << "\n\nNot all roots have been found!\n";
+        print_vector_of_vector("Found exact results:\n", n_exact);
+        print_vector_of_vector("Expected exact results:\n", n_exact_expected);
+        print_vector_of_vector("Found lower bounds:\n", n_lower_bound);
+        print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
+    }
     if (n_exact != n_exact_expected){
-      print_vector_of_vector("Found exact results:\n", n_exact);
+      print_vector_of_vector("\n\nFound exact results:\n", n_exact);
       print_vector_of_vector("Expected exact results:\n", n_exact_expected);
       exit(1);
     }
     if (n_lower_bound != n_lower_bound_expected){
-      print_vector_of_vector("Found lower bounds:\n", n_lower_bound);
+      print_vector_of_vector("\n\nFound lower bounds:\n", n_lower_bound);
       print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
       exit(1);
     }
@@ -156,13 +178,20 @@ protected:
     std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected = {{0, 0, 0, 0, 0, 0, 22, 0, 0, 1}};
 
     // (c) Compare computed and expected results
+    if (sum(n_exact) + sum(n_lower_bound) != sum(n_exact_expected) + sum(n_lower_bound_expected)){
+        std::cout << "\n\nNot all roots have been found!\n";
+        print_vector_of_vector("Found exact results:\n", n_exact);
+        print_vector_of_vector("Expected exact results:\n", n_exact_expected);
+        print_vector_of_vector("Found lower bounds:\n", n_lower_bound);
+        print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
+    }
     if (n_exact != n_exact_expected){
-      print_vector_of_vector("Found exact results:\n", n_exact);
+      print_vector_of_vector("\n\nFound exact results:\n", n_exact);
       print_vector_of_vector("Expected exact results:\n", n_exact_expected);
       exit(1);
     }
     if (n_lower_bound != n_lower_bound_expected){
-      print_vector_of_vector("Found lower bounds:\n", n_lower_bound);
+      print_vector_of_vector("\n\nFound lower bounds:\n", n_lower_bound);
       print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
       exit(1);
     }
