@@ -1,3 +1,4 @@
-src/rootCounter
-src/rootCounterTest
-src/QSMTest
+src/BasicTest
+src/QSM10Test
+src/QSM6Test
+src/RootCounter
