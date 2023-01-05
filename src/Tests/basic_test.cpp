@@ -99,8 +99,10 @@ void test10(){
   std::vector<std::vector<int>> nodal_edges = {{0,1},{1,2}};
   std::vector<int> genera = {0,0,0};
   std::vector<std::vector<int>> partitions;
-  comp_partitions_with_nodes(2,nodal_edges,genera,partitions);
+  std::vector<bool> lower_bounds;
+  comp_partitions_with_nodes(2,nodal_edges,genera,partitions,lower_bounds);
   assert(partitions.size() == 15 && "Partitions computed incorrectly");
+  assert(lower_bounds.size() == 15 && "Lower bounds computed incorrectly");
 }
 
 void test11(){

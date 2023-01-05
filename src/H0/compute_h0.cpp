@@ -7,10 +7,11 @@ int h0_on_connected_nodal_curve(const std::vector<int>& degrees,
 {
     
     // (1) No edge, so must be a single component that is not self-connected.
-    if (nodal_edges.size() == 0){
-        if (degrees[0] >= 0){
-            return degrees[0] - genera[0] + 1;
+    if (nodal_edges.size() == 0 && degrees[0] >= 0){
+        if (degrees[0] == 0 && genera[0] == 1){
+            lower_bound = true;
         }
+        return degrees[0] - genera[0] + 1;
     }
     
     // (2) At least one edge, i.e. two components.

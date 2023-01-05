@@ -19,13 +19,14 @@ void UpdateUnsortedThreadSafe(std::vector<std::vector<std::vector<int>>> & list_
 }
 
 
-// Worker thread for parallel run
-void worker(const std::vector<int> degrees,
-            const std::vector<int> genera,
-            const std::vector<std::vector<int>> nodal_edges,
-            const int root,
-            const std::vector<std::vector<std::vector<int>>> graph_stratification,
-            const std::vector<std::vector<int>> outfluxes,
+// Worker thread
+void worker(const std::vector<int> & degrees,
+            const std::vector<int> & genera,
+            const std::vector<std::vector<int>> & nodal_edges,
+            const int & root,
+            const std::vector<std::vector<std::vector<int>>> & graph_stratification,
+            const std::vector<std::vector<int>> & outfluxes,
+            const std::vector<bool> & lower_bounds,
             std::vector<boost::multiprecision::int128_t> & sums,
             std::vector<std::vector<std::vector<int>>> & unsorted_setups)
 {
@@ -133,38 +134,37 @@ void worker(const std::vector<int> degrees,
             // no action required -> we can increase the counted numbers
             else{
                 
-                // (1) Remember unsorted setups
-                bool is_unsorted_setup = false;
-                std::vector<int> normalized_degrees;
-                for (int j = 0; j < degrees.size(); j++){
-                    normalized_degrees.push_back((int)((degrees[j] - outfluxes[i][j])/root));
-                }
-                std::vector<std::vector<std::vector<int>>> edges_of_cc;
-                std::vector<std::vector<int>> degs_of_cc, gens_of_cc;
-                find_connected_components(nodal_edges, normalized_degrees, genera, edges_of_cc, degs_of_cc, gens_of_cc);
-                for (int j = 0; j < edges_of_cc.size(); j++){
-                    bool lower_bound_for_cc;
-                    int h0_of_cc = h0_on_nodal_curve(degs_of_cc[j], edges_of_cc[j], gens_of_cc[j], lower_bound_for_cc);
-                    if (lower_bound_for_cc){
-                        is_unsorted_setup = true;
-                        std::vector<std::vector<int>> new_unsorted_setup = {gens_of_cc[j], degs_of_cc[j], {h0_of_cc}};
-                        for (int k = 0; k < edges_of_cc[j].size(); k++){
-                            new_unsorted_setup.push_back(edges_of_cc[j][k]);
-                        }
-                        UpdateUnsortedThreadSafe(unsorted_setups, new_unsorted_setup);
-                    }
-                }
+                if (lower_bounds[i]){
 
-                // (2) Update the counters
-                if (is_unsorted_setup){
                     // Setup for which we only know a lower bound
                     total_unclear = total_unclear + (boost::multiprecision::int128_t) currentSnapshot.mult * number_local_roots;
+
+                    // Remember connected components, which we could not compute h0 for
+                    std::vector<int> normalized_degrees;
+                    for (int j = 0; j < degrees.size(); j++){
+                        normalized_degrees.push_back((int)((degrees[j] - outfluxes[i][j])/root));
+                    }
+                    std::vector<std::vector<std::vector<int>>> edges_of_cc;
+                    std::vector<std::vector<int>> degs_of_cc, gens_of_cc;
+                    find_connected_components(nodal_edges, normalized_degrees, genera, edges_of_cc, degs_of_cc, gens_of_cc);
+                    for (int j = 0; j < edges_of_cc.size(); j++){
+                        bool lower_bound_for_cc;
+                        int h0_of_cc = h0_on_nodal_curve(degs_of_cc[j], edges_of_cc[j], gens_of_cc[j], lower_bound_for_cc);
+                        if (lower_bound_for_cc){
+                            std::vector<std::vector<int>> new_unsorted_setup = {gens_of_cc[j], degs_of_cc[j], {h0_of_cc}};
+                            for (int k = 0; k < edges_of_cc[j].size(); k++){
+                                new_unsorted_setup.push_back(edges_of_cc[j][k]);
+                            }
+                            UpdateUnsortedThreadSafe(unsorted_setups, new_unsorted_setup);
+                        }
+                    }
+
                 }
                 else{
                     // Setup for which we are certain that we got h0 right.
                     // Still, we want to be extra careful.
                     // So check if there are components with (g = 1, d = 0). If yes, then for one root, we perse only have a lower bound.
-                    boost::multiprecision::int128_t number_roots_with_determined_h0 = 1;
+                    /*boost::multiprecision::int128_t number_roots_with_determined_h0 = 1;
                     for (int j = 0; j < genera.size(); j++){
                         if ((genera[j] == 1) && (degrees[j] == outfluxes[i][j])){
                             number_roots_with_determined_h0 = number_roots_with_determined_h0 * (boost::multiprecision::int128_t) (root * root - 1);
@@ -174,7 +174,8 @@ void worker(const std::vector<int> degrees,
                         }
                     }
                     total_clear = total_clear + (boost::multiprecision::int128_t) currentSnapshot.mult * number_roots_with_determined_h0;
-                    total_unclear += (boost::multiprecision::int128_t) currentSnapshot.mult * (number_local_roots - number_roots_with_determined_h0);
+                    total_unclear += (boost::multiprecision::int128_t) currentSnapshot.mult * (number_local_roots - number_roots_with_determined_h0);*/
+                    total_clear = total_clear + (boost::multiprecision::int128_t) currentSnapshot.mult * number_local_roots;
                 }
 
             }
@@ -207,7 +208,8 @@ std::vector<boost::multiprecision::int128_t> parallel_root_counter(
     // (1) Partition h0
     // (1) Partition h0
     std::vector<std::vector<int>> partitions;
-    comp_partitions_with_nodes(h0_value, nodal_edges, genera, partitions);
+    std::vector<bool> lower_bounds;
+    comp_partitions_with_nodes(h0_value, nodal_edges, genera, partitions, lower_bounds);
     
     
     // (2) Find fluxes corresponding to partitions
@@ -216,7 +218,9 @@ std::vector<boost::multiprecision::int128_t> parallel_root_counter(
         std::vector<int> flux;
     };
     std::vector<std::vector<int>> outfluxes;
+    std::vector<bool> lbs;
     outfluxes.reserve(partitions.size());
+    lbs.reserve(partitions.size());
     for (int i = 0; i < partitions.size(); i++){
         
         // create stack and first snapshot
@@ -278,6 +282,7 @@ std::vector<boost::multiprecision::int128_t> parallel_root_counter(
             // no more fluxes to be set --> add to list of fluxes if the sum of fluxes equals the number of resolved_edges * root (necessary and sufficient for non-zero number of weight assignments)
             else if (std::accumulate(currentSnapshot.flux.begin(),currentSnapshot.flux.end(),0) == root * resolved_edges.size()){
                 outfluxes.push_back(currentSnapshot.flux);
+                lbs.push_back(lower_bounds[i]);
             }
             
         }
@@ -288,7 +293,7 @@ std::vector<boost::multiprecision::int128_t> parallel_root_counter(
     // (3) Start worker
     // (3) Start worker
     std::vector<boost::multiprecision::int128_t> sums = {0,0};
-    worker(degrees, genera, nodal_edges, root, graph_stratification, outfluxes, sums, unsorted_setups);
+    worker(degrees, genera, nodal_edges, root, graph_stratification, outfluxes, lbs, sums, unsorted_setups);
     
     // (4) return the result
     // (4) return the result

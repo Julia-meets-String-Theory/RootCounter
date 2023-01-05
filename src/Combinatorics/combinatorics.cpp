@@ -84,7 +84,8 @@ void comp_partitions(
 void comp_partitions_with_nodes(const int & N,
                                 const std::vector<std::vector<int>> & nodal_edges,
                                 const std::vector<int> & genera,
-                                std::vector<std::vector<int>> & partitions)
+                                std::vector<std::vector<int>> & partitions,
+                                std::vector<bool> & lower_bounds)
 {
     
     // Compute all partitions with "naive" total sum ranging between N and N + nodal_edges.size()
@@ -93,8 +94,7 @@ void comp_partitions_with_nodes(const int & N,
         comp_partitions(N+i, genera.size(), std::vector<int>(genera.size(),0), std::vector<int>(genera.size(),N+i), naive_partitions);
     }
     
-    // Check if this partition of h0 can be realized
-    // I.e. compute degrees that yield these h0 and check if an exact result/lower bound then matches the desired h0.
+    // Check which of these partitions of h0 can be realized.
     for (int i = 0; i < naive_partitions.size(); i++){
         
         // Find degrees corresponding to h0
@@ -110,6 +110,8 @@ void comp_partitions_with_nodes(const int & N,
             }
             else{
                 // W.l.o.g., we take d = -1.
+                // TODO: Think carefully about g = 1 and d = 0 situation. How do we best handle this?
+                // TODO: Think carefully about g = 1 and d = 0 situation. How do we best handle this?
                 degrees.push_back(-1);
             }
         }
@@ -118,6 +120,7 @@ void comp_partitions_with_nodes(const int & N,
         bool lb;
         if (h0_on_nodal_curve(degrees, nodal_edges, genera, lb) == N){
             partitions.push_back(naive_partitions[i]);
+            lower_bounds.push_back(lb);
         }
     
     }
@@ -138,13 +141,8 @@ boost::multiprecision::int128_t partition_helper(const int & f, const int & n, c
     // initialize the counter
     boost::multiprecision::int128_t count = (boost::multiprecision::int128_t) 0;
     
-    // Valid value for f?
-    if (f < 1){
-        return 0;
-    }
-    
-    // Valid value for n?
-    if (n < 1){
+    // Valid value for f and n?
+    if ((f < 1) || (n < 1)){
         return 0;
     }
     

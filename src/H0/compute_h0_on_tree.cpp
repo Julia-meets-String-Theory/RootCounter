@@ -7,16 +7,6 @@ int h0_on_connected_rational_tree(const std::vector<int>& degrees, const std::ve
     
     // initialize h0
     int h0 = 0;
-
-    // Handle degenerate case of no edges
-    if (nodal_edges.size() == 0){
-        for (int i = 0; i < degrees.size(); i++){
-            if (degrees[i] >= 0){
-                h0 += degrees[i] + 1;
-            }
-        }
-        return h0;
-    }
     
     // make a copy of degrees and nodal edges
     std::vector<int> simple_degrees(degrees.begin(), degrees.end());
