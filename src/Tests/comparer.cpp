@@ -1,4 +1,4 @@
-void comparer(const std::vector<std::vector<boost::multiprecision::int128_t>> &n_exact,
+bool comparer(const std::vector<std::vector<boost::multiprecision::int128_t>> &n_exact,
               const std::vector<std::vector<boost::multiprecision::int128_t>> &n_lower_bound,
               const std::vector<std::vector<boost::multiprecision::int128_t>> &n_exact_expected,
               const std::vector<std::vector<boost::multiprecision::int128_t>> &n_lower_bound_expected)
@@ -13,11 +13,12 @@ void comparer(const std::vector<std::vector<boost::multiprecision::int128_t>> &n
     if (n_exact != n_exact_expected){
       print_vector_of_vector("\n\nFound exact results:\n", n_exact);
       print_vector_of_vector("Expected exact results:\n", n_exact_expected);
-      exit(1);
+      return false;
     }
     if (n_lower_bound != n_lower_bound_expected){
       print_vector_of_vector("\n\nFound lower bounds:\n", n_lower_bound);
       print_vector_of_vector("Expected lower bounds:\n", n_lower_bound_expected);
-      exit(1);
+      return false;
     }
+    return true;
 }

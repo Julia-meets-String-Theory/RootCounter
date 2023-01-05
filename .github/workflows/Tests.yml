@@ -1,0 +1,27 @@
+name: C++ CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  Tests:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install boost
+        run: sudo apt install -y libboost-all-dev
+      - name: Configure
+        run: ./configure
+      - name: Install
+        run: make install
+      - name: Run test
+        run: make test
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          gcov: true
+          token: ${{secrets.CODECOV_TOKEN}}
+          gcov_include: src/tests.cpp

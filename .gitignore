@@ -1,4 +1,5 @@
-src/BasicTest
-src/QSM10Test
-src/QSM6Test
+src/tests
 src/RootCounter
+src/*.gcno
+src/*.gcda
+src/*.gcov
