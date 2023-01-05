@@ -22,12 +22,6 @@
 #include <boost/multiprecision/cpp_bin_float.hpp>
 boost::mutex myGuard, myGuard2, myGuard3;
 
-// Determine how the output looks like
-bool display_unsorted_setups = true;
-
-// Set up vector to save unsorted setups
-std::vector<std::vector<std::vector<int>>> unsorted;
-
 // Include my specialized files
 #include "Auxilliary/print_vectors.cpp"
 #include "Auxilliary/sum_vectors.cpp"
@@ -47,13 +41,13 @@ std::vector<std::vector<std::vector<int>>> unsorted;
 
 // The main routine
 int main(int argc, char* argv[]) {
-    if (argc != 2) {
-        std::cout << "Error - number of arguments must be exactly 1 and not " << argc << "\n";
-        std::cout << argv[0] << "\n";
+    if (argc == 2) {
+        std::vector<std::vector<boost::multiprecision::int128_t>> n_exact, n_lower_bound;
+        std::vector<std::vector<std::vector<int>>> unsorted_setups;
+        count_roots(argv[1], argv[0], true, n_exact, n_lower_bound, unsorted_setups);
     }
     else{
-        std::vector<std::vector<boost::multiprecision::int128_t>> n_exact, n_lower_bound;
-        count_roots(argv[1], argv[0], true, n_exact, n_lower_bound);
+        std::cout << "Error - number of arguments must be exactly 1 and not " << argc << "\n";
     }
     return 0;
 }

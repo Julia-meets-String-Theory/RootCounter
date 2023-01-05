@@ -22,7 +22,8 @@ void compute_root_bundles(const std::vector<std::vector<int>> & edges,
                                             const int & root,
                                             const int & h0_value,
                                             const std::vector<int> & positions_no_blowup,
-                                            std::vector<boost::multiprecision::int128_t> & sums)
+                                            std::vector<boost::multiprecision::int128_t> & sums,
+                                            std::vector<std::vector<std::vector<int>>> & unsorted_setups)
 {
     
     // Identify nodal_edges and resolved_edges
@@ -39,7 +40,7 @@ void compute_root_bundles(const std::vector<std::vector<int>> & edges,
     additional_graph_information(resolved_edges, edge_numbers, graph_stratification);
     
     // Compute number of roots
-    std::vector<boost::multiprecision::int128_t> results = parallel_root_counter(genus, degrees, genera, resolved_edges, nodal_edges, root, graph_stratification, edge_numbers, h0_value);
+    std::vector<boost::multiprecision::int128_t> results = parallel_root_counter(genus, degrees, genera, resolved_edges, nodal_edges, root, graph_stratification, edge_numbers, h0_value, unsorted_setups);
     
     // Update results
     UpdateCountsThreadSafe(sums, results);
@@ -59,11 +60,12 @@ void runner(const std::vector<std::vector<int>> edges,
                     const int root,
                     const int h0_value,
                     const std::vector<std::vector<int>> combinations,
-                    std::vector<boost::multiprecision::int128_t> & sums)
+                    std::vector<boost::multiprecision::int128_t> & sums,
+                    std::vector<std::vector<std::vector<int>>> & unsorted_setups)
 {
     
     for (int i = 0; i < combinations.size(); i++){
-        compute_root_bundles(edges, degrees, genera, genus, root, h0_value, combinations[i], sums);
+        compute_root_bundles(edges, degrees, genera, genus, root, h0_value, combinations[i], sums, unsorted_setups);
     }
     
 }
@@ -84,7 +86,8 @@ void iterator(const std::vector<std::vector<int>> & edges,
                      const int & numNodesMax,
                      const int & total_number_threads,
                      std::vector<boost::multiprecision::int128_t> & results_exact,
-                     std::vector<boost::multiprecision::int128_t> & results_lower_bound)
+                     std::vector<boost::multiprecision::int128_t> & results_lower_bound,
+                     std::vector<std::vector<std::vector<int>>> & unsorted_setups)
 {
     
     // declare variable to capture results
@@ -163,12 +166,12 @@ void iterator(const std::vector<std::vector<int>> & edges,
             for (int i = 0; i < nr_threads; i++){
                 if (i < nr_threads - 1){
                     std::vector<std::vector<int>> partial_combinations(combinations.begin() + i * package_size, combinations.begin() + (i+1) * package_size);
-                    boost::thread *t = new boost::thread(runner, edges, degrees, genera, genus, root, h0_value, partial_combinations, boost::ref(sums));
+                    boost::thread *t = new boost::thread(runner, edges, degrees, genera, genus, root, h0_value, partial_combinations, boost::ref(sums), boost::ref(unsorted_setups));
                     threadList.add_thread(t);
                 }
                 else{
                     std::vector<std::vector<int>> partial_combinations(combinations.begin() + i * package_size, combinations.end());
-                    boost::thread *t = new boost::thread(runner, edges, degrees, genera, genus, root, h0_value, partial_combinations, boost::ref(sums));
+                    boost::thread *t = new boost::thread(runner, edges, degrees, genera, genus, root, h0_value, partial_combinations, boost::ref(sums), boost::ref(unsorted_setups));
                     threadList.add_thread(t);
                 }
             }
@@ -176,7 +179,7 @@ void iterator(const std::vector<std::vector<int>> & edges,
             
         }
         else if (total_number_threads == 1){
-            runner(edges, degrees, genera, genus, root, h0_value, combinations, boost::ref(sums));
+            runner(edges, degrees, genera, genus, root, h0_value, combinations, sums, unsorted_setups);
         }
         
         // remember result from leaving i-nodes
@@ -196,7 +199,8 @@ void count_roots(const std::string input,
                  const std::string & full_path,
                  const bool & details,
                  std::vector<std::vector<boost::multiprecision::int128_t>> & n_exact,
-                 std::vector<std::vector<boost::multiprecision::int128_t>> & n_lower_bound)
+                 std::vector<std::vector<boost::multiprecision::int128_t>> & n_lower_bound,
+                 std::vector<std::vector<std::vector<int>>> & unsorted_setups)
 {
 
     // (1) Parse input
@@ -223,7 +227,7 @@ void count_roots(const std::string input,
 
         // Compute number of root bundles
         std::vector<boost::multiprecision::int128_t> results_exact, results_lower_bound;
-        iterator(edges, degrees, genera, genus, root, h0_value, numNodesMin, numNodesMax, number_threads, results_exact, results_lower_bound);
+        iterator(edges, degrees, genera, genus, root, h0_value, numNodesMin, numNodesMax, number_threads, results_exact, results_lower_bound, unsorted_setups);
         n_exact.push_back(results_exact);
         n_lower_bound.push_back(results_lower_bound);
 
@@ -232,7 +236,7 @@ void count_roots(const std::string input,
 
     // (3) Return the result
     if (details){
-        return_result(full_path, n_exact, n_lower_bound, numNodesMax - numNodesMin, numNodesMin, genus, root, h0Min, h0Max, betti_number(edges), before, after, unsorted);
+        return_result(full_path, n_exact, n_lower_bound, numNodesMax - numNodesMin, numNodesMin, genus, root, h0Min, h0Max, betti_number(edges), before, after, unsorted_setups);
     }
 
 }
@@ -241,5 +245,6 @@ void count_roots(const std::string input,
                  std::vector<std::vector<boost::multiprecision::int128_t>> & n_exact,
                  std::vector<std::vector<boost::multiprecision::int128_t>> & n_lower_bound)
 {
-    count_roots(input, "", false, n_exact, n_lower_bound);
+    std::vector<std::vector<std::vector<int>>> unsorted_setups;
+    count_roots(input, "", false, n_exact, n_lower_bound, unsorted_setups);
 }

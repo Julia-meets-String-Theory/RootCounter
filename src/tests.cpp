@@ -25,12 +25,6 @@
 #include <boost/multiprecision/cpp_bin_float.hpp>
 boost::mutex myGuard, myGuard2, myGuard3;
 
-// Determine how the output looks like
-bool display_unsorted_setups = true;
-
-// Set up vector to save unsorted setups
-std::vector<std::vector<std::vector<int>>> unsorted;
-
 // Include my specialized files
 #include "Auxilliary/print_vectors.cpp"
 #include "Auxilliary/sum_vectors.cpp"

@@ -20,13 +20,14 @@ void UpdateUnsortedThreadSafe(std::vector<std::vector<std::vector<int>>> & list_
 
 
 // Worker thread for parallel run
-void worker(            const std::vector<int> degrees,
-                                const std::vector<int> genera,
-                                const std::vector<std::vector<int>> nodal_edges,
-                                const int root,
-                                const std::vector<std::vector<std::vector<int>>> graph_stratification,
-                                const std::vector<std::vector<int>> outfluxes,
-                                std::vector<boost::multiprecision::int128_t> & sums)
+void worker(const std::vector<int> degrees,
+            const std::vector<int> genera,
+            const std::vector<std::vector<int>> nodal_edges,
+            const int root,
+            const std::vector<std::vector<std::vector<int>>> graph_stratification,
+            const std::vector<std::vector<int>> outfluxes,
+            std::vector<boost::multiprecision::int128_t> & sums,
+            std::vector<std::vector<std::vector<int>>> & unsorted_setups)
 {
     
     // determine number of local roots
@@ -166,7 +167,7 @@ void worker(            const std::vector<int> degrees,
                 }
                 
                 // (3) Save unsorted setup to a file
-                if (display_unsorted_setups and unsorted_setup){
+                if (unsorted_setup){
                     
                     // (3.1) Normalize the degrees
                     std::vector<int> normalized_degrees;
@@ -196,7 +197,7 @@ void worker(            const std::vector<int> degrees,
                             for (int k = 0; k < edges_of_cc[j].size(); k++){
                                 new_unsorted_setup.push_back(edges_of_cc[j][k]);
                             }
-                            UpdateUnsortedThreadSafe(unsorted, new_unsorted_setup);
+                            UpdateUnsortedThreadSafe(unsorted_setups, new_unsorted_setup);
                         }
                     }
                     
@@ -225,7 +226,8 @@ std::vector<boost::multiprecision::int128_t> parallel_root_counter(
                                 const int & root,
                                 const std::vector<std::vector<std::vector<int>>> & graph_stratification,
                                 const std::vector<int> & edge_numbers,
-                                const int & h0_value)
+                                const int & h0_value,
+                                std::vector<std::vector<std::vector<int>>> & unsorted_setups)
 {
   
     // (1) Partition h0
@@ -309,10 +311,10 @@ std::vector<boost::multiprecision::int128_t> parallel_root_counter(
     }
     
     
-    // (3) Split the outfluxes into as many packages as determined by thread_number and start the threads
-    // (3) Split the outfluxes into as many packages as determined by thread_number and start the threads
+    // (3) Start worker
+    // (3) Start worker
     std::vector<boost::multiprecision::int128_t> sums = {0,0};
-    worker(degrees, genera, nodal_edges, root, graph_stratification, outfluxes, boost::ref(sums));
+    worker(degrees, genera, nodal_edges, root, graph_stratification, outfluxes, sums, unsorted_setups);
     
     // (4) return the result
     // (4) return the result
