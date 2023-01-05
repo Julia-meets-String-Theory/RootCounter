@@ -109,10 +109,13 @@ void comp_partitions_with_nodes(const int & N,
                 }
             }
             else{
-                // W.l.o.g., we take d = -1.
-                // TODO: Think carefully about g = 1 and d = 0 situation. How do we best handle this?
-                // TODO: Think carefully about g = 1 and d = 0 situation. How do we best handle this?
-                degrees.push_back(-1);
+                if (genera[j] == 0){
+                    degrees.push_back(-1);
+                }
+                if (genera[j] == 1){
+                    // Conservative: This will lead to more setups for which we merely claim to have a lower bound.
+                    degrees.push_back(0);
+                }
             }
         }
 
