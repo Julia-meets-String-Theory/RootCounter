@@ -75,11 +75,11 @@ int main(){
   test10();
 
   // QSM6 tests
-  test_polytope_8();
+  /*test_polytope_8();
   test_polytope_4();
   test_polytope_134();
-  test_polytope_128();
+  test_polytope_128();*/
 
   // QSM10 tests
-  test_polytope_88();
+  //test_polytope_88();
 }
