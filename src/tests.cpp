@@ -45,7 +45,6 @@ std::vector<std::vector<std::vector<int>>> unsorted;
 #include "Counter/iterator.cpp"
 
 // Load the test files
-#include "Tests/comparer.cpp"
 #include "Tests/basic_test.cpp"
 #include "Tests/QSM6_test.cpp"
 #include "Tests/QSM10_test.cpp"
