@@ -61,7 +61,7 @@ std::vector<std::vector<std::vector<int>>> unsorted;
 // 2. Execute tests
 // ####################
 
-int main(){
+int main(int argc, char* argv[]){
   // Basic tests
   test1();
   test2();
@@ -77,7 +77,7 @@ int main(){
   test12();
 
   // QSM6 tests
-  test_polytope_8();
+  test_polytope_8(argv[0]);
   test_polytope_4();
   test_polytope_134();
   test_polytope_128();
