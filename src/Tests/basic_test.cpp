@@ -129,12 +129,22 @@ void test13(){
   std::vector<std::vector<std::vector<int>>> edges_of_cc;
   std::vector<std::vector<int>> degs_of_cc, gens_of_cc;
   find_connected_components(edges, degrees, genera, edges_of_cc, degs_of_cc, gens_of_cc);
-  std::vector<std::vector<std::vector<int>>> expected_edges_of_cc = {{{0,1},{2,1}},{{0,1},{1,2}},{{0,1}},{{0,1}}};
-  std::vector<std::vector<int>> expected_degs_of_cc = {{-1,0,7},{3,4,5},{8,-9},{-2,9}};
-  std::vector<std::vector<int>> expected_gens_of_cc = {{1,0,0},{1,0,1},{1,0},{0,1}};
   std::cout << "-------------------------------------------\n";
   std::cout << "Computed the connected components of a graph.\n";
   std::cout << "We use this to test the printing of vectors and of (vectors of vectors).\n";
+  std::cout << "-------------------------------------------\n\n";
+  for (int i = 0; i < edges_of_cc.size(); i++){
+    std::cout << "Component " << std::to_string(i) << "\n";
+    print_vector_of_vector("Edges:\n", edges_of_cc[i]);
+    print_vector("Degrees: ", degs_of_cc[i]);
+    print_vector("Genera: ", gens_of_cc[i]);
+    std::cout << "\n";
+  }
+  std::vector<std::vector<std::vector<boost::multiprecision::int128_t>>> expected_edges_of_cc = {{{0,1},{2,1}},{{0,1},{1,2}},{{0,1}},{{0,1}}};
+  std::vector<std::vector<boost::multiprecision::int128_t>> expected_degs_of_cc = {{-1,0,7},{3,4,5},{8,-9},{-2,9}};
+  std::vector<std::vector<boost::multiprecision::int128_t>> expected_gens_of_cc = {{1,0,0},{1,0,1},{1,0},{0,1}};
+  std::cout << "-------------------------------------------\n";
+  std::cout << "For these connected components we expect the following results.\n";
   std::cout << "-------------------------------------------\n\n";
   for (int i = 0; i < edges_of_cc.size(); i++){
     std::cout << "Component " << std::to_string(i) << "\n";
