@@ -8,13 +8,21 @@ void test1(){
 }
 
 void test2(){
+  std::vector<std::vector<int>> edges = {{0,1},{0,2},{3,4},{3,4},{5,6},{6,7}};
+  std::vector<int> vertices;
+  std::vector<int> expected_vertices = {0,1,2,3,4,5,6,7};
+  find_vertices(vertices, edges);
+  assert(vertices == expected_vertices && "Vertices computed incorrectly");
+}
+
+void test3(){
   std::vector<std::vector<int>> edges = {{3,4},{3,4}};
   std::vector<std::vector<int>> edges2 = {};
   assert(betti_number(edges) == 1 && "Betti number computed incorrectly");
   assert(betti_number(edges2) == 0 && "Betti number computed incorrectly");
 }
 
-void test3(){
+void test4(){
   std::vector<std::vector<int>> edges = {{1,2},{3,4},{2,5},{6,4},{7,8},{0,9}};
   std::vector<int> degrees = {-2,3,4,-1,0,5,7,8,-9,9};
   std::vector<int> genera = {0,1,0,1,0,1,0,1,0,1};
@@ -34,7 +42,7 @@ void test3(){
 // (2) Tests of h0 computations
 // ########################################
 
-void test4(){
+void test5(){
   std::vector<std::vector<int>> edges = {{1,2},{1,3},{2,3}};
   std::vector<int> degrees = {3,-1,-1,1};
   std::vector<int> genera = {0,1,0,0};
@@ -44,7 +52,7 @@ void test4(){
   assert(bound == true && "The cohomology result should be a lower bound, but is marked as exact");
 }
 
-void test5(){
+void test6(){
   std::vector<std::vector<int>> edges = {{1,2},{1,3},{2,3}};
   std::vector<int> degrees = {6,-1,-1,-1};
   std::vector<int> genera = {0,1,0,0};
@@ -54,7 +62,7 @@ void test5(){
   assert(bound == true && "The cohomology result should be a lower bound, but is marked as exact");
 }
 
-void test6(){
+void test7(){
   std::vector<std::vector<int>> edges = {{2,3},{3,0}};
   std::vector<int> degrees = {-1,1,-1,4};
   std::vector<int> genera = {0,1,0,0};
@@ -64,7 +72,7 @@ void test6(){
   assert(bound == false && "The cohomology result should be exact, but is marked merely as lower bound");
 }
 
-void test7(){
+void test8(){
   std::vector<std::vector<int>> edges = {{2,3},{3,0}};
   std::vector<int> degrees = {-1,-1,5,-1};
   std::vector<int> genera = {0,1,0,0};
@@ -74,7 +82,7 @@ void test7(){
   assert(bound == false && "The cohomology result should be exact, but is marked merely as lower bound");
 }
 
-void test8(){
+void test9(){
   std::vector<std::vector<int>> edges = {};
   std::vector<int> degrees = {0,1,5,2};
   std::vector<int> genera = {0,0,0,0};
@@ -89,13 +97,13 @@ void test8(){
 // (3) Tests of combinatoric computations
 // ########################################
 
-void test9(){
+void test10(){
   std::vector<std::vector<int>> partitions;
   comp_partitions(3,2,{0,0},{3,3}, partitions);
   assert(partitions.size() == 4 && "Partitions computed incorrectly");
 }
 
-void test10(){
+void test11(){
   std::vector<std::vector<int>> nodal_edges = {{0,1},{1,2}};
   std::vector<int> genera = {0,0,0};
   std::vector<std::vector<int>> partitions;
@@ -105,7 +113,7 @@ void test10(){
   assert(lower_bounds.size() == 15 && "Lower bounds computed incorrectly");
 }
 
-void test11(){
+void test12(){
   assert(number_partitions(10,3,5) == 6 && "Wrong number of partitions computed");
 }
 
@@ -114,7 +122,7 @@ void test11(){
 // (4) Test for sums of vectors
 // ########################################
 
-void test12(){
+void test13(){
   std::vector<boost::multiprecision::int128_t> v = {1,2,3};
   std::vector<std::vector<boost::multiprecision::int128_t>> v2 = {{1,2,3},{4,5,6}};
   assert(sum(v) == 6 && "Wrong sum of vector computed");
@@ -126,7 +134,7 @@ void test12(){
 // (5) Test for printing of vectors
 // ########################################
 
-void test13(){
+void test14(){
   std::vector<std::vector<int>> edges = {{1,2},{3,4},{2,5},{6,4},{7,8},{0,9}};
   std::vector<int> degrees = {-2,3,4,-1,0,5,7,8,-9,9};
   std::vector<int> genera = {0,1,0,1,0,1,0,1,0,1};

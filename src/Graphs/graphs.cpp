@@ -1,6 +1,10 @@
-// (0) Number connected components
-// (0) Number connected components
-// (0) Number connected components
+// (1) Auxiliary tools
+// (1) Auxiliary tools
+
+bool contains(const std::vector<int> & vec, const int & elem)
+{
+    return (std::find(vec.begin(), vec.end(), elem) != vec.end());
+}
 
 int merge(std::vector<int> & parent, int x)
 {
@@ -10,20 +14,114 @@ int merge(std::vector<int> & parent, int x)
     return merge(parent, parent[x]);
 }
 
+void find_vertices(std::vector<int>& vertices, const std::vector<std::vector<int>>& input_edges){
+    vertices.reserve(2*input_edges.size());
+    for (int i = 0; i < input_edges.size(); i++){
+        if (!contains(vertices, input_edges[i][0])){
+            vertices.push_back(input_edges[i][0]);
+        }
+        if (!contains(vertices, input_edges[i][1])){
+            vertices.push_back(input_edges[i][1]);
+        }
+    }
+}
+
+
+// (2) Compute additional information about the graph in question
+// (2) Compute additional information about the graph in question
+
+void additional_graph_information(
+                                  const std::vector<std::vector<int>> & edges,
+                                  std::vector<int> & edge_numbers,
+                                  std::vector<std::vector<std::vector<int>>> & graph_stratification )
+{
+
+    // compute the edge_numbers
+    for (int i = 0; i < edges.size(); i++){
+        edge_numbers[edges[i][0]]++;
+        edge_numbers[edges[i][1]]++;
+    }
+
+    // compute the graph_stratification
+    bool test = true;
+    int index = 0;
+    std::vector<std::vector<int>> scan_edges(edges.begin(), edges.end());
+    while (test) {
+
+        // determine the vertices connected to the index-th vertex
+        std::vector<int> connected_vertices;
+        for (int i = 0; i < scan_edges.size(); i++){
+            if (scan_edges[i][0] == index && contains(connected_vertices, scan_edges[i][1]) == false){
+                connected_vertices.push_back(scan_edges[i][1]);
+            }
+            if (scan_edges[i][1] == index && contains(connected_vertices, scan_edges[i][0]) == false){
+                connected_vertices.push_back(scan_edges[i][0]);
+            }
+        }
+
+        // determine the number of connecting edges
+        std::vector<int> number_of_connecting_edges(connected_vertices.size(),0);
+        for (int i = 0; i < connected_vertices.size(); i++){
+            for (int j = 0; j < scan_edges.size(); j++){
+                if (scan_edges[j][0] == index && scan_edges[j][1] == connected_vertices[i]){
+                    number_of_connecting_edges[i]++;
+                }
+                if (scan_edges[j][1] == index && scan_edges[j][0] == connected_vertices[i]){
+                    number_of_connecting_edges[i]++;
+                }
+            }
+        }
+
+        // determine the number of remaining edges for all connected
+        std::vector<int> remaining_edges(connected_vertices.size(),0);
+        for (int i = 0; i < connected_vertices.size(); i++){
+            for (int j = 0; j < scan_edges.size(); j++){
+                if (scan_edges[j][0] != index && scan_edges[j][1] == connected_vertices[i]){
+                    remaining_edges[i]++;
+                }
+                if (scan_edges[j][1] != index && scan_edges[j][0] == connected_vertices[i]){
+                    remaining_edges[i]++;
+                }
+            }
+        }
+
+        // add data to graph_stratification
+        graph_stratification.push_back({connected_vertices, number_of_connecting_edges, remaining_edges});
+
+        // compute new list of edges
+        std::vector<std::vector<int>> new_edges;
+        new_edges.reserve(scan_edges.size());
+        for (int i = 0; i < scan_edges.size(); i++){
+            if (scan_edges[i][0] != index && scan_edges[i][1] != index){
+                new_edges.push_back(scan_edges[i]);
+            }
+        }
+
+        // check if we are done: are there no remaining edges?
+        if (new_edges.size() == 0){
+            // yes -> end while loop
+            test = false;
+        }
+        else{
+            // not yet done -> prepare for next iteration
+            index++;
+            scan_edges = new_edges;
+        }
+
+    }
+
+}
+
+
+// (3) Find the number of connected components
+// (3) Find the number of connected components
+
 int number_connected_components(const std::vector<std::vector<int>>& input_edges)
 {
     
     // (1) Find all vertices (avoiding duplicated) and sort them in ascending order
     std::vector<int> vertices;
-    vertices.reserve(2*input_edges.size());
-    for (int i = 0; i < input_edges.size(); i++){
-        if (!(std::count(vertices.begin(), vertices.end(), input_edges[i][0]))) {
-            vertices.push_back(input_edges[i][0]);
-        }
-        if (!(std::count(vertices.begin(), vertices.end(), input_edges[i][1]))) {
-            vertices.push_back(input_edges[i][1]);
-        }
-    }
+    find_vertices(vertices, input_edges);
     
     // (2) Construct vertex_correspondence: input vertex names (e.g. "0, 2, 5, 6, ...") -> "0, 1, 2, 3, ..."
     std::map<int, int> vertex_correspondence;
@@ -55,39 +153,27 @@ int number_connected_components(const std::vector<std::vector<int>>& input_edges
 }
 
 
-// (1) Compute betti number
-// (1) Compute betti number
-// (1) Compute betti number
+// (4) Compute the first Betti number
+// (4) Compute the first Betti number
 
 int betti_number(const std::vector<std::vector<int>>& input_edges)
 {
-    
-    // (0) Handle degenerate case
+
+    // Handle degenerate case
     if (input_edges.size() == 0){
         return 0;
     }
-    
-    // (1) Find all vertices (avoiding duplicated) and sort them in ascending order
+
+    // Otherwise just do it...
     std::vector<int> vertices;
-    for (int i = 0; i < input_edges.size(); i++){
-        if (!(std::count(vertices.begin(), vertices.end(), input_edges[i][0]))) {
-            vertices.push_back(input_edges[i][0]);
-        }
-        if (!(std::count(vertices.begin(), vertices.end(), input_edges[i][1]))) {
-            vertices.push_back(input_edges[i][1]);
-        }
-    }
-    
-    // (2) return the betti number
+    find_vertices(vertices, input_edges);
     return input_edges.size() + number_connected_components(input_edges) - vertices.size();
-    
+
 }
 
 
-
-// (2) Find the connected components of a graph
-// (2) Find the connected components of a graph
-// (2) Find the connected components of a graph
+// (5) Find the connected components of a graph
+// (5) Find the connected components of a graph
 
 void find_connected_components( const std::vector<std::vector<int>> & input_edges,
                                 const std::vector<int> & degrees,

@@ -31,7 +31,6 @@ boost::mutex myGuard, myGuard2, myGuard3;
 #include "Auxilliary/handle_input.cpp"
 #include "Auxilliary/return_result.cpp"
 #include "Graphs/graphs.cpp"
-#include "Graphs/compute_graph_information.cpp"
 #include "H0/compute_h0_on_tree.cpp"
 #include "H0/compute_h0.cpp"
 #include "Combinatorics/combinatorics.cpp"
@@ -68,6 +67,7 @@ int main(int argc, char* argv[]){
   test11();
   test12();
   test13();
+  test14();
 
   // QSM6 tests
   test_polytope_8(argv[0]);
