@@ -150,9 +150,9 @@ void test13(){
   std::cout << "-------------------------------------------\n\n";
   for (int i = 0; i < edges_of_cc.size(); i++){
     std::cout << "Component " << std::to_string(i) << "\n";
-    print_vector_of_vector("Edges:\n", edges_of_cc[i]);
-    print_vector("Degrees: ", degs_of_cc[i]);
-    print_vector("Genera: ", gens_of_cc[i]);
+    print_vector_of_vector("Edges:\n", expected_edges_of_cc[i]);
+    print_vector("Degrees: ", expected_degs_of_cc[i]);
+    print_vector("Genera: ", expected_gens_of_cc[i]);
     std::cout << "\n";
   }
   assert(1 == 1);
