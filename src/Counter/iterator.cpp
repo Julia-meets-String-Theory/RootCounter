@@ -153,34 +153,27 @@ void iterator(const std::vector<std::vector<int>> & edges,
             
         }
         
-        // distribute combinations onto threats
-        if (total_number_threads > 1){
-            
-            boost::thread_group threadList;
-            int package_size = 1;
-            int nr_threads = combinations.size();
-            if (combinations.size() >= total_number_threads){
-                package_size = (int) combinations.size()/total_number_threads;
-                nr_threads = total_number_threads;
-            }
-            for (int i = 0; i < nr_threads; i++){
-                if (i < nr_threads - 1){
-                    std::vector<std::vector<int>> partial_combinations(combinations.begin() + i * package_size, combinations.begin() + (i+1) * package_size);
-                    boost::thread *t = new boost::thread(runner, edges, degrees, genera, genus, root, h0_value, partial_combinations, boost::ref(sums), boost::ref(unsorted_setups));
-                    threadList.add_thread(t);
-                }
-                else{
-                    std::vector<std::vector<int>> partial_combinations(combinations.begin() + i * package_size, combinations.end());
-                    boost::thread *t = new boost::thread(runner, edges, degrees, genera, genus, root, h0_value, partial_combinations, boost::ref(sums), boost::ref(unsorted_setups));
-                    threadList.add_thread(t);
-                }
-            }
-            threadList.join_all();
-            
+        // distribute combinations onto threads
+        boost::thread_group threadList;
+        int package_size = 1;
+        int nr_threads = combinations.size();
+        if (combinations.size() >= total_number_threads){
+            package_size = (int) combinations.size()/total_number_threads;
+            nr_threads = total_number_threads;
         }
-        else if (total_number_threads == 1){
-            runner(edges, degrees, genera, genus, root, h0_value, combinations, sums, unsorted_setups);
+        for (int i = 0; i < nr_threads; i++){
+            if (i < nr_threads - 1){
+                std::vector<std::vector<int>> partial_combinations(combinations.begin() + i * package_size, combinations.begin() + (i+1) * package_size);
+                boost::thread *t = new boost::thread(runner, edges, degrees, genera, genus, root, h0_value, partial_combinations, boost::ref(sums), boost::ref(unsorted_setups));
+                threadList.add_thread(t);
+            }
+            else{
+                std::vector<std::vector<int>> partial_combinations(combinations.begin() + i * package_size, combinations.end());
+                boost::thread *t = new boost::thread(runner, edges, degrees, genera, genus, root, h0_value, partial_combinations, boost::ref(sums), boost::ref(unsorted_setups));
+                threadList.add_thread(t);
+            }
         }
+        threadList.join_all();
         
         // remember result from leaving i-nodes
         results_exact.push_back(sums[0]);
