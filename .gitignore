@@ -1,5 +1,5 @@
 src/tests
-src/RootCounter
+RootCounter
 src/*.gcno
 src/*.gcda
 src/*.gcov
