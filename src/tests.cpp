@@ -38,7 +38,6 @@ std::vector<std::vector<std::vector<int>>> unsorted;
 #include "Auxilliary/return_result.cpp"
 #include "Graphs/graphs.cpp"
 #include "Graphs/compute_graph_information.cpp"
-#include "H0/compute_h0_on_circuit.cpp"
 #include "H0/compute_h0_on_tree.cpp"
 #include "H0/compute_h0.cpp"
 #include "Combinatorics/combinatorics.cpp"
@@ -75,6 +74,7 @@ int main(int argc, char* argv[]){
   test10();
   test11();
   test12();
+  test13();
 
   // QSM6 tests
   test_polytope_8(argv[0]);

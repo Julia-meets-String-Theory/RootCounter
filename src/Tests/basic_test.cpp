@@ -72,18 +72,28 @@ void test7(){
   assert(bound == false && "The cohomology result should be exact, but is marked merely as lower bound");
 }
 
+void test8(){
+  std::vector<std::vector<int>> edges = {};
+  std::vector<int> degrees = {0,1,5,2};
+  std::vector<int> genera = {0,0,0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 12 && "Cohomology determined incorrectly");
+  assert(bound == false && "The cohomology result should be exact, but is marked merely as lower bound");
+}
+
 
 // ########################################
 // (3) Tests of combinatoric computations
 // ########################################
 
-void test8(){
+void test9(){
   std::vector<std::vector<int>> partitions;
   comp_partitions(3,2,{0,0},{3,3}, partitions);
   assert(partitions.size() == 4 && "Partitions computed incorrectly");
 }
 
-void test9(){
+void test10(){
   std::vector<std::vector<int>> nodal_edges = {{0,1},{1,2}};
   std::vector<int> genera = {0,0,0};
   std::vector<std::vector<int>> partitions;
@@ -91,7 +101,7 @@ void test9(){
   assert(partitions.size() == 15 && "Partitions computed incorrectly");
 }
 
-void test10(){
+void test11(){
   assert(number_partitions(10,3,5) == 6 && "Wrong number of partitions computed");
 }
 
@@ -100,7 +110,7 @@ void test10(){
 // (4) Test for sums of vectors
 // ########################################
 
-void test11(){
+void test12(){
   std::vector<boost::multiprecision::int128_t> v = {1,2,3};
   std::vector<std::vector<boost::multiprecision::int128_t>> v2 = {{1,2,3},{4,5,6}};
   assert(sum(v) == 6 && "Wrong sum of vector computed");
@@ -112,7 +122,7 @@ void test11(){
 // (5) Test for printing of vectors
 // ########################################
 
-void test12(){
+void test13(){
   std::vector<std::vector<int>> edges = {{1,2},{3,4},{2,5},{6,4},{7,8},{0,9}};
   std::vector<int> degrees = {-2,3,4,-1,0,5,7,8,-9,9};
   std::vector<int> genera = {0,1,0,1,0,1,0,1,0,1};
@@ -122,7 +132,7 @@ void test12(){
   std::vector<std::vector<std::vector<int>>> expected_edges_of_cc = {{{0,1},{2,1}},{{0,1},{1,2}},{{0,1}},{{0,1}}};
   std::vector<std::vector<int>> expected_degs_of_cc = {{-1,0,7},{3,4,5},{8,-9},{-2,9}};
   std::vector<std::vector<int>> expected_gens_of_cc = {{1,0,0},{1,0,1},{1,0},{0,1}};
-  std::cout << "-------------------------------------------";
+  std::cout << "-------------------------------------------\n";
   std::cout << "Computed the connected components of a graph.\n";
   std::cout << "We use this to test the printing of vectors and of (vectors of vectors).\n";
   std::cout << "-------------------------------------------\n\n";
