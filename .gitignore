@@ -3,3 +3,5 @@ RootCounter
 src/*.gcno
 src/*.gcda
 src/*.gcov
+src/result.txt
+src/unsorted_setups.txt
