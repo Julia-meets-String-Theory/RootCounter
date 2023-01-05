@@ -9,7 +9,9 @@ void test1(){
 
 void test2(){
   std::vector<std::vector<int>> edges = {{3,4},{3,4}};
+  std::vector<std::vector<int>> edges2 = {};
   assert(betti_number(edges) == 1 && "Betti number computed incorrectly");
+  assert(betti_number(edges2) == 0 && "Betti number computed incorrectly");
 }
 
 void test3(){
