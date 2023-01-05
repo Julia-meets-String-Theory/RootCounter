@@ -312,7 +312,6 @@ std::vector<boost::multiprecision::int128_t> parallel_root_counter(
     
     // (3) Split the outfluxes into as many packages as determined by thread_number and start the threads
     // (3) Split the outfluxes into as many packages as determined by thread_number and start the threads
-    std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
     std::vector<boost::multiprecision::int128_t> sums = {0,0};
     if (thread_number > 1){
         boost::thread_group threadList;
@@ -335,7 +334,6 @@ std::vector<boost::multiprecision::int128_t> parallel_root_counter(
     else if (thread_number == 1){
         worker(degrees, genera, nodal_edges, root, graph_stratification, outfluxes, boost::ref(sums));
     }
-    std::chrono::steady_clock::time_point later = std::chrono::steady_clock::now();
     
     // (4) return the result
     // (4) return the result
