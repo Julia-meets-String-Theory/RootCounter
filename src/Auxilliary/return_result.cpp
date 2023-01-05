@@ -1,7 +1,3 @@
-// (1) Return result
-// (1) Return result
-// (1) Return result
-
 void return_result(const std::string & full_path,
                             const std::vector<std::vector<boost::multiprecision::int128_t>> & n_exact,
                             const std::vector<std::vector<boost::multiprecision::int128_t>> & n_lower_bound,
@@ -161,26 +157,4 @@ void return_result(const std::string & full_path,
     }
     MyFile.close();
 
-}
-
-
-
-// (2) Return simple result
-// (2) Return simple result
-// (2) Return simple result
-void return_simple_result(  const boost::multiprecision::int128_t & n_exact,
-                            const boost::multiprecision::int128_t & n_lower_bound,
-                            const int & index,
-                            const int & root,
-                            const int & genus)
-{
-    boost::multiprecision::int128_t total_number_roots = (boost::multiprecision::int128_t) pow(root, genus);
-    std::cout << n_exact << "\t";
-    std::cout << n_lower_bound << "\t";
-    using LongFloat=boost::multiprecision::cpp_bin_float_quad;
-    LongFloat percentage1 = LongFloat(100) * LongFloat(n_exact) / LongFloat(total_number_roots);
-    std::cout << std::setprecision(10) << percentage1 << "\t";
-    LongFloat percentage2 = LongFloat(100) * LongFloat(n_lower_bound) / LongFloat(total_number_roots);
-    std::cout << std::setprecision(10) << percentage2 << "\t";
-    std::cout << index << "\n";
 }
