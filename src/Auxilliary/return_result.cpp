@@ -12,8 +12,36 @@ void return_result(const std::string & full_path,
                             const std::chrono::steady_clock::time_point & after,
                             const std::vector<std::vector<std::vector<int>>> & unsorted)
 {
-    
-    // print the exact numbers
+
+    // (1) Find absolute path
+    std::string dir_path = full_path.substr(0, full_path.find_last_of("."));
+
+    // (2) Save the computed numbers of to a result file.
+    std::ofstream file1(dir_path + "/result.txt", std::ios::trunc);
+    print_vector_of_vector_to_file(file1, "[[", n_exact);
+    print_vector_of_vector_to_file(file1, "],\n[", n_lower_bound);
+    file1 << "]];";
+    file1.close();
+
+    // (3) Save the unsorted setups to another file.
+    std::ofstream file2(dir_path + "/unsorted_setups.txt", std::ios::trunc);
+    for (int i = 0; i < unsorted.size(); i++){
+        file2 << "##################\n";
+        std::vector<std::vector<int>> nodal_edges_of_setup(unsorted[i].begin()+3, unsorted[i].end());
+        print_vector_of_vector_to_file(file2, "Edges", nodal_edges_of_setup);
+        print_vector_to_file(file2, "Genera ", unsorted[i][0]);
+        print_vector_to_file(file2, "Degrees ", unsorted[i][1]);
+        file2 << "Lower bound on h0: " << std::to_string(unsorted[i][2][0]) << "\n";
+        file2 << "##################\n\n";
+    }
+    file2.close();
+
+    // (4) By theory, we expect a certain number of root bundles. Compute that number and the number of root bundles we actually found.
+    boost::multiprecision::int128_t geo_mult = (boost::multiprecision::int128_t) (pow(root, b1));
+    boost::multiprecision::int128_t total_number_roots = ((boost::multiprecision::int128_t) (pow(root, 2 * genus))/geo_mult);
+    boost::multiprecision::int128_t total_roots_found = sum(n_exact) + sum(n_lower_bound);
+
+    // (5) Print the numbers we found.
     std::cout << "\n";
     for (int j = 0; j <= numberBlowupsConsidered; j++){
         std::cout << j + numNodesMin << ":\t";
@@ -22,29 +50,13 @@ void return_result(const std::string & full_path,
         }
         std::cout << "\n";
     }
-        
-    // print the totals
-    boost::multiprecision::int128_t counter;
     std::cout << "Total:\t";
     for (int i = 0; i <= h0Max - h0Min; i++){
-        counter = (boost::multiprecision::int128_t) 0;
-        for (int j = 0; j <= numberBlowupsConsidered; j++){
-            counter += n_exact[i][j];
-        }
-        std::cout << counter << "\t";
-        counter = (boost::multiprecision::int128_t) 0;
-        for (int j = 0; j <= numberBlowupsConsidered; j++){
-            counter += n_lower_bound[i][j];
-        }
-        std::cout << counter << "\t";
+        std::cout << sum(n_exact[i]) << "\t" << sum(n_lower_bound[i]) << "\t";
     }
     std::cout << "\n\n";
 
-    // compute the total number of roots
-    boost::multiprecision::int128_t geo_mult = (boost::multiprecision::int128_t) (pow(root, b1));
-    boost::multiprecision::int128_t total_number_roots = ((boost::multiprecision::int128_t) (pow(root, 2 * genus))/geo_mult);
-
-    // print the percentages
+    // (6) Print the percentages we found.
     using LongFloat=boost::multiprecision::cpp_bin_float_quad;
     for (int j = 0; j <= numberBlowupsConsidered; j++){
         std::cout << j + numNodesMin << ":\t";
@@ -55,106 +67,22 @@ void return_result(const std::string & full_path,
         }
         std::cout << "\n";
     }
-
-    // print the totals
     std::cout << "Total:\t";
     LongFloat percentage_counter;
     for (int i = 0; i <= h0Max - h0Min; i++){
-        percentage_counter = 0;
-        for (int j = 0; j <= numberBlowupsConsidered; j++){
-            percentage_counter += LongFloat(100) * LongFloat(n_exact[i][j]) / LongFloat(total_number_roots);
-        }
-        std::cout << std::setprecision(3) << percentage_counter << "\t";
-        percentage_counter = 0;
-        for (int j = 0; j <= numberBlowupsConsidered; j++){
-            percentage_counter += LongFloat(100) * LongFloat(n_lower_bound[i][j]) / LongFloat(total_number_roots);
-        }
-        std::cout << std::setprecision(3) << percentage_counter << "\t";
+        std::cout << std::setprecision(3) << LongFloat(100) * LongFloat(sum(n_exact[i])) / LongFloat(total_number_roots) << "\t";
+        std::cout << std::setprecision(3) << LongFloat(100) * LongFloat(sum(n_lower_bound[i])) / LongFloat(total_number_roots) << "\t";
     }
     std::cout << "\n\n";
     
-    // did we find all root bundles?
-    boost::multiprecision::int128_t total_roots_found;
-    for (int i = 0; i <= h0Max - h0Min; i++){
-        for (int j = 0; j <= numberBlowupsConsidered; j++){
-            total_roots_found += n_exact[i][j];
-        }
-        for (int j = 0; j <= numberBlowupsConsidered; j++){
-            total_roots_found += n_lower_bound[i][j];
-        }
-    }
-
+    // (7) Print summary
     std::cout << "\n##########################################\n";
     std::cout << "Results:\n";
     std::cout << "-----------------------\n";
     std::cout << "Number of roots found: " << (boost::multiprecision::int128_t) (geo_mult * total_roots_found) << "\n";
-    std::cout << "Number of total roots: " << (boost::multiprecision::int128_t) (pow(root, 2 * genus)) << "\n";
+    std::cout << "Number of roots expected: " << (boost::multiprecision::int128_t) (pow(root, 2 * genus)) << "\n";
     std::cout << "Difference: " << (boost::multiprecision::int128_t) (pow(root, 2 * genus)) - (boost::multiprecision::int128_t) (geo_mult * total_roots_found) << "\n";
     std::cout << "Time for run: " << std::chrono::duration_cast<std::chrono::seconds>(after - before).count() << "[s]\n";
     std::cout << "##########################################\n\n";
     
-    // set up variables to write to the result file
-    std::ofstream ofile;
-    std::string dir_path = full_path.substr(0, full_path.find_last_of("."));
-    
-    // save the result to a dummy file next to main.cpp, so gap can read it out and display intermediate process details
-    ofile.open( dir_path + "/result.txt" );
-    ofile << "[[";
-    for (int i = 0; i < n_exact.size(); i ++){
-        ofile << "[";
-        for (int j = 0; j < n_exact[i].size()-1; j++){
-            ofile << n_exact[i][j] << " ,";
-        }
-        ofile << n_exact[i][n_exact[i].size()-1] << "],\n";
-    }
-    ofile << "],\n[";
-    for (int i = 0; i < n_lower_bound.size(); i ++){
-        ofile << "[";
-        for (int j = 0; j < n_lower_bound[i].size()-1; j++){
-            ofile << n_lower_bound[i][j] << " ,";
-        }
-        ofile << n_lower_bound[i][n_lower_bound[i].size()-1] << "],\n";
-    }
-    ofile << "]];";
-    ofile.close();
-    
-    std::remove("UnsortedSetups.txt");
-    std::ofstream MyFile("UnsortedSetups.txt");
-    for (int i = 0; i < unsorted.size(); i++){
-
-        // extract the data of the setup
-        std::vector<int> unsorted_genera = unsorted[i][0];
-        std::vector<int> unsorted_degrees = unsorted[i][1];
-        int h0_of_cc = unsorted[i][2][0];
-        std::vector<std::vector<int>> nodal_edges_of_setup;
-        for (int j = 3; j < unsorted[i].size(); j++){
-            nodal_edges_of_setup.push_back(unsorted[i][j]);
-        }
-
-        MyFile << "##################\n";
-        MyFile << "Edges: [";
-        for (int j = 0; j < nodal_edges_of_setup.size() - 1; j++){
-            MyFile << "[" << std::to_string(nodal_edges_of_setup[j][0]) << ", " << std::to_string(nodal_edges_of_setup[j][1]) << "], ";
-        }
-        MyFile << "[" << std::to_string(nodal_edges_of_setup[nodal_edges_of_setup.size() - 1][0]) << ", " << std::to_string(nodal_edges_of_setup[nodal_edges_of_setup.size() - 1][1]) << "]]\n";
-
-        MyFile << "Genera: [";
-        for (int j = 0; j < unsorted_genera.size() - 1; j++){
-            MyFile << std::to_string(unsorted_genera[j]) << ", ";
-        }
-        MyFile << std::to_string(unsorted_genera[unsorted_genera.size() - 1]) << "]\n";
-
-        MyFile << "Degrees: [";
-        for (int j = 0; j < unsorted_degrees.size() - 1; j++){
-            MyFile << std::to_string(unsorted_degrees[j]) << ", ";
-        }
-        MyFile << std::to_string(unsorted_degrees[unsorted_degrees.size() - 1]) << "]\n";
-
-        MyFile << "Lower bound on h0: " << std::to_string(h0_of_cc) << "\n";
-
-        MyFile << "##################\n\n";
-
-    }
-    MyFile.close();
-
 }

@@ -30,6 +30,7 @@ std::vector<std::vector<std::vector<int>>> unsorted;
 
 // Include my specialized files
 #include "Auxilliary/print_vectors.cpp"
+#include "Auxilliary/sum_vectors.cpp"
 #include "Auxilliary/handle_input.cpp"
 #include "Auxilliary/return_result.cpp"
 #include "Graphs/graphs.cpp"
