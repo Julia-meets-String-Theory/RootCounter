@@ -11,6 +11,9 @@ install: uninstall
 # Remove the software
 # Remove the software
 
+clean: uninstall
+	(rm -f src/tests.gcda && rm -f src/tests.gcno)
+
 uninstall:
 	(rm -f RootCounter && rm -f src/tests)
 
