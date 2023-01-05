@@ -225,8 +225,7 @@ std::vector<boost::multiprecision::int128_t> parallel_root_counter(
                                 const int & root,
                                 const std::vector<std::vector<std::vector<int>>> & graph_stratification,
                                 const std::vector<int> & edge_numbers,
-                                const int & h0_value,
-                                const int & thread_number)
+                                const int & h0_value)
 {
   
     // (1) Partition h0
@@ -313,27 +312,7 @@ std::vector<boost::multiprecision::int128_t> parallel_root_counter(
     // (3) Split the outfluxes into as many packages as determined by thread_number and start the threads
     // (3) Split the outfluxes into as many packages as determined by thread_number and start the threads
     std::vector<boost::multiprecision::int128_t> sums = {0,0};
-    if (thread_number > 1){
-        boost::thread_group threadList;
-        int package_size = (int) outfluxes.size()/thread_number;
-        for (int i = 0; i < thread_number; i++)
-        {
-            if (i < thread_number - 1){
-                std::vector<std::vector<int>> partial_outfluxes(outfluxes.begin() + i * package_size, outfluxes.begin() + (i+1) * package_size);
-                boost::thread *t = new boost::thread(worker, degrees, genera, nodal_edges, root, graph_stratification, partial_outfluxes, boost::ref(sums));
-                threadList.add_thread(t);
-            }
-            else{
-                std::vector<std::vector<int>> partial_outfluxes(outfluxes.begin() + i * package_size, outfluxes.end());
-                boost::thread *t = new boost::thread(worker, degrees, genera, nodal_edges, root, graph_stratification, partial_outfluxes, boost::ref(sums));
-                threadList.add_thread(t);
-            }
-        }
-        threadList.join_all();
-    }
-    else if (thread_number == 1){
-        worker(degrees, genera, nodal_edges, root, graph_stratification, outfluxes, boost::ref(sums));
-    }
+    worker(degrees, genera, nodal_edges, root, graph_stratification, outfluxes, boost::ref(sums));
     
     // (4) return the result
     // (4) return the result
