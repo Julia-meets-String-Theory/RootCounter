@@ -73,6 +73,7 @@ int main(){
   test8();
   test9();
   test10();
+  test11();
 
   // QSM6 tests
   test_polytope_8();

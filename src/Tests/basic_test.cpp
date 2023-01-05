@@ -1,6 +1,5 @@
 // ########################################
-// (2.1) Tests of graph functionality
-// (2.1) Tests of graph functionality
+// (1) Tests of graph functionality
 // ########################################
 
 void test1(){
@@ -69,8 +68,7 @@ void test3(){
 
 
 // ########################################
-// (2.2) Tests of h0 computations
-// (2.2) Tests of h0 computations
+// (2) Tests of h0 computations
 // ########################################
 
 void test4(){
@@ -175,8 +173,7 @@ void test7(){
 
 
 // ########################################
-// (2.3) Tests of combinatoric computations
-// (2.3) Tests of combinatoric computations
+// (3) Tests of combinatoric computations
 // ########################################
 
 void test8(){
@@ -220,4 +217,27 @@ void test10(){
     std::cout << "Test 10: Ok\n";
   }
   assert(np == 6);
+}
+
+
+// ########################################
+// (4) Test for sums of vectors
+// (4) Test for sums of vectors
+// ########################################
+
+void test11(){
+  std::vector<boost::multiprecision::int128_t> v = {1,2,3};
+  std::vector<std::vector<boost::multiprecision::int128_t>> v2 = {{1,2,3},{4,5,6}};
+  if (sum(v) != 6){
+    std::cout << "Wrong sum of vector computed.\n";
+    print_vector("Input: ", v);
+    std::cout << "Found " << sum(v) << " but expected 6.\n";
+  }
+  if (sum(v2) != 21){
+    std::cout << "Wrong sum of vector computed.\n";
+    print_vector_of_vector("Input: ", v2);
+    std::cout << "Found " << sum(v2) << " but expected 21.\n";
+  }
+  assert(sum(v) == 6);
+  assert(sum(v2) == 21);
 }
