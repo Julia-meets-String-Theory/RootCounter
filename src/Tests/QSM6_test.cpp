@@ -4,10 +4,7 @@ void test_polytope_8(){
   std::vector<std::vector<boost::multiprecision::int128_t>> n_exact_expected = {{142560, 47520, 0, 0, 0, 0, 0}};
   std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected = {{0, 47520, 4752, 6336, 0, 0, 144}};
   bool test_result = comparer(n_exact, n_lower_bound, n_exact_expected, n_lower_bound_expected);
-  if (test_result){
-    std::cout << "Test for polytope 8: Ok\n";
-  }
-  assert(test_result == true);
+  assert(test_result == true && "Test for polytope 8 failed");
 }
 
 void test_polytope_4(){
@@ -16,10 +13,7 @@ void test_polytope_4(){
   std::vector<std::vector<boost::multiprecision::int128_t>> n_exact_expected = {{11110, 7601, 1562, 264, 0, 0, 0, 0}};
   std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected = {{0, 0, 110, 11, 66, 11, 0, 1}};
   bool test_result = comparer(n_exact, n_lower_bound, n_exact_expected, n_lower_bound_expected);
-  if (test_result){
-    std::cout << "Test for polytope 4: Ok\n";
-  }
-  assert(test_result == true);
+  assert(test_result == true && "Test for polytope 4 failed");
 }
 
 void test_polytope_134(){
@@ -28,10 +22,7 @@ void test_polytope_134(){
   std::vector<std::vector<boost::multiprecision::int128_t>> n_exact_expected = {{10010, 8360, 1782, 484, 55, 0, 0, 0, 0}};
   std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected = {{0, 0, 0, 0, 0, 44, 0, 0, 1}};
   bool test_result = comparer(n_exact, n_lower_bound, n_exact_expected, n_lower_bound_expected);
-  if (test_result){
-    std::cout << "Test for polytope 134: Ok\n";
-  }
-  assert(test_result == true);
+  assert(test_result == true && "Test for polytope 134 failed");
 }
 
 void test_polytope_128(){
@@ -40,8 +31,5 @@ void test_polytope_128(){
   std::vector<std::vector<boost::multiprecision::int128_t>> n_exact_expected = {{8910, 9240, 1650, 814, 66, 33, 0, 0, 0, 0}};
   std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected = {{0, 0, 0, 0, 0, 0, 22, 0, 0, 1}};
   bool test_result = comparer(n_exact, n_lower_bound, n_exact_expected, n_lower_bound_expected);
-  if (test_result){
-    std::cout << "Test for polytope 128: Ok\n";
-  }
-  assert(test_result == true);
+  assert(test_result == true && "Test for polytope 128 failed");
 }

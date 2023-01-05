@@ -6,8 +6,5 @@ void test_polytope_88(){
   std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected =
         {{62712, 206886912, 66014696, 9318400, 692000, 24800, 1600, 0, 0, 0}, {0, 5200000, 1355600, 88800, 0, 0, 0, 0, 0, 0}, {0, 7200, 0, 0, 0, 0, 0, 0, 0, 0}};
   bool test_result = comparer(n_exact, n_lower_bound, n_exact_expected, n_lower_bound_expected);
-  if (test_result){
-    std::cout << "Test for polytope 88: Ok\n";
-  }
-  assert(test_result == true);
+  assert(test_result == true && "Test for polytope 88 failed");
 }
