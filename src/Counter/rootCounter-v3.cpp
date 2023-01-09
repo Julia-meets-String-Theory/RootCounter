@@ -139,11 +139,12 @@ void worker(const std::vector<int> & degrees,
                     }
 
                 }
+
                 else{
-                    // Setup for which we are certain that we got h0 right.
-                    // Still, we want to be extra careful.
+
+                    // Setup for which we perse have not just a lower bound. Still, we want to be extra careful.
                     // So check if there are components with (g = 1, d = 0). If yes, then for one root, we perse only have a lower bound.
-                    /*boost::multiprecision::int128_t number_roots_with_determined_h0 = 1;
+                    boost::multiprecision::int128_t number_roots_with_determined_h0 = 1;
                     for (int j = 0; j < genera.size(); j++){
                         if ((genera[j] == 1) && (degrees[j] == outfluxes[i][j])){
                             number_roots_with_determined_h0 = number_roots_with_determined_h0 * (boost::multiprecision::int128_t) (root * root - 1);
@@ -152,9 +153,10 @@ void worker(const std::vector<int> & degrees,
                             number_roots_with_determined_h0 = number_roots_with_determined_h0 * (boost::multiprecision::int128_t) (root * root);
                         }
                     }
+
                     total_clear = total_clear + (boost::multiprecision::int128_t) currentSnapshot.mult * number_roots_with_determined_h0;
-                    total_unclear += (boost::multiprecision::int128_t) currentSnapshot.mult * (number_local_roots - number_roots_with_determined_h0);*/
-                    total_clear = total_clear + (boost::multiprecision::int128_t) currentSnapshot.mult * number_local_roots;
+                    total_unclear += (boost::multiprecision::int128_t) currentSnapshot.mult * (number_local_roots - number_roots_with_determined_h0);
+
                 }
 
             }

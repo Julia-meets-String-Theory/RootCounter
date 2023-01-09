@@ -89,23 +89,26 @@ void comp_partitions_with_nodes(const int & N,
 {
     
     // Compute all partitions with "naive" total sum ranging between N and N + nodal_edges.size()
-    std::vector<std::vector<int>> naive_partitions;
+    std::vector<std::vector<int>> h0_partitions;
     for (int i = 0; i <= nodal_edges.size(); i++){
-        comp_partitions(N+i, genera.size(), std::vector<int>(genera.size(),0), std::vector<int>(genera.size(),N+i), naive_partitions);
+        comp_partitions(N+i, genera.size(), std::vector<int>(genera.size(),0), std::vector<int>(genera.size(),N+i), h0_partitions);
     }
     
     // Check which of these partitions of h0 can be realized.
-    for (int i = 0; i < naive_partitions.size(); i++){
+    for (int i = 0; i < h0_partitions.size(); i++){
         
-        // Find degrees corresponding to h0
+        // Find SOME degrees corresponding to the local h0.
+        // The only ambiguity is for h0 = 0. In all these cases, the sections are identically trivial. And so, it does not matter which degree we choose, it will always lead to the same h0.
+        // However, it has an impact on whether or not we can compute h0 with full confidence, or whether we only get a lower bound.
+        // We mark cases, in which there is a doubt that we can compute h0 correctly with lower_bound = true.
         std::vector<int> degrees;
         for (int j = 0; j < genera.size(); j++){
-            if (naive_partitions[i][j] > 0){
+            if (h0_partitions[i][j] > 0){
                 if (genera[j] == 0){
-                    degrees.push_back(naive_partitions[i][j]-1);
+                    degrees.push_back(h0_partitions[i][j]-1);
                 }
                 if (genera[j] == 1){
-                    degrees.push_back(naive_partitions[i][j]);
+                    degrees.push_back(h0_partitions[i][j]);
                 }
             }
             else{
@@ -113,7 +116,6 @@ void comp_partitions_with_nodes(const int & N,
                     degrees.push_back(-1);
                 }
                 if (genera[j] == 1){
-                    // Conservative: This will lead to more setups for which we merely claim to have a lower bound.
                     degrees.push_back(0);
                 }
             }
@@ -122,7 +124,7 @@ void comp_partitions_with_nodes(const int & N,
         // Check if this results at h0
         bool lb;
         if (h0_on_nodal_curve(degrees, nodal_edges, genera, lb) == N){
-            partitions.push_back(naive_partitions[i]);
+            partitions.push_back(h0_partitions[i]);
             lower_bounds.push_back(lb);
         }
     
