@@ -25,17 +25,17 @@
 #include <boost/multiprecision/cpp_bin_float.hpp>
 
 // Include my specialized files
-#include "ThreadSafe/guards.cpp"
-#include "Auxilliary/print_vectors.cpp"
-#include "Auxilliary/sum_vectors.cpp"
-#include "Auxilliary/handle_input.cpp"
-#include "Auxilliary/return_result.cpp"
-#include "Graphs/graphs.cpp"
-#include "H0/compute_h0_on_tree.cpp"
-#include "H0/compute_h0.cpp"
-#include "Combinatorics/combinatorics.cpp"
-#include "Counter/rootCounter-v3.cpp"
-#include "Counter/iterator.cpp"
+#include "../src/ThreadSafe/guards.cpp"
+#include "../src/Auxilliary/print_vectors.cpp"
+#include "../src/Auxilliary/sum_vectors.cpp"
+#include "../src/Auxilliary/handle_input.cpp"
+#include "../src/Auxilliary/return_result.cpp"
+#include "../src/Graphs/graphs.cpp"
+#include "../src/H0/compute_h0_on_tree.cpp"
+#include "../src/H0/compute_h0.cpp"
+#include "../src/Combinatorics/combinatorics.cpp"
+#include "../src/Counter/rootCounter-v3.cpp"
+#include "../src/Counter/iterator.cpp"
 
 // Load the test files
 #include "Tests/basic_test.cpp"
@@ -53,28 +53,5 @@
 // ####################
 
 int main(int argc, char* argv[]){
-  // Basic tests
-  test1();
-  test2();
-  test3();
-  test4();
-  test5();
-  test6();
-  test7();
-  test8();
-  test9();
-  test10();
-  test11();
-  test12();
-  test13();
-  test14();
-
-  // QSM6 tests
-  test_polytope_8(argv[0]);
   test_polytope_4();
-  test_polytope_134();
-  test_polytope_128();
-
-  // QSM10 tests
-  test_polytope_88();
 }
