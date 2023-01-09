@@ -1,7 +1,7 @@
 src/tests
 RootCounter
-src/*.gcno
-src/*.gcda
-src/*.gcov
-src/result.txt
-src/unsorted_setups.txt
+tst/*.gcno
+tst/*.gcda
+tst/*.gcov
+tst/result.txt
+tst/unsorted_setups.txt
