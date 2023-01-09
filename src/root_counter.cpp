@@ -20,9 +20,9 @@
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/multiprecision/cpp_bin_float.hpp>
-boost::mutex myGuard, myGuard2, myGuard3;
 
 // Include my specialized files
+#include "ThreadSafe/guards.cpp"
 #include "Auxilliary/print_vectors.cpp"
 #include "Auxilliary/sum_vectors.cpp"
 #include "Auxilliary/handle_input.cpp"
