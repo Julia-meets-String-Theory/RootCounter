@@ -59,19 +59,17 @@ void consistency_check(const int & genus,
                                       const int & numNodesMax,
                                       const int & number_threads)
 {
-    for (int i = 0; i < genera.size(); i++){
-        assert(genera[i] >= 0 && "Genera must not be negative");
-        assert(genera[i] <= 1 && "This computer program can only handle genera that are not larger than 1");
-    }
-    if (genus < 0){throw std::invalid_argument("Genus must not be negative!");}
-    if (root <= 1){throw std::invalid_argument("Root must be at least 2!");}
-    if (h0Min > h0Max){throw std::invalid_argument("h0Min must not be larger than h0Max!");}
-    if (h0Min < 0){throw std::invalid_argument("h0Min must not be negative!");}
-    if (h0Max < 0){throw std::invalid_argument("h0Max must not be negative!");}
-    if (numNodesMin < 0){throw std::invalid_argument("numNodesMin must not be negative!");}
-    if (numNodesMax > edges.size()){throw std::invalid_argument("numNodesMax must not be larger than the number of edges!");}
-    if (numNodesMin > numNodesMax){throw std::invalid_argument("numNodesMin must not be larger than numNodesMax!");}
-    if (number_threads < 1){throw std::invalid_argument("Number of threads must not be smaller than 1!");}
-    if (number_threads > 100){throw std::invalid_argument("Received number of threads larger than 100. This is probably not good!");}
-    if (std::accumulate(degrees.begin(),degrees.end(),0) % root != 0){throw std::invalid_argument("Total degree is not divisible by root!");}
+    assert(*std::min_element(genera.begin(), genera.end()) >= 0 && "Genera must not be negative");
+    assert(*std::max_element(genera.begin(), genera.end()) <= 1 && "We currently do not support genera larger than 1");
+    assert(genus >= 0 && "Genus must not be negative");
+    assert(root >= 2 && "Root must be at least 2");
+    assert(h0Min <= h0Max && "h0Min must not be larger than h0Max");
+    assert(h0Min >= 0 && "h0Min must not be negative");
+    assert(h0Max >= 0 && "h0Max must not be negative");
+    assert(numNodesMin >= 0 && "numNodesMin must not be negative");
+    assert(numNodesMax <= edges.size() && "numNodesMax must not be larger than the number of edges");
+    assert(numNodesMin <= numNodesMax && "numNodesMin must not be larger than numNodesMax");
+    assert(number_threads >= 1 && "Number of threads must not be smaller than 1");
+    assert(number_threads <= 100 && "Received number of threads larger than 100 - probably this is not good");
+    assert(std::accumulate(degrees.begin(),degrees.end(),0) % root == 0 && "Total degree is not divisible by root");
 }
