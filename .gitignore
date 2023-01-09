@@ -1,7 +1,15 @@
-src/tests
 RootCounter
+
 tst/*.gcno
 tst/*.gcda
 tst/*.gcov
+
+tst/basic_test
+tst/poly8
+tst/poly4
+tst/poly134
+tst/poly128
+tst/poly88
+
 tst/result.txt
 tst/unsorted_setups.txt
