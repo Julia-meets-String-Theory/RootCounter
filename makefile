@@ -17,6 +17,7 @@ clean: uninstall
 	(rm -f tst/poly134.gcda && rm -f tst/poly134.gcno)
 	(rm -f tst/poly128.gcda && rm -f tst/poly128.gcno)
 	(rm -f tst/poly88.gcda && rm -f tst/poly88.gcno)
+	(rm -f tst/poly110.gcda && rm -f tst/poly110.gcno)
 	(rm -f tst/result.txt && rm -f tst/unsorted_setups.txt)
 
 uninstall:
@@ -27,6 +28,7 @@ uninstall:
 	(rm -f tst/poly134)
 	(rm -f tst/poly128)
 	(rm -f tst/poly88)
+	(rm -f tst/poly110)
 
 
 # Test the software
@@ -62,3 +64,7 @@ poly88_test:
 	chmod +x tst/poly88
 	tst/./poly88
 
+poly110_test:
+	g++ -std=c++17 tst/poly110.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/poly110
+	chmod +x tst/poly110
+	tst/./poly110
