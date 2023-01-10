@@ -24,6 +24,6 @@ jobs:
         with:
           gcov: true
           gcov_include: tst/poly8.cpp
-          #token: ${{secrets.CODECOV_TOKEN}}
+          token: ${{secrets.CODECOV_TOKEN}}
           fail_ci_if_error: true # optional (default = false)
           verbose: true # optional (default = false)
