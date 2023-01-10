@@ -73,3 +73,8 @@ poly272_test:
 	g++ -std=c++17 tst/poly272.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/poly272
 	chmod +x tst/poly272
 	tst/./poly272
+
+poly387_test:
+	g++ -std=c++17 tst/poly387.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/poly387
+	chmod +x tst/poly387
+	tst/./poly387
