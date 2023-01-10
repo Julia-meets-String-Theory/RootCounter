@@ -7,6 +7,7 @@ install: uninstall
 	g++ -std=c++17 src/root_counter.cpp -lboost_thread -lboost_system -lpthread -o RootCounter
 
 
+
 # Remove the software
 # Remove the software
 
@@ -18,6 +19,10 @@ clean: uninstall
 	(rm -f tst/poly128.gcda && rm -f tst/poly128.gcno)
 	(rm -f tst/poly88.gcda && rm -f tst/poly88.gcno)
 	(rm -f tst/poly110.gcda && rm -f tst/poly110.gcno)
+	(rm -f tst/poly272.gcda && rm -f tst/poly272.gcno)
+	(rm -f tst/poly387.gcda && rm -f tst/poly387.gcno)
+	(rm -f tst/poly798.gcda && rm -f tst/poly798.gcno)
+	(rm -f tst/poly254.gcda && rm -f tst/poly254.gcno)
 	(rm -f tst/result.txt && rm -f tst/unsorted_setups.txt)
 
 uninstall:
@@ -29,6 +34,11 @@ uninstall:
 	(rm -f tst/poly128)
 	(rm -f tst/poly88)
 	(rm -f tst/poly110)
+	(rm -f tst/poly272)
+	(rm -f tst/poly387)
+	(rm -f tst/poly798)
+	(rm -f tst/poly254)
+
 
 
 # Test the software
@@ -83,3 +93,8 @@ poly798_test:
 	g++ -std=c++17 tst/poly798.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/poly798
 	chmod +x tst/poly798
 	tst/./poly798
+
+poly254_test:
+	g++ -std=c++17 tst/poly254.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/poly254
+	chmod +x tst/poly254
+	tst/./poly254

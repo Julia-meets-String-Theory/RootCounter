@@ -134,7 +134,9 @@ void worker(const std::vector<int> & degrees,
                             for (int k = 0; k < edges_of_cc[j].size(); k++){
                                 new_unsorted_setup.push_back(edges_of_cc[j][k]);
                             }
+                            //if (betti_number(edges_of_cc[j]) > 0){
                             UpdateUnsortedThreadSafe(unsorted_setups, new_unsorted_setup);
+                            //}
                         }
                     }
 
