@@ -25,5 +25,5 @@ jobs:
           gcov: true
           gcov_include: tst/poly110.cpp
           token: ${{secrets.CODECOV_TOKEN}}
-          fail_ci_if_error: true # optional (default = false)
+          fail_ci_if_error: false # optional (default = false)
           verbose: true # optional (default = false)
