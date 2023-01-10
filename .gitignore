@@ -10,6 +10,7 @@ tst/poly4
 tst/poly134
 tst/poly128
 tst/poly88
+tst/poly110
 
 tst/result.txt
 tst/unsorted_setups.txt
