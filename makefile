@@ -17,6 +17,7 @@ clean: uninstall
 	(rm -f tst/poly134.gcda && rm -f tst/poly134.gcno)
 	(rm -f tst/poly128.gcda && rm -f tst/poly128.gcno)
 	(rm -f tst/poly88.gcda && rm -f tst/poly88.gcno)
+	(rm -f tst/result.txt && rm -f tst/unsorted_setups.txt)
 
 uninstall:
 	(rm -f RootCounter)
