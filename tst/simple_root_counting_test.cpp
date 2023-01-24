@@ -9,6 +9,17 @@
 // (1) Make simple root counting
 // ########################################
 
+void test0(const std::string & full_path){
+  std::vector<std::vector<boost::multiprecision::int128_t>> n_exact, n_lower_bound;
+  std::vector<std::vector<std::vector<int>>> unsorted_setups;
+  count_roots("2 -1 -1 0 0 1 0 1 0 2 8 0 1 0 1", full_path, true, n_exact, n_lower_bound, unsorted_setups);
+  std::vector<std::vector<boost::multiprecision::int128_t>> n_exact_expected = {{1, 0}, {0, 0}};
+  std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected = {{0, 0}, {0, 0}};
+  assert(sum(n_exact) + sum(n_lower_bound) == sum(n_exact_expected) + sum(n_lower_bound_expected) && "Test for simple root counting 0 failed");
+  assert(n_exact == n_exact_expected && "Test for simple root counting 0 failed");
+  assert(n_lower_bound == n_lower_bound_expected && "Test for simple root counting 0 failed");
+}
+
 void test1(const std::string & full_path){
   std::vector<std::vector<boost::multiprecision::int128_t>> n_exact, n_lower_bound;
   std::vector<std::vector<std::vector<int>>> unsorted_setups;
@@ -59,6 +70,7 @@ void test4(const std::string & full_path){
 // ########################################
 
 int main(int argc, char* argv[]){
+	test0(argv[0]);
   test1(argv[0]);
 	test2(argv[0]);
 	test3(argv[0]);
