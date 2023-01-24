@@ -7,6 +7,7 @@ tst/*.gcda
 tst/*.gcov
 
 tst/basic_test
+tst/simple_root_counting
 
 tst/poly8
 tst/poly4
