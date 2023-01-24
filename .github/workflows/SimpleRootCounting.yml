@@ -18,12 +18,12 @@ jobs:
       - name: Install
         run: make install
       - name: Run test
-        run: make simple_root_counting
+        run: make simple_root_counting_test
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           gcov: true
-          gcov_include: tst/simple_root_counting.cpp
+          gcov_include: tst/simple_root_counting_test.cpp
           token: ${{secrets.CODECOV_TOKEN}}
           fail_ci_if_error: false # optional (default = false)
           verbose: true # optional (default = false)
