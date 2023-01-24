@@ -67,6 +67,11 @@ basic_test:
 	chmod +x tst/basic_test
 	tst/./basic_test
 
+simple_root_counting:
+	g++ -std=c++17 tst/simple_root_counting.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/simple_root_counting
+	chmod +x tst/simple_root_counting
+	tst/./simple_root_counting
+
 poly8_test:
 	g++ -std=c++17 tst/poly8.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/poly8
 	chmod +x tst/poly8
@@ -125,6 +130,11 @@ basic_test_lb:
 	g++ -std=c++17 tst/basic_test.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread --coverage -o tst/basic_test
 	chmod +x tst/basic_test
 	tst/./basic_test
+
+simple_root_counting_lb:
+	g++ -std=c++17 tst/simple_root_counting.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread --coverage -o tst/simple_root_counting
+	chmod +x tst/simple_root_counting
+	tst/./simple_root_counting
 
 poly8_test_lb:
 	g++ -std=c++17 tst/poly8.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread --coverage -o tst/poly8
