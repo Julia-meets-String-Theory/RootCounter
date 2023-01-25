@@ -6,6 +6,7 @@ void worker(const std::vector<int> & degrees,
             const std::vector<std::vector<std::vector<int>>> & graph_stratification,
             const std::vector<std::vector<int>> & outfluxes,
             const std::vector<bool> & lower_bounds,
+						const std::vector<std::vector<int>> & local_sections,
             std::vector<boost::multiprecision::int128_t> & sums,
             std::vector<std::vector<std::vector<int>>> & unsorted_setups)
 {
@@ -187,14 +188,23 @@ std::vector<boost::multiprecision::int128_t> root_counter(
                                 std::vector<std::vector<std::vector<int>>> & unsorted_setups)
 {
     
-		// (0) Find the maximal number of local sections on each curve
-		// (0) Find the maximal number of local sections on each curve
+    // (0) Define local variables and types
+    // (0) Define local variables and types
+    std::vector<std::vector<int>> local_section_distributions, local_degree_distributions, outfluxes, local_sections;
+    std::vector<bool> lower_bounds, lbs;
+    struct flux_data{
+        std::vector<int> flux;
+    };
+    
+    
+    // (1) Find the maximal number of local sections on each curve
+    // (1) Find the maximal number of local sections on each curve
 		std::vector<int> maximal_local_sections;
 		for (int i = 0; i < degrees.size(); i++){
-				if (degrees[i] < 0){
+				if (degrees[i] - edge_numbers[i] < 0){
 						maximal_local_sections.push_back(0);
 				}
-				if (degrees[i] >= 0){
+				else{
 						int d = (degrees[i] - edge_numbers[i]) / root;
 						if (genera[i] == 1 && d == 0){
 								maximal_local_sections.push_back(1);
@@ -206,23 +216,13 @@ std::vector<boost::multiprecision::int128_t> root_counter(
 		}
 		
 		
-    // (1) Partition h0
-    // (1) Partition h0
-    std::vector<std::vector<int>> local_section_distributions;
-    std::vector<std::vector<int>> local_degree_distributions;
-    std::vector<bool> lower_bounds;
+    // (2) Partition h0
+    // (2) Partition h0
     distribute_global_sections(h0_value, nodal_edges, genera, maximal_local_sections, local_section_distributions, local_degree_distributions, lower_bounds);
     
     
-    // (2) Find fluxes corresponding to distribution of local sections
-    // (2) Find fluxes corresponding to distribution of local sections
-    struct flux_data{
-        std::vector<int> flux;
-    };
-    std::vector<std::vector<int>> outfluxes;
-    std::vector<bool> lbs;
-		//outfluxes.reserve(local_section_distributions.size());
-    //lbs.reserve(local_section_distributions.size());
+    // (3) Find fluxes corresponding to distribution of local sections
+    // (3) Find fluxes corresponding to distribution of local sections
     for (int i = 0; i < local_section_distributions.size(); i++){
         
         // create stack and first snapshot
@@ -232,8 +232,7 @@ std::vector<boost::multiprecision::int128_t> root_counter(
         snapshotStack.push(currentSnapshot);
         
         // Run...
-        while(!snapshotStack.empty())
-        {
+        while(!snapshotStack.empty()){
         
             // pick the top snapshot and delete it from the stack
             currentSnapshot= snapshotStack.top();
@@ -245,12 +244,9 @@ std::vector<boost::multiprecision::int128_t> root_counter(
                 // determine vertex for which we determine the outflux
                 int j = currentSnapshot.flux.size();
                 
-                // non-trivial h0:
-                if (local_section_distributions[i][j] > 0){
-                    int f = degrees[j] - root * local_section_distributions[i][j];
-                    if (genera[j] == 0){
-                        f += root;
-                    }
+                // determine the possible fluxes
+                if (local_degree_distributions[i][j] >= 0){
+                    int f = degrees[j] - root * local_degree_distributions[i][j];
                     if ((edge_numbers[j] <= f) && (f <= edge_numbers[j] * (root-1)) && ((degrees[j] - f) % root == 0)){
                         std::vector<int> new_flux = currentSnapshot.flux;
                         new_flux.push_back(f);
@@ -259,13 +255,8 @@ std::vector<boost::multiprecision::int128_t> root_counter(
                         snapshotStack.push(newSnapshot);
                     }
                 }
-                
-                // trivial h0:
-                if (local_section_distributions[i][j] == 0){
-                    int min_flux = degrees[j];
-                    if (genera[j] == 0){
-                        min_flux++;
-                    }
+                else{
+                    int min_flux = degrees[j] + 1;
                     if (min_flux < edge_numbers[j]){
                         min_flux = edge_numbers[j];
                     }
@@ -279,12 +270,13 @@ std::vector<boost::multiprecision::int128_t> root_counter(
                         }
                     }
                 }
-            
+                
             }
             // no more fluxes to be set --> add to list of fluxes if the sum of fluxes equals the number of resolved_edges * root (necessary and sufficient for non-zero number of weight assignments)
             else if (std::accumulate(currentSnapshot.flux.begin(),currentSnapshot.flux.end(),0) == root * resolved_edges.size()){
                 outfluxes.push_back(currentSnapshot.flux);
                 lbs.push_back(lower_bounds[i]);
+                local_sections.push_back(local_section_distributions[i]);
             }
             
         }
@@ -292,13 +284,13 @@ std::vector<boost::multiprecision::int128_t> root_counter(
     }
     
     
-    // (3) Start worker
-    // (3) Start worker
+    // (4) Start worker
+    // (4) Start worker
     std::vector<boost::multiprecision::int128_t> sums = {0,0};
-    worker(degrees, genera, nodal_edges, root, graph_stratification, outfluxes, lbs, sums, unsorted_setups);
+    worker(degrees, genera, nodal_edges, root, graph_stratification, outfluxes, lbs, local_sections, sums, unsorted_setups);
     
-    // (4) return the result
-    // (4) return the result
+    // (5) return the result
+    // (5) return the result
     std::vector<boost::multiprecision::int128_t> result = {sums[0], sums[1]};
     return result;
     
