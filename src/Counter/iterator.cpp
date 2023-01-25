@@ -26,7 +26,7 @@ void compute_root_bundles(const std::vector<std::vector<int>> & edges,
     additional_graph_information(resolved_edges, edge_numbers, graph_stratification);
     
     // Compute number of roots
-    std::vector<boost::multiprecision::int128_t> results = parallel_root_counter(degrees, genera, resolved_edges, nodal_edges, root, graph_stratification, edge_numbers, h0_value, unsorted_setups);
+    std::vector<boost::multiprecision::int128_t> results = root_counter(degrees, genera, resolved_edges, nodal_edges, root, graph_stratification, edge_numbers, h0_value, unsorted_setups);
     
     // Update results
     UpdateCountThreadSafe(sums, results[0], results[1]);
