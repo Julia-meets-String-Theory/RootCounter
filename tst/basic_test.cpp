@@ -113,9 +113,10 @@ void test10(){
 void test11(){
   std::vector<std::vector<int>> nodal_edges = {{0,1},{1,2}};
   std::vector<int> genera = {0,0,0};
+	std::vector<int> maximal_local_sections = {4,4,4};
   std::vector<std::vector<int>> partitions;
   std::vector<bool> lower_bounds;
-  distribute_global_sections(2,nodal_edges,genera,partitions,lower_bounds);
+  distribute_global_sections(2, nodal_edges, genera, maximal_local_sections, partitions, lower_bounds);
   assert(partitions.size() == 15 && "Partitions computed incorrectly");
   assert(lower_bounds.size() == 15 && "Lower bounds computed incorrectly");
 }
