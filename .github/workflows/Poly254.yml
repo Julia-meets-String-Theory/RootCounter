@@ -19,11 +19,3 @@ jobs:
         run: make install
       - name: Run test
         run: make poly254_test
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          gcov: true
-          gcov_include: tst/poly254.cpp
-          token: ${{secrets.CODECOV_TOKEN}}
-          fail_ci_if_error: false # optional (default = false)
-          verbose: true # optional (default = false)

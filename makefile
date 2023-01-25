@@ -75,52 +75,52 @@ simple_root_counting_test:
 	tst/./simple_root_counting_test
 
 poly8_test:
-	g++ -std=c++17 tst/poly8.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/poly8
+	g++ -std=c++17 tst/poly8.cpp -lboost_thread -lboost_system -lpthread -o tst/poly8
 	chmod +x tst/poly8
 	tst/./poly8
 
 poly4_test:
-	g++ -std=c++17 tst/poly4.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/poly4
+	g++ -std=c++17 tst/poly4.cpp -lboost_thread -lboost_system -lpthread -o tst/poly4
 	chmod +x tst/poly4
 	tst/./poly4
 
 poly134_test:
-	g++ -std=c++17 tst/poly134.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/poly134
+	g++ -std=c++17 tst/poly134.cpp -lboost_thread -lboost_system -lpthread -o tst/poly134
 	chmod +x tst/poly134
 	tst/./poly134
 
 poly128_test:
-	g++ -std=c++17 tst/poly128.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/poly128
+	g++ -std=c++17 tst/poly128.cpp -lboost_thread -lboost_system -lpthread -o tst/poly128
 	chmod +x tst/poly128
 	tst/./poly128
 
 poly88_test:
-	g++ -std=c++17 tst/poly88.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/poly88
+	g++ -std=c++17 tst/poly88.cpp -lboost_thread -lboost_system -lpthread -o tst/poly88
 	chmod +x tst/poly88
 	tst/./poly88
 
 poly110_test:
-	g++ -std=c++17 tst/poly110.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/poly110
+	g++ -std=c++17 tst/poly110.cpp -lboost_thread -lboost_system -lpthread -o tst/poly110
 	chmod +x tst/poly110
 	tst/./poly110
 
 poly272_test:
-	g++ -std=c++17 tst/poly272.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/poly272
+	g++ -std=c++17 tst/poly272.cpp -lboost_thread -lboost_system -lpthread -o tst/poly272
 	chmod +x tst/poly272
 	tst/./poly272
 
 poly387_test:
-	g++ -std=c++17 tst/poly387.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/poly387
+	g++ -std=c++17 tst/poly387.cpp -lboost_thread -lboost_system -lpthread -o tst/poly387
 	chmod +x tst/poly387
 	tst/./poly387
 
 poly798_test:
-	g++ -std=c++17 tst/poly798.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/poly798
+	g++ -std=c++17 tst/poly798.cpp -lboost_thread -lboost_system -lpthread -o tst/poly798
 	chmod +x tst/poly798
 	tst/./poly798
 
 poly254_test:
-	g++ -std=c++17 tst/poly254.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/poly254
+	g++ -std=c++17 tst/poly254.cpp -lboost_thread -lboost_system -lpthread -o tst/poly254
 	chmod +x tst/poly254
 	tst/./poly254
 
@@ -139,51 +139,51 @@ simple_root_counting_test_lb:
 	tst/./simple_root_counting_test
 
 poly8_test_lb:
-	g++ -std=c++17 tst/poly8.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread --coverage -o tst/poly8
+	g++ -std=c++17 tst/poly8.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly8
 	chmod +x tst/poly8
 	tst/./poly8
 
 poly4_test_lb:
-	g++ -std=c++17 tst/poly4.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread --coverage -o tst/poly4
+	g++ -std=c++17 tst/poly4.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly4
 	chmod +x tst/poly4
 	tst/./poly4
 
 poly134_test_lb:
-	g++ -std=c++17 tst/poly134.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread --coverage -o tst/poly134
+	g++ -std=c++17 tst/poly134.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly134
 	chmod +x tst/poly134
 	tst/./poly134
 
 poly128_test_lb:
-	g++ -std=c++17 tst/poly128.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread --coverage -o tst/poly128
+	g++ -std=c++17 tst/poly128.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly128
 	chmod +x tst/poly128
 	tst/./poly128
 
 poly88_test_lb:
-	g++ -std=c++17 tst/poly88.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread --coverage -o tst/poly88
+	g++ -std=c++17 tst/poly88.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly88
 	chmod +x tst/poly88
 	tst/./poly88
 
 poly110_test_lb:
-	g++ -std=c++17 tst/poly110.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread --coverage -o tst/poly110
+	g++ -std=c++17 tst/poly110.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly110
 	chmod +x tst/poly110
 	tst/./poly110
 
 poly272_test_lb:
-	g++ -std=c++17 tst/poly272.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread --coverage -o tst/poly272
+	g++ -std=c++17 tst/poly272.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly272
 	chmod +x tst/poly272
 	tst/./poly272
 
 poly387_test_lb:
-	g++ -std=c++17 tst/poly387.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread --coverage -o tst/poly387
+	g++ -std=c++17 tst/poly387.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly387
 	chmod +x tst/poly387
 	tst/./poly387
 
 poly798_test_lb:
-	g++ -std=c++17 tst/poly798.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread --coverage -o tst/poly798
+	g++ -std=c++17 tst/poly798.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly798
 	chmod +x tst/poly798
 	tst/./poly798
 
 poly254_test_lb:
-	g++ -std=c++17 tst/poly254.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread --coverage -o tst/poly254
+	g++ -std=c++17 tst/poly254.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly254
 	chmod +x tst/poly254
 	tst/./poly254
