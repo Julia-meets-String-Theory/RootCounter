@@ -115,7 +115,7 @@ void test11(){
   std::vector<int> genera = {0,0,0};
   std::vector<std::vector<int>> partitions;
   std::vector<bool> lower_bounds;
-  comp_partitions_with_nodes(2,nodal_edges,genera,partitions,lower_bounds);
+  distribute_global_sections(2,nodal_edges,genera,partitions,lower_bounds);
   assert(partitions.size() == 15 && "Partitions computed incorrectly");
   assert(lower_bounds.size() == 15 && "Lower bounds computed incorrectly");
 }

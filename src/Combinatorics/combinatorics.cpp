@@ -81,7 +81,7 @@ void comp_partitions(
 // (2) Compute partitions of an integer N including possible boundary conditions.
 
 // This works for any tree-like blowup and is used for this particular purpose.
-void comp_partitions_with_nodes(const int & N,
+void distribute_global_sections(const int & N,
                                 const std::vector<std::vector<int>> & nodal_edges,
                                 const std::vector<int> & genera,
                                 std::vector<std::vector<int>> & partitions,
