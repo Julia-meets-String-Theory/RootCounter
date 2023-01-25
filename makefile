@@ -28,6 +28,7 @@ install_lb: uninstall
 
 clean: uninstall
 	(rm -f tst/basic_test.gcda && rm -f tst/basic_test.gcno)
+	(rm -f tst/simple_root_counting_test.gcda && rm -f tst/simple_root_counting_test.gcno)
 	(rm -f tst/poly8.gcda && rm -f tst/poly8.gcno)
 	(rm -f tst/poly4.gcda && rm -f tst/poly4.gcno)
 	(rm -f tst/poly134.gcda && rm -f tst/poly134.gcno)
@@ -43,6 +44,7 @@ clean: uninstall
 uninstall:
 	rm -f RootCounter
 	rm -f tst/basic_test
+	rm -f tst/simple_root_counting_test
 	rm -f tst/poly8
 	rm -f tst/poly4
 	rm -f tst/poly134
