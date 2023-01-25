@@ -28,6 +28,7 @@
 #include "../src/H0/compute_h0_on_tree.cpp"
 #include "../src/H0/compute_h0.cpp"
 #include "../src/Combinatorics/combinatorics.cpp"
+#include "../src/Counter/distributeGlobalSections.cpp"
 #include "../src/Counter/rootCounter-v3.cpp"
 #include "../src/Counter/iterator.cpp"
 
