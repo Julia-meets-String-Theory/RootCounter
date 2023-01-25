@@ -176,7 +176,6 @@ void worker(const std::vector<int> & degrees,
 
 // Count number of root bundles with prescribed number of sections
 std::vector<boost::multiprecision::int128_t> parallel_root_counter(
-                                const int & genus,
                                 const std::vector<int> & degrees,
                                 const std::vector<int> & genera,
                                 const std::vector<std::vector<int>> & resolved_edges,

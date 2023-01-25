@@ -5,7 +5,6 @@
 void compute_root_bundles(const std::vector<std::vector<int>> & edges,
                                             const std::vector<int> & degrees,
                                             const std::vector<int> & genera,
-                                            const int & genus,
                                             const int & root,
                                             const int & h0_value,
                                             const std::vector<int> & positions_no_blowup,
@@ -27,7 +26,7 @@ void compute_root_bundles(const std::vector<std::vector<int>> & edges,
     additional_graph_information(resolved_edges, edge_numbers, graph_stratification);
     
     // Compute number of roots
-    std::vector<boost::multiprecision::int128_t> results = parallel_root_counter(genus, degrees, genera, resolved_edges, nodal_edges, root, graph_stratification, edge_numbers, h0_value, unsorted_setups);
+    std::vector<boost::multiprecision::int128_t> results = parallel_root_counter(degrees, genera, resolved_edges, nodal_edges, root, graph_stratification, edge_numbers, h0_value, unsorted_setups);
     
     // Update results
     UpdateCountThreadSafe(sums, results[0], results[1]);
@@ -43,7 +42,6 @@ void compute_root_bundles(const std::vector<std::vector<int>> & edges,
 void runner(const std::vector<std::vector<int>> edges,
                     const std::vector<int> degrees,
                     const std::vector<int> genera,
-                    const int genus,
                     const int root,
                     const int h0_value,
                     const std::vector<std::vector<int>> combinations,
@@ -52,7 +50,7 @@ void runner(const std::vector<std::vector<int>> edges,
 {
     
     for (int i = 0; i < combinations.size(); i++){
-        compute_root_bundles(edges, degrees, genera, genus, root, h0_value, combinations[i], sums, unsorted_setups);
+        compute_root_bundles(edges, degrees, genera, root, h0_value, combinations[i], sums, unsorted_setups);
     }
     
 }
@@ -66,7 +64,6 @@ void runner(const std::vector<std::vector<int>> edges,
 void iterator(const std::vector<std::vector<int>> & edges,
                      const std::vector<int> & degrees,
                      const std::vector<int> & genera,
-                     const int & genus,
                      const int & root,
                      const int & h0_value,
                      const int & numNodesMin,
@@ -151,12 +148,12 @@ void iterator(const std::vector<std::vector<int>> & edges,
         for (int i = 0; i < nr_threads; i++){
             if (i < nr_threads - 1){
                 std::vector<std::vector<int>> partial_combinations(combinations.begin() + i * package_size, combinations.begin() + (i+1) * package_size);
-                boost::thread *t = new boost::thread(runner, edges, degrees, genera, genus, root, h0_value, partial_combinations, boost::ref(sums), boost::ref(unsorted_setups));
+                boost::thread *t = new boost::thread(runner, edges, degrees, genera, root, h0_value, partial_combinations, boost::ref(sums), boost::ref(unsorted_setups));
                 threadList.add_thread(t);
             }
             else{
                 std::vector<std::vector<int>> partial_combinations(combinations.begin() + i * package_size, combinations.end());
-                boost::thread *t = new boost::thread(runner, edges, degrees, genera, genus, root, h0_value, partial_combinations, boost::ref(sums), boost::ref(unsorted_setups));
+                boost::thread *t = new boost::thread(runner, edges, degrees, genera, root, h0_value, partial_combinations, boost::ref(sums), boost::ref(unsorted_setups));
                 threadList.add_thread(t);
             }
         }
@@ -207,7 +204,7 @@ void count_roots(const std::string input,
 
         // Compute number of root bundles
         std::vector<boost::multiprecision::int128_t> results_exact, results_lower_bound;
-        iterator(edges, degrees, genera, genus, root, h0_value, numNodesMin, numNodesMax, number_threads, results_exact, results_lower_bound, unsorted_setups);
+        iterator(edges, degrees, genera, root, h0_value, numNodesMin, numNodesMax, number_threads, results_exact, results_lower_bound, unsorted_setups);
         n_exact.push_back(results_exact);
         n_lower_bound.push_back(results_lower_bound);
 
