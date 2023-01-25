@@ -69,33 +69,22 @@ void distribute_global_sections(const int & N,
 								// if elliptic curve, then we must be more careful
 								if (genera[index] == 1){
 										
-										if (h0_partitions[i][index] > 1){
+										if (h0_partitions[i][index] >= 1){
 												new_ds.push_back(h0_partitions[i][index]);
 				                degree_data newSnapshot;
 				                newSnapshot.ds = new_ds;
 				                snapshotStack.push(newSnapshot);
 										}
 										
-										if (h0_partitions[i][index] == 1){
-												new_ds.push_back(1);
-				                degree_data first_new_snapshot;
-				                first_new_snapshot.ds = new_ds;
-				                snapshotStack.push(first_new_snapshot);
-												new_ds[new_ds.size()-1] == 0;
-				                degree_data second_new_snapshot;
-				                second_new_snapshot.ds = new_ds;
-				                snapshotStack.push(second_new_snapshot);
-										}
-										
 										if (h0_partitions[i][index] == 0){
-												new_ds.push_back(0);
-				                degree_data first_new_snapshot;
-				                first_new_snapshot.ds = new_ds;
-				                snapshotStack.push(first_new_snapshot);
-												new_ds[new_ds.size()-1] == -1;
-				                degree_data second_new_snapshot;
-				                second_new_snapshot.ds = new_ds;
-				                snapshotStack.push(second_new_snapshot);
+				                std::vector<int> new_ds2 = currentSnapshot.ds;
+				                degree_data new_snapshot1, new_snapshot2;
+				                new_ds.push_back(0);
+				                new_ds2.push_back(-1);
+				                new_snapshot1.ds = new_ds;
+				                new_snapshot2.ds = new_ds2;
+				                snapshotStack.push(new_snapshot1);
+				                snapshotStack.push(new_snapshot2);
 										}
 										
 								}
