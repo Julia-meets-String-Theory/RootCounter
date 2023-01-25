@@ -5,9 +5,7 @@ void distribute_global_sections(const int & N,
                                 std::vector<std::vector<int>> & partitions,
                                 std::vector<bool> & lower_bounds)
 {
-    
-		// Find the maximal h0 on each component
-		
+    		
     // Compute all partitions with "naive" total sum ranging between N and N + nodal_edges.size()
     std::vector<std::vector<int>> h0_partitions;
     for (int i = 0; i <= nodal_edges.size(); i++){
@@ -17,36 +15,107 @@ void distribute_global_sections(const int & N,
     // Check which of these partitions of h0 can be realized.
     for (int i = 0; i < h0_partitions.size(); i++){
         
-        // Find SOME degrees corresponding to the local h0.
-        // The only ambiguity is for h0 = 0. In all these cases, the sections are identically trivial. And so, it does not matter which degree we choose, it will always lead to the same h0.
-        // However, it has an impact on whether or not we can compute h0 with full confidence, or whether we only get a lower bound.
-        // We mark cases, in which there is a doubt that we can compute h0 correctly with lower_bound = true.
-        std::vector<int> degrees;
-        for (int j = 0; j < genera.size(); j++){
-            if (h0_partitions[i][j] > 0){
-                if (genera[j] == 0){
-                    degrees.push_back(h0_partitions[i][j]-1);
-                }
-                if (genera[j] == 1){
-                    degrees.push_back(h0_partitions[i][j]);
-                }
+				// Find degrees that correspond to the desired local sections.
+				
+				// Note that there is an ambiguity on how to realize h0 = 0 and h0 = 1 on a g = 1 curve.
+				// h0 = 0: Either d < 0 or d = 0.
+				// h0 = 1: Either d = 0 or d = 1.
+				// Whenever we encounter such a situation, we make one computation for each of these scenarios.
+				
+				// Create a list that will be filled with the posssible degrees
+				std::vector<std::vector<int>> possible_degrees;
+				
+				// Create a datatype for the snapshotStack
+		    struct degree_data{
+		        std::vector<int> ds;
+		    };
+        
+        // Create stack and add first (empty) snapshot
+        std::stack<degree_data> snapshotStack;
+        degree_data currentSnapshot;
+        currentSnapshot.ds = {};
+        snapshotStack.push(currentSnapshot);
+        
+        // Run...
+        while(!snapshotStack.empty()){
+        
+            // pick the top snapshot and delete it from the stack
+            currentSnapshot= snapshotStack.top();
+            snapshotStack.pop();
+            
+            // any degrees to be set?
+            if (currentSnapshot.ds.size() < genera.size()){
+                
+								// make a copy of the current degrees
+								std::vector<int> new_ds = currentSnapshot.ds;
+								
+								// for which component do we want to find a degree
+								int index = new_ds.size();
+								
+								// if P1, then it is easy to extend by a suitable degree
+								if (genera[index] == 0){
+										if (h0_partitions[i][index] == 0){
+												new_ds.push_back(-1);
+										}
+										else if (h0_partitions[i][index] > 0){
+												new_ds.push_back(h0_partitions[i][index] - 1);
+										}
+		                degree_data newSnapshot;
+		                newSnapshot.ds = new_ds;
+		                snapshotStack.push(newSnapshot);
+								}
+								
+								// if elliptic curve, then we must be more careful
+								if (genera[index] == 1){
+										
+										if (h0_partitions[i][index] > 1){
+												new_ds.push_back(h0_partitions[i][index]);
+				                degree_data newSnapshot;
+				                newSnapshot.ds = new_ds;
+				                snapshotStack.push(newSnapshot);
+										}
+										
+										if (h0_partitions[i][index] == 1){
+												new_ds.push_back(1);
+				                degree_data first_new_snapshot;
+				                first_new_snapshot.ds = new_ds;
+				                snapshotStack.push(first_new_snapshot);
+												new_ds[new_ds.size()-1] == 0;
+				                degree_data second_new_snapshot;
+				                second_new_snapshot.ds = new_ds;
+				                snapshotStack.push(second_new_snapshot);
+										}
+										
+										if (h0_partitions[i][index] == 0){
+												new_ds.push_back(0);
+				                degree_data first_new_snapshot;
+				                first_new_snapshot.ds = new_ds;
+				                snapshotStack.push(first_new_snapshot);
+												new_ds[new_ds.size()-1] == -1;
+				                degree_data second_new_snapshot;
+				                second_new_snapshot.ds = new_ds;
+				                snapshotStack.push(second_new_snapshot);
+										}
+										
+								}
+								
             }
+            
+            // no more degrees to be set, so remember this list of degrees
             else{
-                if (genera[j] == 0){
-                    degrees.push_back(-1);
-                }
-                if (genera[j] == 1){
-                    degrees.push_back(0);
-                }
+                possible_degrees.push_back(currentSnapshot.ds);
             }
+            
         }
-
-        // Check if this results at h0
-        bool lb;
-        if (h0_on_nodal_curve(degrees, nodal_edges, genera, lb) == N){
-            partitions.push_back(h0_partitions[i]);
-            lower_bounds.push_back(lb);
-        }
+				
+        // Iterate over the possible degree assignments and check which of them truly give the desire h0
+        for (int j = 0; j < possible_degrees.size(); j++){
+		        bool lb;
+		        if (h0_on_nodal_curve(possible_degrees[j], nodal_edges, genera, lb) == N){
+		            partitions.push_back(h0_partitions[i]);
+		            lower_bounds.push_back(lb);
+		        }
+				}
     
     }
     
