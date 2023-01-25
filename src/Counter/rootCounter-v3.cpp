@@ -6,7 +6,6 @@ void worker(const std::vector<int> & degrees,
             const std::vector<std::vector<std::vector<int>>> & graph_stratification,
             const std::vector<std::vector<int>> & outfluxes,
             const std::vector<bool> & lower_bounds,
-						const std::vector<std::vector<int>> & local_sections,
             std::vector<boost::multiprecision::int128_t> & sums,
             std::vector<std::vector<std::vector<int>>> & unsorted_setups)
 {
@@ -171,7 +170,7 @@ std::vector<boost::multiprecision::int128_t> root_counter(
     
     // (0) Define local variables and types
     // (0) Define local variables and types
-    std::vector<std::vector<int>> local_section_distributions, local_degree_distributions, outfluxes, local_sections;
+    std::vector<std::vector<int>> local_degree_distributions, outfluxes;
     std::vector<bool> lower_bounds, lbs;
     struct flux_data{
         std::vector<int> flux;
@@ -199,12 +198,12 @@ std::vector<boost::multiprecision::int128_t> root_counter(
 		
     // (2) Partition h0
     // (2) Partition h0
-    distribute_global_sections(h0_value, nodal_edges, genera, maximal_local_sections, local_section_distributions, local_degree_distributions, lower_bounds);
+    distribute_global_sections(h0_value, nodal_edges, genera, maximal_local_sections, local_degree_distributions, lower_bounds);
     
     
     // (3) Find fluxes corresponding to distribution of local sections
     // (3) Find fluxes corresponding to distribution of local sections
-    for (int i = 0; i < local_section_distributions.size(); i++){
+    for (int i = 0; i < local_degree_distributions.size(); i++){
         
         // create stack and first snapshot
         std::stack<flux_data> snapshotStack;
@@ -257,7 +256,6 @@ std::vector<boost::multiprecision::int128_t> root_counter(
             else if (std::accumulate(currentSnapshot.flux.begin(),currentSnapshot.flux.end(),0) == root * resolved_edges.size()){
                 outfluxes.push_back(currentSnapshot.flux);
                 lbs.push_back(lower_bounds[i]);
-                local_sections.push_back(local_section_distributions[i]);
             }
             
         }
@@ -268,7 +266,7 @@ std::vector<boost::multiprecision::int128_t> root_counter(
     // (4) Start worker
     // (4) Start worker
     std::vector<boost::multiprecision::int128_t> sums = {0,0};
-    worker(degrees, genera, nodal_edges, root, graph_stratification, outfluxes, lbs, local_sections, sums, unsorted_setups);
+    worker(degrees, genera, nodal_edges, root, graph_stratification, outfluxes, lbs, sums, unsorted_setups);
     
     // (5) return the result
     // (5) return the result
