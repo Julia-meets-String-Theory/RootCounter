@@ -195,7 +195,7 @@ std::vector<boost::multiprecision::int128_t> root_counter(
 						maximal_local_sections.push_back(0);
 				}
 				if (degrees[i] >= 0){
-						int d = degrees[i] / root;
+						int d = (degrees[i] - edge_numbers[i]) / root;
 						if (genera[i] == 1 && d == 0){
 								maximal_local_sections.push_back(1);
 						}
@@ -221,8 +221,8 @@ std::vector<boost::multiprecision::int128_t> root_counter(
     };
     std::vector<std::vector<int>> outfluxes;
     std::vector<bool> lbs;
-    outfluxes.reserve(local_section_distributions.size());
-    lbs.reserve(local_section_distributions.size());
+		//outfluxes.reserve(local_section_distributions.size());
+    //lbs.reserve(local_section_distributions.size());
     for (int i = 0; i < local_section_distributions.size(); i++){
         
         // create stack and first snapshot
