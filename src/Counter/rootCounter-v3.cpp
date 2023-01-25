@@ -186,12 +186,31 @@ std::vector<boost::multiprecision::int128_t> root_counter(
                                 const int & h0_value,
                                 std::vector<std::vector<std::vector<int>>> & unsorted_setups)
 {
-  
+    
+		// (0) Find the maximal number of local sections on each curve
+		// (0) Find the maximal number of local sections on each curve
+		std::vector<int> maximal_local_sections;
+		for (int i = 0; i < degrees.size(); i++){
+				if (degrees[i] < 0){
+						maximal_local_sections.push_back(0);
+				}
+				if (degrees[i] >= 0){
+						int d = degrees[i] / root;
+						if (genera[i] == 1 && d == 0){
+								maximal_local_sections.push_back(1);
+						}
+						else{
+								maximal_local_sections.push_back(d  - genera[i] + 1);
+						}
+				}
+		}
+		
+		
     // (1) Partition h0
     // (1) Partition h0
     std::vector<std::vector<int>> partitions;
     std::vector<bool> lower_bounds;
-    distribute_global_sections(h0_value, nodal_edges, genera, partitions, lower_bounds);
+    distribute_global_sections(h0_value, nodal_edges, genera, maximal_local_sections, partitions, lower_bounds);
     
     
     // (2) Find fluxes corresponding to partitions
