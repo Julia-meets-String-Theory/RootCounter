@@ -83,11 +83,11 @@ void worker(const std::vector<int> & degrees,
                     // not all weights are determined -> iterate over flux_partitions
                     std::vector<std::vector<int>> flux_partitions;
                     comp_partitions(N, n, minima, maxima, flux_partitions);
-                
+
                     // create new snapshots
                     std::vector<int> number_of_resolved_edges = graph_stratification[currentSnapshot.k][1];
                     for(int j = 0; j < flux_partitions.size(); j++){
-                    
+
                         // create data of new snapshot (in particular the number of subpartitions)
                         boost::multiprecision::int128_t mult = currentSnapshot.mult;
                         std::vector<int> new_flux(currentSnapshot.flux.begin(), currentSnapshot.flux.end());
@@ -97,7 +97,7 @@ void worker(const std::vector<int> & degrees,
                             new_flux[index] = new_flux[index] - (root * graph_stratification[currentSnapshot.k][1][a] - flux_partitions[j][a]);
                             mult = mult * number_partitions(flux_partitions[j][a], number_of_resolved_edges[a], root);
                         }
-                    
+
                         // add snapshot
                         comb_data newSnapshot;
                         newSnapshot.flux = new_flux;
@@ -208,21 +208,22 @@ std::vector<boost::multiprecision::int128_t> root_counter(
 		
     // (1) Partition h0
     // (1) Partition h0
-    std::vector<std::vector<int>> partitions;
+    std::vector<std::vector<int>> local_section_distributions;
+    std::vector<std::vector<int>> local_degree_distributions;
     std::vector<bool> lower_bounds;
-    distribute_global_sections(h0_value, nodal_edges, genera, maximal_local_sections, partitions, lower_bounds);
+    distribute_global_sections(h0_value, nodal_edges, genera, maximal_local_sections, local_section_distributions, local_degree_distributions, lower_bounds);
     
     
-    // (2) Find fluxes corresponding to partitions
-    // (2) Find fluxes corresponding to partitions
+    // (2) Find fluxes corresponding to distribution of local sections
+    // (2) Find fluxes corresponding to distribution of local sections
     struct flux_data{
         std::vector<int> flux;
     };
     std::vector<std::vector<int>> outfluxes;
     std::vector<bool> lbs;
-    outfluxes.reserve(partitions.size());
-    lbs.reserve(partitions.size());
-    for (int i = 0; i < partitions.size(); i++){
+    outfluxes.reserve(local_section_distributions.size());
+    lbs.reserve(local_section_distributions.size());
+    for (int i = 0; i < local_section_distributions.size(); i++){
         
         // create stack and first snapshot
         std::stack<flux_data> snapshotStack;
@@ -245,8 +246,8 @@ std::vector<boost::multiprecision::int128_t> root_counter(
                 int j = currentSnapshot.flux.size();
                 
                 // non-trivial h0:
-                if (partitions[i][j] > 0){
-                    int f = degrees[j] - root * partitions[i][j];
+                if (local_section_distributions[i][j] > 0){
+                    int f = degrees[j] - root * local_section_distributions[i][j];
                     if (genera[j] == 0){
                         f += root;
                     }
@@ -260,7 +261,7 @@ std::vector<boost::multiprecision::int128_t> root_counter(
                 }
                 
                 // trivial h0:
-                if (partitions[i][j] == 0){
+                if (local_section_distributions[i][j] == 0){
                     int min_flux = degrees[j];
                     if (genera[j] == 0){
                         min_flux++;
