@@ -111,15 +111,18 @@ void worker(const std::vector<int> & degrees,
                 }
                 
             }
-            // no action required -> we can increase the counted numbers
+            // no action required
             else{
                 
                 if (lower_bounds[i]){
-
-                    // Setup for which we only know a lower bound
-                    total_unclear = total_unclear + (boost::multiprecision::int128_t) currentSnapshot.mult * number_local_roots;
-
-                    // Remember connected components, which we could not compute h0 for
+		                total_unclear += (boost::multiprecision::int128_t) currentSnapshot.mult * number_local_roots;
+                }
+                else{
+                    total_clear += (boost::multiprecision::int128_t) currentSnapshot.mult * number_local_roots;
+                }
+                
+                // save the unsorted setups
+                if (lower_bounds[i]){
                     std::vector<int> normalized_degrees;
                     for (int j = 0; j < degrees.size(); j++){
                         normalized_degrees.push_back((int)((degrees[j] - outfluxes[i][j])/root));
@@ -135,33 +138,11 @@ void worker(const std::vector<int> & degrees,
                             for (int k = 0; k < edges_of_cc[j].size(); k++){
                                 new_unsorted_setup.push_back(edges_of_cc[j][k]);
                             }
-                            //if (betti_number(edges_of_cc[j]) > 0){
                             UpdateUnsortedThreadSafe(unsorted_setups, new_unsorted_setup);
-                            //}
                         }
                     }
-
                 }
-
-                else{
-
-                    // Setup for which we perse have not just a lower bound. Still, we want to be extra careful.
-                    // So check if there are components with (g = 1, d = 0). If yes, then for one root, we perse only have a lower bound.
-                    boost::multiprecision::int128_t number_roots_with_determined_h0 = 1;
-                    for (int j = 0; j < genera.size(); j++){
-                        if ((genera[j] == 1) && (degrees[j] == outfluxes[i][j])){
-                            number_roots_with_determined_h0 = number_roots_with_determined_h0 * (boost::multiprecision::int128_t) (root * root - 1);
-                        }
-                        if ((genera[j] == 1) && (degrees[j] != outfluxes[i][j])){
-                            number_roots_with_determined_h0 = number_roots_with_determined_h0 * (boost::multiprecision::int128_t) (root * root);
-                        }
-                    }
-
-                    total_clear = total_clear + (boost::multiprecision::int128_t) currentSnapshot.mult * number_roots_with_determined_h0;
-                    total_unclear += (boost::multiprecision::int128_t) currentSnapshot.mult * (number_local_roots - number_roots_with_determined_h0);
-
-                }
-
+                
             }
             
         }
