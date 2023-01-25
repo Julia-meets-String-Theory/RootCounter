@@ -114,11 +114,9 @@ void test11(){
   std::vector<std::vector<int>> nodal_edges = {{0,1},{1,2}};
   std::vector<int> genera = {0,0,0};
 	std::vector<int> maximal_local_sections = {4,4,4};
-  std::vector<std::vector<int>> local_section_partitions;
   std::vector<std::vector<int>> local_degree_partitions;
   std::vector<bool> lower_bounds;
-  distribute_global_sections(2, nodal_edges, genera, maximal_local_sections, local_section_partitions, local_degree_partitions, lower_bounds);
-  assert(local_section_partitions.size() == 15 && "Partition of local sections computed incorrectly");
+  distribute_global_sections(2, nodal_edges, genera, maximal_local_sections, local_degree_partitions, lower_bounds);
   assert(local_degree_partitions.size() == 15 && "Partition of local degrees computed incorrectly");
   assert(lower_bounds.size() == 15 && "Lower bounds computed incorrectly");
 }
