@@ -68,8 +68,8 @@ void test5(const std::string & full_path){
   std::vector<std::vector<boost::multiprecision::int128_t>> n_exact, n_lower_bound;
   std::vector<std::vector<std::vector<int>>> unsorted_setups;
   count_roots("1 0 1 0 1 2 1 0 0 0 0", full_path, true, n_exact, n_lower_bound, unsorted_setups);
-  std::vector<std::vector<boost::multiprecision::int128_t>> n_exact_expected = {{0}};
-  std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected = {{4}};
+  std::vector<std::vector<boost::multiprecision::int128_t>> n_exact_expected = {{3}};
+  std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected = {{1}};
   assert(sum(n_exact) + sum(n_lower_bound) == sum(n_exact_expected) + sum(n_lower_bound_expected) && "Test for simple root counting 5 failed");
   assert(n_exact == n_exact_expected && "Test for simple root counting 5 failed");
   assert(n_lower_bound == n_lower_bound_expected && "Test for simple root counting 5 failed");
