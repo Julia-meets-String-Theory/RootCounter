@@ -221,9 +221,28 @@ std::vector<boost::multiprecision::int128_t> root_counter(
 		}
 		
 		
+    // (2) Find the minimal number of local sections on each curve
+    // (2) Find the minimal number of local sections on each curve
+		std::vector<int> minimal_local_sections;
+		for (int i = 0; i < degrees.size(); i++){
+				if (degrees[i] - (root-1) * edge_numbers[i] < 0){
+						minimal_local_sections.push_back(0);
+				}
+				else{
+						int d = (degrees[i] - (root-1) * edge_numbers[i]) / root;
+						if (genera[i] == 1 && d == 0){
+								minimal_local_sections.push_back(0);
+						}
+						else{
+								minimal_local_sections.push_back(d  - genera[i] + 1);
+						}
+				}
+		}
+		
+		
     // (2) Partition h0
     // (2) Partition h0
-    distribute_global_sections(h0_value, nodal_edges, genera, maximal_local_sections, local_degree_distributions, lower_bounds);
+    distribute_global_sections(h0_value, nodal_edges, genera, minimal_local_sections, maximal_local_sections, local_degree_distributions, lower_bounds);
     
     
     // (3) Find fluxes corresponding to distribution of local sections
