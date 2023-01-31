@@ -1,6 +1,7 @@
 void distribute_global_sections(const int & N,
                                 const std::vector<std::vector<int>> & nodal_edges,
                                 const std::vector<int> & genera,
+																const std::vector<int> & minimal_local_sections,
                                 const std::vector<int> & maximal_local_sections,
                                 std::vector<std::vector<int>> & local_degree_distributions,
                                 std::vector<bool> & lower_bounds)
@@ -9,7 +10,7 @@ void distribute_global_sections(const int & N,
     // Compute all partitions with "naive" total sum ranging between N and N + nodal_edges.size()
     std::vector<std::vector<int>> h0_partitions;
     for (int i = 0; i <= nodal_edges.size(); i++){
-        comp_partitions(N+i, genera.size(), std::vector<int>(genera.size(),0), maximal_local_sections, h0_partitions);
+        comp_partitions(N+i, genera.size(), minimal_local_sections, maximal_local_sections, h0_partitions);
     }
     
     // Check which of these partitions of h0 can be realized.
