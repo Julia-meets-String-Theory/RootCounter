@@ -40,6 +40,7 @@ clean: uninstall
 	(rm -f tst/poly798.gcda && rm -f tst/poly798.gcno)
 	(rm -f tst/poly254.gcda && rm -f tst/poly254.gcno)
 	(rm -f tst/poly52.gcda && rm -f tst/poly52.gcno)
+	(rm -f tst/poly302.gcda && rm -f tst/poly302.gcno)
 	(rm -f tst/result.txt && rm -f tst/unsorted_setups.txt)
 
 uninstall:
@@ -57,6 +58,7 @@ uninstall:
 	rm -f tst/poly798
 	rm -f tst/poly254
 	rm -f tst/poly52
+	rm -f tst/poly302
 
 uninstall-boost:
 	rm -r -f boost/boost_1_81_0
@@ -131,6 +133,11 @@ poly52_test:
 	chmod +x tst/poly52
 	tst/./poly52
 
+poly302_test:
+	g++ -std=c++17 tst/poly302.cpp -lboost_thread -lboost_system -lpthread -o tst/poly302
+	chmod +x tst/poly302
+	tst/./poly302
+
 
 # Test the software against local boost
 # Test the software against local boost
@@ -199,3 +206,8 @@ poly52_test_lb:
 	g++ -std=c++17 tst/poly52.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly52
 	chmod +x tst/poly52
 	tst/./poly52
+
+poly302_test_lb:
+	g++ -std=c++17 tst/poly302.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly302
+	chmod +x tst/poly302
+	tst/./poly302
