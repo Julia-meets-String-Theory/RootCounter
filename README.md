@@ -11,10 +11,10 @@ Originally, this code was and currently still is available in the [ToricVarietie
 | Description | Result |
 | ----------- | ------ |
 | Basic tests | [![BasicTests](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/BasicTests.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/BasicTests.yml)|
-| Root counting for simple nodal curves | [![SimpleRootCounting](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/SimpleRootCounting.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/SimpleRootCounting.yml) |
+| Simple root counting | [![SimpleRootCounting](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/SimpleRootCounting.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/SimpleRootCounting.yml) |
 
 
-# Polytope with Kbar * Kbar * Kbar = 6
+# Polytope with $Kbar^3 = 6$
 
 | Description | Result |
 | ----------- | ------ |
@@ -24,7 +24,7 @@ Originally, this code was and currently still is available in the [ToricVarietie
 | Polytope 128 | [![Polytope128](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly128.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly128.yml) |
 
 
-# Polytope with Kbar * Kbar * Kbar = 10
+# Polytope with $Kbar^3 = 10$
 
 | Description | Result |
 | ----------- | ------ |
@@ -34,3 +34,4 @@ Originally, this code was and currently still is available in the [ToricVarietie
 | Polytope 387 |  [![Polytope387](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly387.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly387.yml) |
 | Polytope 798 | [![Polytope798](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly798.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly798.yml) |
 | Polytope 254 | [![Polytope254](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly254.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly254.yml) |
+| Polytope 52 | [![Polytope52](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly52.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly52.yml) |
