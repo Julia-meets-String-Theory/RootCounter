@@ -21,7 +21,7 @@ Originally, this code was and currently still is available in the [ToricVarietie
 | Polytope 8  | [![Polytope8](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly8.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly8.yml) |
 | Polytope 4  | [![Polytope4](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly4.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly4.yml) |
 | Polytope 134 | [![Polytope134](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly134.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly134.yml) |
-| Polytope 128 | [![Polytope128](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly128.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly128.yml) |
+| Polytope 128, 130, 136, 236 | [![Polytope128](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly128.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly128.yml) |
 
 
 # Polytope with $Kbar^3 = 10$
@@ -30,8 +30,9 @@ Originally, this code was and currently still is available in the [ToricVarietie
 | ----------- | ------ |
 | Polytope 88  | [![Polytope88](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly88.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly88.yml) |
 | Polytope 110 | [![Polytope110](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly110.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly110.yml) |
-| Polytope 272 | [![Polytope272](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly272.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly272.yml) |
+| Polytope 272, 274 | [![Polytope272](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly272.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly272.yml) |
 | Polytope 387 |  [![Polytope387](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly387.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly387.yml) |
-| Polytope 798 | [![Polytope798](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly798.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly798.yml) |
+| Polytope 798, 808, 810, 812 | [![Polytope798](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly798.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly798.yml) |
 | Polytope 254 | [![Polytope254](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly254.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly254.yml) |
 | Polytope 52 | [![Polytope52](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly52.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly52.yml) |
+| Polytope 302 | [![Polytope302](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly302.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly302.yml) |
