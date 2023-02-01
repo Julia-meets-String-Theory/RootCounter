@@ -25,14 +25,22 @@ int h0_on_connected_nodal_curve(const std::vector<int>& degrees,
             return h0_on_connected_rational_tree(degrees, edges);
         }
         
-        // (2.3) Compute h0 for a rational bi-circuit
-        if (betti_number(edges) == 1 && rational && degrees.size() == 2 && edges[0][0] != edges[0][1] && edges[1][0] != edges[1][1]){
-            return h0_on_rational_bi_circuit(degrees, edges, lower_bound);
-        }
-        
-        // (2.4) Compute h0 for a rational tri-circuit
-        if (betti_number(edges) == 1 && rational && degrees.size() == 3 && edges[0][0] != edges[0][1] && edges[1][0] != edges[1][1] && edges[2][0] != edges[2][1]){
-            return h0_on_rational_tri_circuit(degrees, edges, lower_bound);
+        // (2.3) Compute h0 for a SINGLE rational loop
+        if (betti_number(edges) == 1 && rational){
+            
+            // Remove all leafs
+            std::vector<int> new_degrees;
+            std::vector<std::vector<int>> new_edges;
+            simplify_by_removing_leafs(degrees, edges, new_degrees, new_edges);
+            
+            // See if we can handle the resulting graph
+            if (new_degrees.size() == 2 && new_edges[0][0] != new_edges[0][1] && new_edges[1][0] != new_edges[1][1]){
+                return h0_on_rational_bi_circuit(new_degrees, new_edges, lower_bound);
+            }
+            if (new_degrees.size() == 3 && new_edges[0][0] != new_edges[0][1] && new_edges[1][0] != new_edges[1][1] && new_edges[2][0] != new_edges[2][1]){
+                return h0_on_rational_tri_circuit(new_degrees, new_edges, lower_bound);
+            }
+            
         }
         
         // (2.5) For all remaining cases, compute a lower bound
