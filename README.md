@@ -14,7 +14,7 @@ Originally, this code was and currently still is available in the [ToricVarietie
 | Simple root counting | [![SimpleRootCounting](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/SimpleRootCounting.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/SimpleRootCounting.yml) |
 
 
-# Polytope with $Kbar^3 = 6$
+# Polytope with $\overline{K}_{B_3}^3 = 6$
 
 | Description | Result |
 | ----------- | ------ |
@@ -24,7 +24,7 @@ Originally, this code was and currently still is available in the [ToricVarietie
 | Polytope 128, 130, 136, 236 | [![Polytope128](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly128.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly128.yml) |
 
 
-# Polytope with $Kbar^3 = 10$
+# Polytope with $\overline{K}_{B_3}^3 = 10$
 
 | Description | Result |
 | ----------- | ------ |
