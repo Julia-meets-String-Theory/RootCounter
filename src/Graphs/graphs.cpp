@@ -231,3 +231,152 @@ void find_connected_components( const std::vector<std::vector<int>> & input_edge
     }
     
 }
+
+
+// (6) Find all leafs of a graph
+// (6) Find all leafs of a graph
+void find_leafs(const std::vector<std::vector<int>> & edges,
+                std::vector<int> & leafs)
+{
+    
+    // Degenerate case: no edges
+    if (edges.size() == 0){
+        leafs.clear();
+        return;
+    }
+    
+    // Find the vertices
+    std::vector<int> vertices;
+    find_vertices(vertices, edges);
+
+    // Iterate over all vertices
+    for (int i = 0; i < vertices.size(); i++){
+        int count_for_component_i = 0;
+        for (int j = 0; j < edges.size(); j++){
+            if ((edges[j][0] == i) || (edges[j][1] == i)){
+                count_for_component_i++;
+            }
+        }
+        if (count_for_component_i == 1){
+            leafs.push_back(i);
+        }
+    }
+    
+    // In principle, all components could be leafs. In this case, by convention we leave the component 0.
+    if (leafs.size() == vertices.size()){
+        leafs.erase(std::find(leafs.begin(), leafs.end(), 0));
+    }
+}
+
+
+// (7) Remove all leafs of a graph with degrees
+// (7) Remove all leafs of a graph with degrees
+void simplify_by_removing_leafs(const std::vector<int> & degrees,
+                                const std::vector<std::vector<int>> & edges,
+                                std::vector<int> & new_degrees,
+                                std::vector<std::vector<int>> & new_edges)
+{
+    
+    // Find all leafs
+    std::vector<int> leafs;
+    find_leafs(edges, leafs);
+    
+    // Degenerate case
+    if (leafs.size() == 0){
+        new_degrees = degrees;
+        new_edges = edges;
+        return;
+    }
+    
+    // Save input information in internal variables that we can manipulate as we simplify the graph
+    std::vector<int> internal_degrees = degrees;
+    std::vector<std::vector<int>> internal_edges = edges;
+    
+    // Simplify until no leafs are left
+    while (leafs.size() > 0){
+        
+        /*print_vector("Current degrees ", internal_degrees);
+        print_vector("Current leafs ", leafs);
+        print_vector_of_vector("Current edges\n", internal_edges);*/
+        
+        // Empty new_degrees and new_edges
+        new_degrees.clear();
+        new_edges.clear();
+        
+        // To remove the leafs, make a dictionary from the old component names to the new ones
+        std::map<int, int> dictionary;
+        int counter = 0;
+        for (int i = 0; i < internal_degrees.size(); i++){
+            if (std::find(leafs.begin(), leafs.end(), i) == leafs.end()){
+                //std::cout << "Pair: " << i << " -> " << counter << "\n";
+                dictionary.insert(std::pair<int, int>(i, counter));
+                counter++;
+            }
+        }
+        //std::cout << "\n";
+        
+        // Make list with the new edges
+        for (int i = 0; i < internal_edges.size(); i++){
+            if ((std::find(leafs.begin(), leafs.end(), internal_edges[i][0]) == leafs.end()) && (std::find(leafs.begin(), leafs.end(), internal_edges[i][1]) == leafs.end())){
+                new_edges.push_back({dictionary[internal_edges[i][0]], dictionary[internal_edges[i][1]]});
+            }
+        }
+        //std::cout << "Length of new edges " << new_edges.size() << "\n";
+        
+        // Copy the old degrees for the remaining vertices
+        for (int i = 0; i < internal_degrees.size() - leafs.size(); i++){
+            new_degrees.push_back(0);
+        }
+        for (int i = 0; i < internal_degrees.size(); i++){
+            if (std::find(leafs.begin(), leafs.end(), i) == leafs.end()){
+                new_degrees[dictionary[i]] = internal_degrees[i];
+            }
+        }
+        
+        // Adjust the degrees of the remaining vertices to reflect the leafs that we removed
+        for(int i = 0; i < internal_degrees.size(); i++){
+            
+            // Only degrees of vertices that are not leafs are to be recorded
+            if (std::find(leafs.begin(), leafs.end(), i) == leafs.end()){
+                
+                // Iterate over all edges, to find the leafs attached to i
+                for (int j = 0; j < internal_edges.size(); j++){
+                    
+                    if ((internal_edges[j][0] == i) && (std::find(leafs.begin(), leafs.end(), internal_edges[j][1]) != leafs.end())){
+                        
+                        if (internal_degrees[internal_edges[j][1]] < 0){
+                            new_degrees[dictionary[i]]--;
+                        }
+                        if (internal_degrees[internal_edges[j][1]] >= 0){
+                            new_degrees[dictionary[i]] += internal_degrees[internal_edges[j][1]];
+                        }
+                    }
+                    
+                    if ((internal_edges[j][1] == i) && (std::find(leafs.begin(), leafs.end(), internal_edges[j][0]) != leafs.end())){
+                        
+                        if (internal_degrees[internal_edges[j][0]] < 0){
+                            new_degrees[dictionary[i]]--;
+                        }
+                        if (internal_degrees[internal_edges[j][0]] >= 0){
+                            new_degrees[dictionary[i]] += internal_degrees[internal_edges[j][0]];
+                        }
+                    }
+                
+                }
+            
+            }
+        
+        }
+        
+        // Copy new_degrees and new_edges to internal_degrees and internal_edges
+        internal_degrees = new_degrees;
+        internal_edges = new_edges;
+        
+        // Compute the leafs anew
+        leafs.clear();
+        //std::cout << "Recompute leafs\n";
+        find_leafs(internal_edges, leafs);
+        
+    }
+    
+}
