@@ -1,41 +1,34 @@
 int h0_on_rational_bi_circuit(const std::vector<int>& degrees,
-                              const std::vector<std::vector<int>>& nodal_edges,
-                              bool & lower_bound)
+                              const std::vector<std::vector<int>>& edges,
+							  bool & lower_bound)
 {
-            
-    // Count local sections
-    int local_sections = 0;
-    for (int i = 0; i < degrees.size(); i++){
-        if (degrees[i] >= 0){
-            local_sections += degrees[i] + 1;
-        }
+    
+    // Consistency check: 2 edges and exactly 2 degrees
+    if (edges.size() != 2 || degrees.size() != 2){
+        throw std::invalid_argument( "RationalBiCircuit received a number of edges or degrees that is different from 2." );
+        return -10;
     }
     
-    // Estimate number of conditions
-    int conditions = 0;
-    for (int j = 0; j < nodal_edges.size(); j++){
-        if ((degrees[nodal_edges[j][0]] >= 0) || (degrees[nodal_edges[j][1]] >= 0)){
-            conditions++;
-        }
+    // Consistency check 2: We want that both edges begin and end at different curves
+    if (edges[0][0] == edges[0][1] || edges[1][0] == edges[1][1]){
+        throw std::invalid_argument( "RationalBiCircuit expects all edges to begin and end on different curves." );
+        return -10;
     }
     
-    // Merely a lower bound?
+    // Handle special case: We MIGHT be looking at the canonical bundle, so can only compute a lower bound.
     if (degrees[0] == 0 && degrees[1] == 0){
         lower_bound = true;
-    }
-    
-    // Return result for h0
-    if (local_sections >= conditions){
-        return local_sections - conditions;
-    }
-    else{
         return 0;
     }
+    
+    // Find global h0
+    int local_sections = std::max(degrees[0] + 1, 0) + std::max(degrees[1] + 1, 0);
+    return std::max(local_sections - 2, 0);
     
 }
 /*
 int h0_on_rational_tri_circuit(const std::vector<int>& degrees,
-                               const std::vector<std::vector<int>>& nodal_edges)
+                               const std::vector<std::vector<int>>& edges)
 {
 
             

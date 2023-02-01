@@ -99,18 +99,38 @@ void test9(){
   assert(bound == false && "The cohomology result should be exact, but is marked merely as lower bound");
 }
 
+void test10(){
+  std::vector<std::vector<int>> edges = {{0,1},{0,1}};
+  std::vector<int> degrees = {0,0};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for bicircuit");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact");
+}
+
+void test11(){
+  std::vector<std::vector<int>> edges = {{0,1},{0,1}};
+  std::vector<int> degrees = {1,0};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 1 && "Cohomology determined incorrectly for bicircuit");
+  assert(bound == false && "The cohomology result should not exact, but is marked as lower bound");
+}
+
 
 // ########################################
 // (3) Tests of combinatoric computations
 // ########################################
 
-void test10(){
+void test12(){
   std::vector<std::vector<int>> partitions;
   comp_partitions(3,2,{0,0},{3,3}, partitions);
   assert(partitions.size() == 4 && "Partitions computed incorrectly");
 }
 
-void test11(){
+void test13(){
   std::vector<std::vector<int>> nodal_edges = {{0,1},{1,2}};
   std::vector<int> genera = {0,0,0};
 	std::vector<int> minimal_local_sections = {0,0,0};
@@ -122,7 +142,7 @@ void test11(){
   assert(lower_bounds.size() == 15 && "Lower bounds computed incorrectly");
 }
 
-void test12(){
+void test14(){
   assert(number_partitions(10,3,5) == 6 && "Wrong number of partitions computed");
 }
 
@@ -131,7 +151,7 @@ void test12(){
 // (4) Test for sums of vectors
 // ########################################
 
-void test13(){
+void test15(){
   std::vector<boost::multiprecision::int128_t> v = {1,2,3};
   std::vector<std::vector<boost::multiprecision::int128_t>> v2 = {{1,2,3},{4,5,6}};
   assert(sum(v) == 6 && "Wrong sum of vector computed");
@@ -143,7 +163,7 @@ void test13(){
 // (5) Test for printing of vectors
 // ########################################
 
-void test14(){
+void test16(){
   std::vector<std::vector<int>> edges = {{1,2},{3,4},{2,5},{6,4},{7,8},{0,9}};
   std::vector<int> degrees = {-2,3,4,-1,0,5,7,8,-9,9};
   std::vector<int> genera = {0,1,0,1,0,1,0,1,0,1};
@@ -183,7 +203,6 @@ void test14(){
 // ########################################
 
 int main(int argc, char* argv[]){
-  // Basic tests
   test1();
   test2();
   test3();
@@ -198,4 +217,6 @@ int main(int argc, char* argv[]){
   test12();
   test13();
   test14();
+  test15();
+  test16();
 }

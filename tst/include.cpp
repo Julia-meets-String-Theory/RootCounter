@@ -25,6 +25,7 @@
 #include "../src/Auxilliary/handle_input.cpp"
 #include "../src/Auxilliary/return_result.cpp"
 #include "../src/Graphs/graphs.cpp"
+#include "../src/H0/compute_h0_on_circuit.cpp"
 #include "../src/H0/compute_h0_on_tree.cpp"
 #include "../src/H0/compute_h0.cpp"
 #include "../src/Combinatorics/combinatorics.cpp"
