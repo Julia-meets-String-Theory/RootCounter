@@ -30,7 +30,12 @@ int h0_on_connected_nodal_curve(const std::vector<int>& degrees,
             return h0_on_rational_bi_circuit(degrees, edges, lower_bound);
         }
         
-        // (2.4) For all remaining cases, compute a lower bound
+        // (2.4) Compute h0 for a rational tri-circuit
+        if (betti_number(edges) == 1 && rational && degrees.size() == 3 && edges[0][0] != edges[0][1] && edges[1][0] != edges[1][1] && edges[2][0] != edges[2][1]){
+            return h0_on_rational_tri_circuit(degrees, edges, lower_bound);
+        }
+        
+        // (2.5) For all remaining cases, compute a lower bound
         lower_bound = true;
         int number_nodes = edges.size();
         int local_sections = 0;
