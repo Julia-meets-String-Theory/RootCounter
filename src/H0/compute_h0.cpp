@@ -34,11 +34,8 @@ int h0_on_connected_nodal_curve(const std::vector<int>& degrees,
         if (betti_number(edges) == 1 && rational){
             
             // See if we can handle the resulting graph
-            if (new_degrees.size() == 2 && new_edges[0][0] != new_edges[0][1] && new_edges[1][0] != new_edges[1][1]){
+            if (new_degrees.size() == 2 && new_edges.size() == 2 && new_edges[0][0] != new_edges[0][1] && new_edges[1][0] != new_edges[1][1]){
                 return h0_on_rational_bi_circuit(new_degrees, new_edges, lower_bound);
-            }
-            if (new_degrees.size() == 3 && new_edges[0][0] != new_edges[0][1] && new_edges[1][0] != new_edges[1][1] && new_edges[2][0] != new_edges[2][1]){
-                return h0_on_rational_tri_circuit(new_degrees, new_edges, lower_bound);
             }
             
         }
