@@ -233,10 +233,10 @@ void find_connected_components( const std::vector<std::vector<int>> & input_edge
 }
 
 
-// (6) Find all leafs of a graph
-// (6) Find all leafs of a graph
-void find_leafs(const std::vector<std::vector<int>> & edges,
-                std::vector<int> & leafs)
+// (6) Find all external leafs of a graph
+// (6) Find all external leafs of a graph
+void find_external_leafs(const std::vector<std::vector<int>> & edges,
+                         std::vector<int> & leafs)
 {
     
     // Degenerate case: no edges
@@ -269,17 +269,17 @@ void find_leafs(const std::vector<std::vector<int>> & edges,
 }
 
 
-// (7) Remove all leafs of a graph with degrees
-// (7) Remove all leafs of a graph with degrees
-void simplify_by_removing_leafs(const std::vector<int> & degrees,
-                                const std::vector<std::vector<int>> & edges,
-                                std::vector<int> & new_degrees,
-                                std::vector<std::vector<int>> & new_edges)
+// (7) Remove all external leafs of a graph with degrees
+// (7) Remove all external leafs of a graph with degrees
+void simplify_by_removing_external_leafs(const std::vector<int> & degrees,
+                                         const std::vector<std::vector<int>> & edges,
+                                         std::vector<int> & new_degrees,
+                                         std::vector<std::vector<int>> & new_edges)
 {
     
     // Find all leafs
     std::vector<int> leafs;
-    find_leafs(edges, leafs);
+    find_external_leafs(edges, leafs);
     
     // Degenerate case
     if (leafs.size() == 0){
@@ -304,7 +304,6 @@ void simplify_by_removing_leafs(const std::vector<int> & degrees,
         int counter = 0;
         for (int i = 0; i < internal_degrees.size(); i++){
             if (std::find(leafs.begin(), leafs.end(), i) == leafs.end()){
-                //std::cout << "Pair: " << i << " -> " << counter << "\n";
                 dictionary.insert(std::pair<int, int>(i, counter));
                 counter++;
             }
@@ -368,8 +367,158 @@ void simplify_by_removing_leafs(const std::vector<int> & degrees,
         
         // Compute the leafs anew
         leafs.clear();
-        find_leafs(internal_edges, leafs);
+        find_external_leafs(internal_edges, leafs);
         
     }
     
+}
+
+
+// (8) Find an internal leafs of a graph
+// (8) Find an internal leafs of a graph
+int find_an_internal_leaf(const std::vector<std::vector<int>> & edges)
+{
+    
+    // Degenerate case: no edges
+    if (edges.size() == 0){
+        return -1;
+    }
+    
+    // Find the vertices
+    std::vector<int> vertices;
+    find_vertices(vertices, edges);
+
+    // Iterate over all vertices
+    for (int i = 0; i < vertices.size(); i++){
+        int count_for_component_i = 0;
+        std::vector<int> connectors;
+        for (int j = 0; j < edges.size(); j++){
+            if (edges[j][0] == i){
+                count_for_component_i++;
+                connectors.push_back(edges[j][1]);
+            }
+            
+            if (edges[j][1] == i){
+                count_for_component_i++;
+                connectors.push_back(edges[j][0]);
+            }
+        }
+        if (count_for_component_i == 2){
+            // remove duplicates from connectors
+            std::sort(connectors.begin(), connectors.end()); 
+            auto last = std::unique(connectors.begin(), connectors.end());
+            connectors.erase(last, connectors.end());
+            
+            // If i is connnected to exactly two distint components and none of them is i itself, then we have found an internal leaf
+            if ((connectors.size() == 2) && (std::find(connectors.begin(), connectors.end(), i) == connectors.end())){
+                return i;
+            }
+        }
+    }
+    
+    // Default is -1, which means: "There are no internal leafs/trees"
+    return -1;
+}
+
+
+// (9) Remove all internal leafs of a graph with degrees
+// (9) Remove all internal leafs of a graph with degrees
+void simplify_by_removing_internal_leafs(const std::vector<int> & degrees,
+                                         const std::vector<std::vector<int>> & edges,
+                                         std::vector<int> & new_degrees,
+                                         std::vector<std::vector<int>> & new_edges)
+{
+    
+    // Find an internal leaf
+    int internal_leaf = find_an_internal_leaf(edges);
+    
+    // Degenerate case
+    if (internal_leaf == -1){
+        new_degrees = degrees;
+        new_edges = edges;
+        return;
+    }
+    
+    // Save input information in internal variables that we can manipulate as we simplify the graph
+    std::vector<int> internal_degrees = degrees;
+    std::vector<std::vector<int>> internal_edges = edges;
+    
+    // Simplify until no internal leafs are left
+    while (internal_leaf != -1){
+        
+        // Empty new_degrees and new_edges
+        new_degrees.clear();
+        new_edges.clear();
+        
+        // To remove the internal leaf, make a dictionary from the old component names to the new ones
+        std::map<int, int> dictionary;
+        int counter = 0;
+        for (int i = 0; i < internal_degrees.size(); i++){
+            if (i != internal_leaf){
+                dictionary.insert(std::pair<int, int>(i, counter));
+                counter++;
+            }
+        }
+        
+        // Make list with the new edges
+        for (int i = 0; i < internal_edges.size(); i++){
+            if (internal_edges[i][0] != internal_leaf && internal_edges[i][1] != internal_leaf){
+                new_edges.push_back({dictionary[internal_edges[i][0]], dictionary[internal_edges[i][1]]});
+            }
+        }
+        
+        // Find the two vertices that connected to the leaf in question
+        std::vector<int> connectors;
+        for (int i = 0; i < internal_edges.size(); i++){
+            if (internal_edges[i][0] == internal_leaf){
+                connectors.push_back(internal_edges[i][1]);
+            }
+            if (internal_edges[i][1] == internal_leaf){
+                connectors.push_back(internal_edges[i][0]);
+            }
+        }
+        
+        // Add the edge that connects in place of the internal leaf
+        new_edges.push_back({dictionary[connectors[0]], dictionary[connectors[1]]});
+        
+        // Copy the old degrees for the remaining vertices
+        for (int i = 0; i < internal_degrees.size() - 1; i++){
+            new_degrees.push_back(0);
+        }
+        for (int i = 0; i < internal_degrees.size(); i++){
+            if (i != internal_leaf){
+                new_degrees[dictionary[i]] = internal_degrees[i];
+            }
+        }
+        
+        // Adjust the degree on one connector
+        if (internal_degrees[internal_leaf] < 0){
+            new_degrees[dictionary[connectors[0]]]--;
+        }
+        if (internal_degrees[internal_leaf] >= 0){
+            new_degrees[dictionary[connectors[0]]] += internal_degrees[internal_leaf];
+        }
+        
+        // Copy new_degrees and new_edges to internal_degrees and internal_edges
+        internal_degrees = new_degrees;
+        internal_edges = new_edges;
+        
+        // Compute an internal leaf anew
+        internal_leaf = find_an_internal_leaf(internal_edges);
+        
+    }
+    
+}
+
+// (10) Simplify a graph with degrees
+// (10) Simplify of a graph with degrees
+void simplify(const std::vector<int> & degrees,
+              const std::vector<std::vector<int>> & edges,
+              std::vector<int> & new_degrees,
+              std::vector<std::vector<int>> & new_edges)
+{
+    std::vector<int> internal_degrees;
+    std::vector<std::vector<int>> internal_edges;
+    simplify_by_removing_external_leafs(degrees, edges, internal_degrees, internal_edges);
+    simplify_by_removing_internal_leafs(internal_degrees, internal_edges, new_degrees, new_edges);
 }

@@ -49,7 +49,7 @@ void test5(){
   std::vector<std::vector<int>> edges = {{0,1},{0,1},{1,2}};
   std::vector<int> new_degrees;
   std::vector<std::vector<int>> new_edges;
-  simplify_by_removing_leafs(degrees, edges, new_degrees, new_edges);
+  simplify_by_removing_external_leafs(degrees, edges, new_degrees, new_edges);
   std::vector<int> new_expected_degrees = {0,3};
   std::vector<std::vector<int>> new_expected_edges = {{0,1},{0,1}};
   assert(new_degrees == new_expected_degrees && "Removal of leafs led to unexpected degrees");
@@ -61,7 +61,7 @@ void test6(){
   std::vector<std::vector<int>> edges = {{0,1}};
   std::vector<int> new_degrees;
   std::vector<std::vector<int>> new_edges;
-  simplify_by_removing_leafs(degrees, edges, new_degrees, new_edges);
+  simplify_by_removing_external_leafs(degrees, edges, new_degrees, new_edges);
   std::vector<int> new_expected_degrees = {-1};
   std::vector<std::vector<int>> new_expected_edges = {};
   assert(new_degrees == new_expected_degrees && "Removal of leafs led to unexpected degrees");
@@ -73,7 +73,7 @@ void test7(){
   std::vector<std::vector<int>> edges = {{0,1},{1,2},{2,3}};
   std::vector<int> new_degrees;
   std::vector<std::vector<int>> new_edges;
-  simplify_by_removing_leafs(degrees, edges, new_degrees, new_edges);
+  simplify_by_removing_external_leafs(degrees, edges, new_degrees, new_edges);
   std::vector<int> new_expected_degrees = {6};
   std::vector<std::vector<int>> new_expected_edges = {};
   assert(new_degrees == new_expected_degrees && "Removal of leafs led to unexpected degrees");

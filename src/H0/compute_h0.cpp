@@ -28,7 +28,7 @@ int h0_on_connected_nodal_curve(const std::vector<int>& degrees,
         // Remove all leafs
         std::vector<int> new_degrees;
         std::vector<std::vector<int>> new_edges;
-        simplify_by_removing_external_leafs(degrees, edges, new_degrees, new_edges);
+        simplify(degrees, edges, new_degrees, new_edges);
         
         // (2.3) Compute h0 for a SINGLE rational loop
         if (betti_number(edges) == 1 && rational){
