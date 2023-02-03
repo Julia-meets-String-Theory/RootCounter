@@ -295,10 +295,6 @@ void simplify_by_removing_leafs(const std::vector<int> & degrees,
     // Simplify until no leafs are left
     while (leafs.size() > 0){
         
-        /*print_vector("Current degrees ", internal_degrees);
-        print_vector("Current leafs ", leafs);
-        print_vector_of_vector("Current edges\n", internal_edges);*/
-        
         // Empty new_degrees and new_edges
         new_degrees.clear();
         new_edges.clear();
@@ -313,7 +309,6 @@ void simplify_by_removing_leafs(const std::vector<int> & degrees,
                 counter++;
             }
         }
-        //std::cout << "\n";
         
         // Make list with the new edges
         for (int i = 0; i < internal_edges.size(); i++){
@@ -321,7 +316,6 @@ void simplify_by_removing_leafs(const std::vector<int> & degrees,
                 new_edges.push_back({dictionary[internal_edges[i][0]], dictionary[internal_edges[i][1]]});
             }
         }
-        //std::cout << "Length of new edges " << new_edges.size() << "\n";
         
         // Copy the old degrees for the remaining vertices
         for (int i = 0; i < internal_degrees.size() - leafs.size(); i++){
@@ -374,7 +368,6 @@ void simplify_by_removing_leafs(const std::vector<int> & degrees,
         
         // Compute the leafs anew
         leafs.clear();
-        //std::cout << "Recompute leafs\n";
         find_leafs(internal_edges, leafs);
         
     }
