@@ -48,6 +48,10 @@ int h0_on_connected_nodal_curve(const std::vector<int>& degrees,
                 return h0_on_rational_bi_triple_circuit(new_degrees, new_edges, lower_bound);
             }
             
+            if (new_degrees.size() == 3 && new_edges.size() == 4 && new_edges[0][0] != new_edges[0][1] && new_edges[1][0] != new_edges[1][1] && new_edges[2][0] != new_edges[2][1] && new_edges[3][0] != new_edges[3][1]){
+                return h0_on_rational_bi_loop(new_degrees, new_edges, lower_bound);
+            }
+            
         }
         
         // (2.5) For all remaining cases, compute a lower bound
