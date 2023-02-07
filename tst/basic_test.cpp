@@ -242,17 +242,28 @@ void test22(){
 }
 
 
+void test23(){
+  std::vector<std::vector<int>> edges = {{0,2},{0,1},{0,1}};
+  std::vector<int> degrees = {0,0,-1};
+  std::vector<int> genera = {0,0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for bi-triple-circuit");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound");
+}
+
+
 // ########################################
 // (3) Tests of combinatoric computations
 // ########################################
 
-void test23(){
+void test24(){
   std::vector<std::vector<int>> partitions;
   comp_partitions(3,2,{0,0},{3,3}, partitions);
   assert(partitions.size() == 4 && "Partitions computed incorrectly");
 }
 
-void test24(){
+void test25(){
   std::vector<std::vector<int>> nodal_edges = {{0,1},{1,2}};
   std::vector<int> genera = {0,0,0};
 	std::vector<int> minimal_local_sections = {0,0,0};
@@ -264,7 +275,7 @@ void test24(){
   assert(lower_bounds.size() == 15 && "Lower bounds computed incorrectly");
 }
 
-void test25(){
+void test26(){
   assert(number_partitions(10,3,5) == 6 && "Wrong number of partitions computed");
 }
 
@@ -273,7 +284,7 @@ void test25(){
 // (4) Test for sums of vectors
 // ########################################
 
-void test26(){
+void test27(){
   std::vector<boost::multiprecision::int128_t> v = {1,2,3};
   std::vector<std::vector<boost::multiprecision::int128_t>> v2 = {{1,2,3},{4,5,6}};
   assert(sum(v) == 6 && "Wrong sum of vector computed");
@@ -285,7 +296,7 @@ void test26(){
 // (5) Test for printing of vectors
 // ########################################
 
-void test27(){
+void test28(){
   std::vector<std::vector<int>> edges = {{1,2},{3,4},{2,5},{6,4},{7,8},{0,9}};
   std::vector<int> degrees = {-2,3,4,-1,0,5,7,8,-9,9};
   std::vector<int> genera = {0,1,0,1,0,1,0,1,0,1};
@@ -352,4 +363,5 @@ int main(int argc, char* argv[]){
   test25();
   test26();
   test27();
+  test28();
 }
