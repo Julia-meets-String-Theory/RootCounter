@@ -38,6 +38,7 @@ Originally, this code was and currently still is available in the [ToricVarietie
 # Polytopes with $\overline{K}_{B_3}^3 = 10$ and no elliptic curve
 
 | Description | Result |
+| ----------- | ------ |
 | Polytope 254 | [![Polytope254](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly254.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly254.yml) |
 | Polytope 52 | [![Polytope52](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly52.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly52.yml) |
 | Polytope 302 | [![Polytope302](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly302.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly302.yml) |
