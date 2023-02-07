@@ -49,11 +49,13 @@ void test5(){
   std::vector<std::vector<int>> edges = {{0,1},{0,1},{1,2}};
   std::vector<int> new_degrees;
   std::vector<std::vector<int>> new_edges;
-  simplify_by_removing_leafs(degrees, edges, new_degrees, new_edges);
-  std::vector<int> new_expected_degrees = {0,3};
+  int offset = simplify_by_removing_leafs(degrees, edges, new_degrees, new_edges);
+  std::vector<int> new_expected_degrees = {0,1};
   std::vector<std::vector<int>> new_expected_edges = {{0,1},{0,1}};
-  assert(new_degrees == new_expected_degrees && "Removal of leafs led to unexpected degrees");
-  assert(new_edges == new_expected_edges && "Removal of leafs led to unexpected edges");
+  int expected_offset = 2;
+  assert(new_degrees == new_expected_degrees && "Removal of leafs (part 1) led to unexpected degrees");
+  assert(new_edges == new_expected_edges && "Removal of leafs (part 1) led to unexpected edges");
+  assert(offset == expected_offset && "Removal of leafs (part 1) led to unexpected offset");
 }
 
 void test6(){
@@ -61,11 +63,13 @@ void test6(){
   std::vector<std::vector<int>> edges = {{0,1}};
   std::vector<int> new_degrees;
   std::vector<std::vector<int>> new_edges;
-  simplify_by_removing_leafs(degrees, edges, new_degrees, new_edges);
+  int offset = simplify_by_removing_leafs(degrees, edges, new_degrees, new_edges);
   std::vector<int> new_expected_degrees = {-1};
   std::vector<std::vector<int>> new_expected_edges = {};
-  assert(new_degrees == new_expected_degrees && "Removal of leafs led to unexpected degrees");
-  assert(new_edges == new_expected_edges && "Removal of leafs led to unexpected edges");
+  int expected_offset = 0;
+  assert(new_degrees == new_expected_degrees && "Removal of leafs (part 2) led to unexpected degrees");
+  assert(new_edges == new_expected_edges && "Removal of leafs (part 2) led to unexpected edges");
+  assert(offset == expected_offset && "Removal of leafs (part 2) led to unexpected offset");
 }
 
 void test7(){
@@ -73,11 +77,13 @@ void test7(){
   std::vector<std::vector<int>> edges = {{0,1},{1,2},{2,3}};
   std::vector<int> new_degrees;
   std::vector<std::vector<int>> new_edges;
-  simplify_by_removing_leafs(degrees, edges, new_degrees, new_edges);
-  std::vector<int> new_expected_degrees = {6};
+  int offset = simplify_by_removing_leafs(degrees, edges, new_degrees, new_edges);
+  std::vector<int> new_expected_degrees = {1};
   std::vector<std::vector<int>> new_expected_edges = {};
-  assert(new_degrees == new_expected_degrees && "Removal of leafs led to unexpected degrees");
-  assert(new_edges == new_expected_edges && "Removal of leafs led to unexpected edges");
+  int expected_offset = 5;
+  assert(new_degrees == new_expected_degrees && "Removal of leafs (part 3) led to unexpected degrees 3");
+  assert(new_edges == new_expected_edges && "Removal of leafs (part 3) led to unexpected edges");
+  assert(offset == expected_offset && "Removal of leafs (part 3) led to unexpected offset");
 }
 
 
@@ -212,7 +218,7 @@ void test20(){
   bool bound;
   int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
   assert(h0 == 4 && "Cohomology determined incorrectly for tricircuit");
-  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact");
 }
 
 void test21(){
@@ -221,7 +227,7 @@ void test21(){
   std::vector<int> genera = {0,0,0,0,0};
   bool bound;
   int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 1 && "Cohomology determined incorrectly for tricircuit");
+  assert(h0 == 2 && "Cohomology determined incorrectly for tricircuit");
   assert(bound == false && "The cohomology result should be exact, but is marked as lower bound");
 }
 

@@ -271,10 +271,10 @@ void find_leafs(const std::vector<std::vector<int>> & edges,
 
 // (7) Remove all leafs of a graph with degrees
 // (7) Remove all leafs of a graph with degrees
-void simplify_by_removing_leafs(const std::vector<int> & degrees,
-                                const std::vector<std::vector<int>> & edges,
-                                std::vector<int> & new_degrees,
-                                std::vector<std::vector<int>> & new_edges)
+int simplify_by_removing_leafs(const std::vector<int> & degrees,
+                               const std::vector<std::vector<int>> & edges,
+                               std::vector<int> & new_degrees,
+                               std::vector<std::vector<int>> & new_edges)
 {
     
     // Find all leafs
@@ -285,19 +285,18 @@ void simplify_by_removing_leafs(const std::vector<int> & degrees,
     if (leafs.size() == 0){
         new_degrees = degrees;
         new_edges = edges;
-        return;
+        return 0;
     }
     
     // Save input information in internal variables that we can manipulate as we simplify the graph
     std::vector<int> internal_degrees = degrees;
     std::vector<std::vector<int>> internal_edges = edges;
     
+    // Initialize an integer to record the offset
+    int offset = 0;
+    
     // Simplify until no leafs are left
     while (leafs.size() > 0){
-        
-        /*print_vector("Current degrees ", internal_degrees);
-        print_vector("Current leafs ", leafs);
-        print_vector_of_vector("Current edges\n", internal_edges);*/
         
         // Empty new_degrees and new_edges
         new_degrees.clear();
@@ -313,7 +312,6 @@ void simplify_by_removing_leafs(const std::vector<int> & degrees,
                 counter++;
             }
         }
-        //std::cout << "\n";
         
         // Make list with the new edges
         for (int i = 0; i < internal_edges.size(); i++){
@@ -321,7 +319,6 @@ void simplify_by_removing_leafs(const std::vector<int> & degrees,
                 new_edges.push_back({dictionary[internal_edges[i][0]], dictionary[internal_edges[i][1]]});
             }
         }
-        //std::cout << "Length of new edges " << new_edges.size() << "\n";
         
         // Copy the old degrees for the remaining vertices
         for (int i = 0; i < internal_degrees.size() - leafs.size(); i++){
@@ -348,7 +345,7 @@ void simplify_by_removing_leafs(const std::vector<int> & degrees,
                             new_degrees[dictionary[i]]--;
                         }
                         if (internal_degrees[internal_edges[j][1]] >= 0){
-                            new_degrees[dictionary[i]] += internal_degrees[internal_edges[j][1]];
+                            offset += internal_degrees[internal_edges[j][1]];
                         }
                     }
                     
@@ -358,7 +355,7 @@ void simplify_by_removing_leafs(const std::vector<int> & degrees,
                             new_degrees[dictionary[i]]--;
                         }
                         if (internal_degrees[internal_edges[j][0]] >= 0){
-                            new_degrees[dictionary[i]] += internal_degrees[internal_edges[j][0]];
+                            offset += internal_degrees[internal_edges[j][0]];
                         }
                     }
                 
@@ -374,9 +371,10 @@ void simplify_by_removing_leafs(const std::vector<int> & degrees,
         
         // Compute the leafs anew
         leafs.clear();
-        //std::cout << "Recompute leafs\n";
         find_leafs(internal_edges, leafs);
         
     }
+    
+    return offset;
     
 }

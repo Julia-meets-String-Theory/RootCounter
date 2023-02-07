@@ -7,11 +7,11 @@ int h0_on_connected_nodal_curve(const std::vector<int>& degrees,
 {
     
     // (1) No edge, so must be a single component that is not self-connected.
-    if (edges.size() == 0 && degrees[0] >= 0){
+    if (edges.size() == 0){
         if (degrees[0] == 0 && genera[0] == 1){
             lower_bound = true;
         }
-        return degrees[0] - genera[0] + 1;
+        return std::max(degrees[0] - genera[0] + 1, 0);
     }
     
     // (2) At least one edge, i.e. two components.
@@ -28,17 +28,17 @@ int h0_on_connected_nodal_curve(const std::vector<int>& degrees,
         // Remove all leafs
         std::vector<int> new_degrees;
         std::vector<std::vector<int>> new_edges;
-        simplify_by_removing_external_leafs(degrees, edges, new_degrees, new_edges);
+        int offset = simplify_by_removing_leafs(degrees, edges, new_degrees, new_edges);
         
         // (2.3) Compute h0 for a SINGLE rational loop
         if (betti_number(edges) == 1 && rational){
             
             // See if we can handle the resulting graph
             if (new_degrees.size() == 2 && new_edges[0][0] != new_edges[0][1] && new_edges[1][0] != new_edges[1][1]){
-                return h0_on_rational_bi_circuit(new_degrees, new_edges, lower_bound);
+                return offset + h0_on_rational_bi_circuit(new_degrees, new_edges, lower_bound);
             }
             if (new_degrees.size() == 3 && new_edges[0][0] != new_edges[0][1] && new_edges[1][0] != new_edges[1][1] && new_edges[2][0] != new_edges[2][1]){
-                return h0_on_rational_tri_circuit(new_degrees, new_edges, lower_bound);
+                return offset + h0_on_rational_tri_circuit(new_degrees, new_edges, lower_bound);
             }
             
         }
@@ -48,28 +48,23 @@ int h0_on_connected_nodal_curve(const std::vector<int>& degrees,
             
             // See if we can handle the resulting graph
             if (new_degrees.size() == 2 && new_edges.size() == 3 && new_edges[0][0] != new_edges[0][1] && new_edges[1][0] != new_edges[1][1] && new_edges[2][0] != new_edges[2][1]){
-                return h0_on_rational_bi_triple_circuit(new_degrees, new_edges, lower_bound);
+                return offset + h0_on_rational_bi_triple_circuit(new_degrees, new_edges, lower_bound);
             }
             
         }
         
-        // (2.5) For all remaining cases, compute a lower bound
-        lower_bound = true;
-        int number_nodes = edges.size();
-        int local_sections = 0;
-        for (int i = 0; i < degrees.size(); i++){
-            if (degrees[i] >= 0){
-                local_sections += degrees[i] - genera[i] + 1;
-            }
-        }
-        if (local_sections >= number_nodes){
-            return local_sections - number_nodes;
-        }
-        
     }
     
-    // (3) Standard return value if all else fails
-    return 0;
+    // (3) Lower bound
+    lower_bound = true;
+    int number_nodes = edges.size();
+    int local_sections = 0;
+    for (int i = 0; i < degrees.size(); i++){
+        if (degrees[i] >= 0){
+            local_sections += degrees[i] - genera[i] + 1;
+        }
+    }
+    return std::max(local_sections - number_nodes, 0);
     
 }
 
