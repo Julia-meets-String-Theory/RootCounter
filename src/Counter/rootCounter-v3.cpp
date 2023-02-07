@@ -128,13 +128,13 @@ void worker(const std::vector<int> & degrees,
                         bool lower_bound_for_cc;
                         int h0_of_cc = h0_on_nodal_curve(degs_of_cc[j], edges_of_cc[j], gens_of_cc[j], lower_bound_for_cc);
                         if (lower_bound_for_cc){
-		                        
-		                        // We want to know if the only issue with computing h0 are isolated g = 1 curves. It is sufficient to check if there are more than a single component.
-		                        if (degs_of_cc[j].size() > 1){
-				                        only_isolated_elliptic_curves_cause_trouble = false;
-		                        }
-		                        
-		                        // Save unsorted setup
+                            
+		                    // We want to know if the only issue with computing h0 are isolated g = 1 curves. It is sufficient to check if there are more than a single component.
+		                    if (degs_of_cc[j].size() > 1){
+				                only_isolated_elliptic_curves_cause_trouble = false;
+		                    }
+                            
+		                    // Save unsorted setup
                             std::vector<std::vector<int>> new_unsorted_setup = {gens_of_cc[j], degs_of_cc[j], {h0_of_cc}};
                             for (int k = 0; k < edges_of_cc[j].size(); k++){
                                 new_unsorted_setup.push_back(edges_of_cc[j][k]);
@@ -146,22 +146,21 @@ void worker(const std::vector<int> & degrees,
                     
                     // If the only issue with computing h0 on this nodal curve are isolated g = 1 curves, then we can provide a more precise update on our root counters.
                     if (only_isolated_elliptic_curves_cause_trouble){
-		                    boost::multiprecision::int128_t number_of_roots_on_isolated_elliptic_curves_with_precise_h0 = 1;
-		                    for (int j = 0; j < normalized_degrees.size(); j++){
-				                    if (genera[j] == 1 and normalized_degrees[j] != 0){
-						                    number_of_roots_on_isolated_elliptic_curves_with_precise_h0 = number_of_roots_on_isolated_elliptic_curves_with_precise_h0 * (boost::multiprecision::int128_t) (root * root);
-				                    }
-				                    if (genera[j] == 1 and normalized_degrees[j] == 0){
-						                    number_of_roots_on_isolated_elliptic_curves_with_precise_h0 = number_of_roots_on_isolated_elliptic_curves_with_precise_h0 * (boost::multiprecision::int128_t) (root * root - 1);
-				                    }
-		                    }
-		                    total_clear += (boost::multiprecision::int128_t) currentSnapshot.mult * number_of_roots_on_isolated_elliptic_curves_with_precise_h0;
-		                    total_unclear += (boost::multiprecision::int128_t) currentSnapshot.mult * (number_local_roots - number_of_roots_on_isolated_elliptic_curves_with_precise_h0);
-		                    //total_unclear += (boost::multiprecision::int128_t) currentSnapshot.mult * number_local_roots;
+		                boost::multiprecision::int128_t number_of_roots_on_isolated_elliptic_curves_with_precise_h0 = 1;
+		                for (int j = 0; j < normalized_degrees.size(); j++){
+				            if (genera[j] == 1 and normalized_degrees[j] != 0){
+						        number_of_roots_on_isolated_elliptic_curves_with_precise_h0 = number_of_roots_on_isolated_elliptic_curves_with_precise_h0 * (boost::multiprecision::int128_t) (root * root);
+				            }
+				            if (genera[j] == 1 and normalized_degrees[j] == 0){
+						        number_of_roots_on_isolated_elliptic_curves_with_precise_h0 = number_of_roots_on_isolated_elliptic_curves_with_precise_h0 * (boost::multiprecision::int128_t) (root * root - 1);
+				            }
 		                }
-		                else{
-				                total_unclear += (boost::multiprecision::int128_t) currentSnapshot.mult * number_local_roots;
-		                }
+		                total_clear += (boost::multiprecision::int128_t) currentSnapshot.mult * number_of_roots_on_isolated_elliptic_curves_with_precise_h0;
+		                total_unclear += (boost::multiprecision::int128_t) currentSnapshot.mult * (number_local_roots - number_of_roots_on_isolated_elliptic_curves_with_precise_h0);
+		            }
+		            else{
+				        total_unclear += (boost::multiprecision::int128_t) currentSnapshot.mult * number_local_roots;
+		            }
                 }
                 else{
                     total_clear += (boost::multiprecision::int128_t) currentSnapshot.mult * number_local_roots;
