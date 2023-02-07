@@ -7,6 +7,9 @@ int h0_on_rational_bi_circuit(const std::vector<int>& degrees,
     
     // Consistency check: 2 edges and exactly 2 degrees
     if (edges.size() != 2 || degrees.size() != 2){
+        print_vector( "Degrees ", degrees);
+        print_vector_of_vector( "Edges ", edges);
+        
         throw std::invalid_argument( "RationalBiCircuit received a number of edges or degrees that is different from 2." );
         return -10;
     }
