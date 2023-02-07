@@ -134,12 +134,42 @@ void worker(const std::vector<int> & degrees,
 				                only_isolated_elliptic_curves_cause_trouble = false;
 		                    }
                             
-		                    // Save unsorted setup
-                            std::vector<std::vector<int>> new_unsorted_setup = {gens_of_cc[j], degs_of_cc[j], {h0_of_cc}};
-                            for (int k = 0; k < edges_of_cc[j].size(); k++){
-                                new_unsorted_setup.push_back(edges_of_cc[j][k]);
+                            // If there are only rational components, then let us standardize the graph, iterate over its connected components and only save those that we cannot sort (yet)
+                            if (*std::max_element(std::begin(gens_of_cc[j]), std::end(gens_of_cc[j])) == 0){
+                                
+                                // Standardize the graph
+                                std::vector<int> new_degrees;
+                                std::vector<std::vector<int>> new_edges;
+                                int offset = standardize(degs_of_cc[j], edges_of_cc[j], new_degrees, new_edges);
+                                
+                                // Identify the connected components
+                                std::vector<int> new_genera(new_degrees.size(), 0);
+                                std::vector<std::vector<std::vector<int>>> standardized_edges_of_cc;
+                                std::vector<std::vector<int>> standardized_degs_of_cc, standardized_gens_of_cc;
+                                find_connected_components(new_edges, new_degrees, new_genera, standardized_edges_of_cc, standardized_degs_of_cc, standardized_gens_of_cc);
+                                
+                                // Iterate over the standardized connected components
+                                for (int k = 0; k < standardized_edges_of_cc.size(); k++){
+                                    bool lower_bound_test = false;
+                                    int sections = h0_on_standardized_connected_nodal_curve(standardized_degs_of_cc[k], standardized_edges_of_cc[k], standardized_gens_of_cc[k], lower_bound_test);
+                                    if (lower_bound_test){
+                                        std::vector<std::vector<int>> new_unsorted_setup = {standardized_gens_of_cc[k], standardized_degs_of_cc[k], {sections}};
+                                        for (int l = 0; l < standardized_edges_of_cc[k].size(); l++){
+                                            new_unsorted_setup.push_back(standardized_edges_of_cc[k][l]);
+                                        }
+                                        UpdateUnsortedThreadSafe(unsorted_setups, new_unsorted_setup);
+                                    }
+                                }
+                                
                             }
-                            UpdateUnsortedThreadSafe(unsorted_setups, new_unsorted_setup);
+                            // Otherwise, just save the unsorted setup as is...
+                            else{
+                                std::vector<std::vector<int>> new_unsorted_setup = {gens_of_cc[j], degs_of_cc[j], {h0_of_cc}};
+                                for (int k = 0; k < edges_of_cc[j].size(); k++){
+                                    new_unsorted_setup.push_back(edges_of_cc[j][k]);
+                                }
+                                UpdateUnsortedThreadSafe(unsorted_setups, new_unsorted_setup);
+                            }
                             
                         }
                     }
