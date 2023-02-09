@@ -8,17 +8,23 @@ Originally, this code was and currently still is available in the [ToricVarietie
 
 # General tests
 
-| Description | Result |
+| Description | Test result |
 | ----------- | ------ |
 | Basic tests | [![BasicTests](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/BasicTests.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/BasicTests.yml)|
 | Simple root counting | [![SimpleRootCounting](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/SimpleRootCounting.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/SimpleRootCounting.yml) |
 
 
-# Polytopes with $\overline{K}_{B_3}^3 = 6$
+# Polytopes with $\overline{K}_{B_3}^3 = 6$ and elliptic curve
 
-| Description | Result |
+| Description | Test result |
 | ----------- | ------ |
 | Polytope 8  | [![Polytope8](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly8.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly8.yml) |
+
+
+# Polytopes with $\overline{K}_{B_3}^3 = 6$ and no elliptic curve
+
+| Description | Test result |
+| ----------- | ------ |
 | Polytope 4  | [![Polytope4](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly4.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly4.yml) |
 | Polytope 134 | [![Polytope134](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly134.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly134.yml) |
 | Polytope 128, 130, 136, 236 | [![Polytope128](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly128.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly128.yml) |
@@ -26,7 +32,7 @@ Originally, this code was and currently still is available in the [ToricVarietie
 
 # Polytopes with $\overline{K}_{B_3}^3 = 10$ and elliptic curve
 
-| Description | Result |
+| Description | Test result |
 | ----------- | ------ |
 | Polytope 88  | [![Polytope88](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly88.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly88.yml) |
 | Polytope 110 | [![Polytope110](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly110.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly110.yml) |
