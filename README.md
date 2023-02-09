@@ -14,14 +14,14 @@ Originally, this code was and currently still is available in the [ToricVarietie
 | Simple root counting | [![SimpleRootCounting](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/SimpleRootCounting.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/SimpleRootCounting.yml) |
 
 
-# Polytopes with $\overline{K}_{B_3}^3 = 6$ and elliptic curve
+# 1 Polytope with $\overline{K}_{B_3}^3 = 6$ and elliptic curve
 
 | Description | Test result |
 | ----------- | ------ |
 | Polytope 8  | [![Polytope8](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly8.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly8.yml) |
 
 
-# Polytopes with $\overline{K}_{B_3}^3 = 6$ and no elliptic curve
+# 6 Polytopes with $\overline{K}_{B_3}^3 = 6$ and no elliptic curve
 
 | Description | Test result |
 | ----------- | ------ |
@@ -30,7 +30,7 @@ Originally, this code was and currently still is available in the [ToricVarietie
 | Polytope 128, 130, 136, 236 | [![Polytope128](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly128.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly128.yml) |
 
 
-# Polytopes with $\overline{K}_{B_3}^3 = 10$ and elliptic curve
+# 9 Polytopes with $\overline{K}_{B_3}^3 = 10$ and elliptic curve
 
 | Description | Test result |
 | ----------- | ------ |
@@ -41,7 +41,7 @@ Originally, this code was and currently still is available in the [ToricVarietie
 | Polytope 798, 808, 810, 812 | [![Polytope798](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly798.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly798.yml) |
 
 
-# Polytopes with $\overline{K}_{B_3}^3 = 10$ and no elliptic curve
+# 17 Polytopes with $\overline{K}_{B_3}^3 = 10$ and no elliptic curve (currently tests for 3)
 
 | Description | Result |
 | ----------- | ------ |
