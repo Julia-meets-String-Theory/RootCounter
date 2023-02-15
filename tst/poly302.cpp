@@ -17,7 +17,7 @@ int main(int argc, char* argv[]){
       {{34908682, 20592434, 5217628, 852537, 109894, 9744, 136, 0, 0, 0, 0, 0}, {1396458, 715731, 127552, 13524, 918, 3, 0, 0, 0, 0, 0, 0}, {6388, 4874, 320, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
   std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected =
       {{0, 0, 31922, 7180, 1368, 1954, 650, 27, 0, 0, 0, 0}, {0, 0, 36, 4, 0, 36, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-  assert(sum(n_exact) + sum(n_lower_bound) == sum(n_exact_expected) + sum(n_lower_bound_expected) && "Test for polytope 302 failed");
-  assert(n_exact == n_exact_expected && "Test for polytope 302 failed");
-  assert(n_lower_bound == n_lower_bound_expected && "Test for polytope 302 failed");
+  if ((sum(n_exact) + sum(n_lower_bound) != sum(n_exact_expected) + sum(n_lower_bound_expected)) || (n_exact != n_exact_expected) || (n_lower_bound != n_lower_bound_expected)){
+    return -1;
+  }
 }
