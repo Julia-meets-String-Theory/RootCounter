@@ -42,6 +42,7 @@ clean: uninstall
 	(rm -f tst/poly52.gcda && rm -f tst/poly52.gcno)
 	(rm -f tst/poly302.gcda && rm -f tst/poly302.gcno)
 	(rm -f tst/poly786.gcda && rm -f tst/poly786.gcno)
+	(rm -f tst/poly762.gcda && rm -f tst/poly762.gcno)
 	(rm -f tst/result.txt && rm -f tst/unsorted_setups.txt)
 
 uninstall:
@@ -61,6 +62,7 @@ uninstall:
 	rm -f tst/poly52
 	rm -f tst/poly302
 	rm -f tst/poly786
+	rm -f tst/poly762
 
 uninstall-boost:
 	rm -r -f boost/boost_1_81_0
@@ -145,6 +147,56 @@ poly786_test:
 	chmod +x tst/poly786
 	tst/./poly786
 
+poly762_test:
+	g++ -std=c++17 tst/poly762.cpp -lboost_thread -lboost_system -lpthread -o tst/poly762
+	chmod +x tst/poly762
+	tst/./poly762
+
+poly417_test:
+	g++ -std=c++17 tst/poly417.cpp -lboost_thread -lboost_system -lpthread -o tst/poly417
+	chmod +x tst/poly417
+	tst/./poly417
+
+poly838_test:
+	g++ -std=c++17 tst/poly838.cpp -lboost_thread -lboost_system -lpthread -o tst/poly838
+	chmod +x tst/poly838
+	tst/./poly838
+
+poly782_test:
+	g++ -std=c++17 tst/poly782.cpp -lboost_thread -lboost_system -lpthread -o tst/poly782
+	chmod +x tst/poly782
+	tst/./poly782
+
+poly377_test:
+	g++ -std=c++17 tst/poly377.cpp -lboost_thread -lboost_system -lpthread -o tst/poly377
+	chmod +x tst/poly377
+	tst/./poly377
+
+poly1348_test:
+	g++ -std=c++17 tst/poly1348.cpp -lboost_thread -lboost_system -lpthread -o tst/poly1348
+	chmod +x tst/poly1348
+	tst/./poly1348
+
+poly882_test:
+	g++ -std=c++17 tst/poly882.cpp -lboost_thread -lboost_system -lpthread -o tst/poly882
+	chmod +x tst/poly882
+	tst/./poly882
+
+poly1340_test:
+	g++ -std=c++17 tst/poly1340.cpp -lboost_thread -lboost_system -lpthread -o tst/poly1340
+	chmod +x tst/poly1340
+	tst/./poly1340
+
+poly1879_test:
+	g++ -std=c++17 tst/poly1879.cpp -lboost_thread -lboost_system -lpthread -o tst/poly1879
+	chmod +x tst/poly1879
+	tst/./poly1879
+
+poly1384_test:
+	g++ -std=c++17 tst/poly1384.cpp -lboost_thread -lboost_system -lpthread -o tst/poly1384
+	chmod +x tst/poly1384
+	tst/./poly1384
+
 
 # Test the software against local boost
 # Test the software against local boost
@@ -223,3 +275,53 @@ poly786_test_lb:
 	g++ -std=c++17 tst/poly786.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly786
 	chmod +x tst/poly786
 	tst/./poly786
+
+poly762_test_lb:
+	g++ -std=c++17 tst/poly762.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly762
+	chmod +x tst/poly762
+	tst/./poly762
+
+poly417_test_lb:
+	g++ -std=c++17 tst/poly417.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly417
+	chmod +x tst/poly417
+	tst/./poly417
+
+poly838_test_lb:
+	g++ -std=c++17 tst/poly838.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly838
+	chmod +x tst/poly838
+	tst/./poly838
+
+poly782_test_lb:
+	g++ -std=c++17 tst/poly782.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly782
+	chmod +x tst/poly782
+	tst/./poly782
+
+poly377_test_lb:
+	g++ -std=c++17 tst/poly377.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly377
+	chmod +x tst/poly377
+	tst/./poly377
+
+poly1348_test_lb:
+	g++ -std=c++17 tst/poly1348.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly1348
+	chmod +x tst/poly1348
+	tst/./poly1348
+
+poly882_test_lb:
+	g++ -std=c++17 tst/poly882.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly882
+	chmod +x tst/poly882
+	tst/./poly882
+
+poly1340_test_lb:
+	g++ -std=c++17 tst/poly1340.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly1340
+	chmod +x tst/poly1340
+	tst/./poly1340
+
+poly1879_test_lb:
+	g++ -std=c++17 tst/poly1879.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly1879
+	chmod +x tst/poly1879
+	tst/./poly1879
+
+poly1384_test_lb:
+	g++ -std=c++17 tst/poly1384.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread -o tst/poly1384
+	chmod +x tst/poly1384
+	tst/./poly1384
