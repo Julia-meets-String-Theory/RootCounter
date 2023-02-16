@@ -51,11 +51,11 @@ Originally, this code was and currently still is available in the [ToricVarietie
 | Polytope 786 | [![Polytope786](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly786.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly786.yml) |
 | Polytope 762 | [![Polytope762](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly762.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly762.yml) |
 | Polytope 417 | [![Polytope417](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly417.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly417.yml) |
-| Polytope 838 | <span style="color: red;">to come</span> |
-| Polytope 782 | <span style="color: red;">to come</span> |
-| Polytope 377, 499, 503 | <span style="color: red;">to come</span> |
-| Polytope 1348 | <span style="color: red;">to come</span> |
-| Polytope 882, 856 | <span style="color: red;">to come</span> |
-| Polytope 1340 | <span style="color: red;">to come</span> |
-| Polytope 1879 | <span style="color: red;">to come</span> |
-| Polytope 1384 | <span style="color: red;">to come</span> |
+| Polytope 838 | [![Polytope838](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly838.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly838.yml) |
+| Polytope 782 | [![Polytope782](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly782.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly782.yml) |
+| Polytope 377, 499, 503 | [![Polytope377](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly377.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly377.yml) |
+| Polytope 1348 | [![Polytope1348](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1348.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1348.yml) |
+| Polytope 882, 856 | [![Polytope882](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly882.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly882.yml) |
+| Polytope 1340 | [![Polytope1340](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1340.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1340.yml) |
+| Polytope 1879 | [![Polytope1879](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1879.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1879.yml) |
+| Polytope 1384 | [![Polytope1384](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1384.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1384.yml) |
