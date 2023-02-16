@@ -43,6 +43,15 @@ clean: uninstall
 	(rm -f tst/poly302.gcda && rm -f tst/poly302.gcno)
 	(rm -f tst/poly786.gcda && rm -f tst/poly786.gcno)
 	(rm -f tst/poly762.gcda && rm -f tst/poly762.gcno)
+	(rm -f tst/poly417.gcda && rm -f tst/poly417.gcno)
+	(rm -f tst/poly838.gcda && rm -f tst/poly838.gcno)
+	(rm -f tst/poly782.gcda && rm -f tst/poly782.gcno)
+	(rm -f tst/poly377.gcda && rm -f tst/poly377.gcno)
+	(rm -f tst/poly1348.gcda && rm -f tst/poly1348.gcno)
+	(rm -f tst/poly882.gcda && rm -f tst/poly882.gcno)
+	(rm -f tst/poly1340.gcda && rm -f tst/poly1340.gcno)
+	(rm -f tst/poly1879.gcda && rm -f tst/poly1879.gcno)
+	(rm -f tst/poly1384.gcda && rm -f tst/poly1384.gcno)
 	(rm -f tst/result.txt && rm -f tst/unsorted_setups.txt)
 
 uninstall:
@@ -63,6 +72,15 @@ uninstall:
 	rm -f tst/poly302
 	rm -f tst/poly786
 	rm -f tst/poly762
+	rm -f tst/poly417
+	rm -f tst/poly838
+	rm -f tst/poly782
+	rm -f tst/poly377
+	rm -f tst/poly1348
+	rm -f tst/poly882
+	rm -f tst/poly1340
+	rm -f tst/poly1879
+	rm -f tst/poly1384
 
 uninstall-boost:
 	rm -r -f boost/boost_1_81_0
