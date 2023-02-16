@@ -50,7 +50,7 @@ Originally, this code was and currently still is available in the [ToricVarietie
 | Polytope 302 | [![Polytope302](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly302.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly302.yml) |
 | Polytope 786 | [![Polytope786](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly786.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly786.yml) |
 | Polytope 762 | [![Polytope762](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly762.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly762.yml) |
-| Polytope 417 | <span style="color: red;">to come</span> |
+| Polytope 417 | [![Polytope417](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly417.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly417.yml) |
 | Polytope 838 | <span style="color: red;">to come</span> |
 | Polytope 782 | <span style="color: red;">to come</span> |
 | Polytope 377, 499, 503 | <span style="color: red;">to come</span> |
