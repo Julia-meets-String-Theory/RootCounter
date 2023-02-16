@@ -9,7 +9,7 @@ Originally, this code was and currently still is available in the [ToricVarietie
 # General tests
 
 | Description | Test result | Estimated runtime (min) |
-| ----------- | ------ |
+| ----------- | ------ | ------ |
 | Basic tests | [![BasicTests](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/BasicTests.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/BasicTests.yml)| 3 |
 | Simple root counting | [![SimpleRootCounting](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/SimpleRootCounting.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/SimpleRootCounting.yml) | 3 |
 
@@ -17,14 +17,14 @@ Originally, this code was and currently still is available in the [ToricVarietie
 # 1 Polytope with $\overline{K}_{B_3}^3 = 6$ and elliptic curve
 
 | Description | Test result | Estimated runtime (min) |
-| ----------- | ------ |
+| ----------- | ------ | ------ |
 | Polytope 8  | [![Polytope8](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly8.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly8.yml) | 5 |
 
 
 # 6 Polytopes with $\overline{K}_{B_3}^3 = 6$ and no elliptic curve
 
 | Description | Test result | Estimated runtime (min) |
-| ----------- | ------ |
+| ----------- | ------ | ------ |
 | Polytope 4  | [![Polytope4](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly4.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly4.yml) | 5 |
 | Polytope 134 | [![Polytope134](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly134.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly134.yml) | 5 |
 | Polytope 128, 130, 136, 236 | [![Polytope128](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly128.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly128.yml) | 5 |
@@ -33,7 +33,7 @@ Originally, this code was and currently still is available in the [ToricVarietie
 # 9 Polytopes with $\overline{K}_{B_3}^3 = 10$ and elliptic curve
 
 | Description | Test result | Estimated runtime (min) |
-| ----------- | ------ |
+| ----------- | ------ | ------ |
 | Polytope 88  | [![Polytope88](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly88.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly88.yml) | 6 |
 | Polytope 110 | [![Polytope110](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly110.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly110.yml) | 7 |
 | Polytope 272, 274 | [![Polytope272](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly272.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly272.yml) | 8 |
@@ -44,7 +44,7 @@ Originally, this code was and currently still is available in the [ToricVarietie
 # 17 Polytopes with $\overline{K}_{B_3}^3 = 10$ and no elliptic curve (currently tests for 3)
 
 | Description | Result | Estimated runtime (min) |
-| ----------- | ------ |
+| ----------- | ------ | ------ |
 | Polytope 254 | [![Polytope254](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly254.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly254.yml) | 15 |
 | Polytope 52 | [![Polytope52](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly52.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly52.yml) | 15 |
 | Polytope 302 | [![Polytope302](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly302.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly302.yml) | 15 |
