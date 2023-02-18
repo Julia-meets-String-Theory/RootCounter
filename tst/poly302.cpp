@@ -17,7 +17,8 @@ int main(int argc, char* argv[]){
       {{34908682, 20592434, 5217628, 852537, 109894, 11414, 768, 24}, {1396458, 715731, 127552, 13524, 918, 39, 0, 0}, {6388, 4874, 320, 0, 0, 0, 0, 0}};
   std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected =
       {{0, 0, 31922, 7180, 1368, 284, 18, 3}, {0, 0, 36, 4, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0}};
-  if ((sum(n_exact) + sum(n_lower_bound) != sum(n_exact_expected) + sum(n_lower_bound_expected)) || (n_exact != n_exact_expected) || (n_lower_bound != n_lower_bound_expected)){
+  boost::multiprecision::int128_t total = (boost::multiprecision::int128_t) (pow(20, 6));
+  if ((sum(n_exact) + sum(n_lower_bound) != total) || (n_exact != n_exact_expected) || (n_lower_bound != n_lower_bound_expected)){
     return -1;
   }
 }
