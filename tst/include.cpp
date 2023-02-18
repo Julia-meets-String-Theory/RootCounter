@@ -35,3 +35,19 @@
 // Optimizations for speedup
 #pragma GCC optimize("Ofast")
 #pragma GCC target("avx,avx2,fma")
+
+// This method checks the results for the QSM root counting
+int conduct_test(const std::string & input,
+                 const std::string & path,
+                 const std::vector<std::vector<boost::multiprecision::int128_t>> & n_exact_expected,
+                 const std::vector<std::vector<boost::multiprecision::int128_t>> & n_lower_bound_expected,
+                 const boost::multiprecision::int128_t & total)
+{
+    std::vector<std::vector<boost::multiprecision::int128_t>> n_exact, n_lower_bound;
+    std::vector<std::vector<std::vector<int>>> unsorted_setups;
+    count_roots(input, path, true, n_exact, n_lower_bound, unsorted_setups);
+    if ((sum(n_exact) + sum(n_lower_bound) != total) || (n_exact != n_exact_expected) || (n_lower_bound != n_lower_bound_expected)){
+        return -1;
+    }
+    return 0;
+}
