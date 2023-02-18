@@ -23,11 +23,22 @@ void return_result(const std::string & full_path,
     file1 << "]];";
     file1.close();
 
-    // (3) Save the unsorted setups to another file.
+    // (3) Save the unsorted setups to another file and print them to the console.
     std::ofstream file2(dir_path + "/unsorted_setups.txt", std::ios::trunc);
     for (int i = 0; i < unsorted.size(); i++){
-        file2 << "##################\n";
+        // extract edges
         std::vector<std::vector<int>> nodal_edges_of_setup(unsorted[i].begin()+3, unsorted[i].end());
+        
+        // print to the console
+        std::cout << "##################\n";
+        print_vector_of_vector("Edges:\n", nodal_edges_of_setup);
+        print_vector("Genera: ", unsorted[i][0]);
+        print_vector("Degrees: ", unsorted[i][1]);
+        std::cout << "Lower bound on h0: " << std::to_string(unsorted[i][2][0]) << "\n";
+        std::cout << "##################\n\n";
+        
+        // print to file
+        file2 << "##################\n";
         print_vector_of_vector_to_file(file2, "Edges", nodal_edges_of_setup);
         print_vector_to_file(file2, "Genera ", unsorted[i][0]);
         print_vector_to_file(file2, "Degrees ", unsorted[i][1]);
