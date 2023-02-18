@@ -12,17 +12,17 @@ void return_result(const std::string & full_path,
                             const std::chrono::steady_clock::time_point & after,
                             const std::vector<std::vector<std::vector<int>>> & unsorted)
 {
-
+    
     // (1) Find absolute path
     std::string dir_path = full_path.substr(0, full_path.find_last_of("."));
-
+    
     // (2) Save the computed numbers of to a result file.
     std::ofstream file1(dir_path + "/result.txt", std::ios::trunc);
     print_vector_of_vector_to_file(file1, "[[", n_exact);
     print_vector_of_vector_to_file(file1, "],\n[", n_lower_bound);
     file1 << "]];";
     file1.close();
-
+    
     // (3) Save the unsorted setups to another file and print them to the console.
     std::ofstream file2(dir_path + "/unsorted_setups.txt", std::ios::trunc);
     for (int i = 0; i < unsorted.size(); i++){
@@ -46,12 +46,12 @@ void return_result(const std::string & full_path,
         file2 << "##################\n\n";
     }
     file2.close();
-
+    
     // (4) By theory, we expect a certain number of root bundles. Compute that number and the number of root bundles we actually found.
     boost::multiprecision::int128_t geo_mult = (boost::multiprecision::int128_t) (pow(root, b1));
     boost::multiprecision::int128_t total_number_roots = ((boost::multiprecision::int128_t) (pow(root, 2 * genus))/geo_mult);
     boost::multiprecision::int128_t total_roots_found = sum(n_exact) + sum(n_lower_bound);
-
+    
     // (5) Print the numbers we found.
     std::cout << "\n";
     for (int j = 0; j <= numberBlowupsConsidered; j++){
@@ -66,15 +66,14 @@ void return_result(const std::string & full_path,
         std::cout << sum(n_exact[i]) << "\t" << sum(n_lower_bound[i]) << "\t";
     }
     std::cout << "\n\n";
-
+    
     // (6) Print the percentages we found.
     using LongFloat=boost::multiprecision::cpp_bin_float_quad;
     for (int j = 0; j <= numberBlowupsConsidered; j++){
         std::cout << j + numNodesMin << ":\t";
         for (int i = 0; i <= h0Max - h0Min; i++){
-            LongFloat r1 = LongFloat(100) * LongFloat(n_exact[i][j]) / LongFloat(total_number_roots);
-            LongFloat r2 = LongFloat(100) * LongFloat(n_lower_bound[i][j]) / LongFloat(total_number_roots);
-            std::cout << std::setprecision(3) << r1 << "\t" << std::setprecision(3) << r2 << "\t";
+            std::cout << std::setprecision(3) << LongFloat(100) * LongFloat(n_exact[i][j]) / LongFloat(total_number_roots) << "\t";
+            std::cout << std::setprecision(3) << LongFloat(100) * LongFloat(n_lower_bound[i][j]) / LongFloat(total_number_roots) << "\t";
         }
         std::cout << "\n";
     }
@@ -95,5 +94,79 @@ void return_result(const std::string & full_path,
     std::cout << "Difference: " << (boost::multiprecision::int128_t) (pow(root, 2 * genus)) - (boost::multiprecision::int128_t) (geo_mult * total_roots_found) << "\n";
     std::cout << "Time for run: " << std::chrono::duration_cast<std::chrono::seconds>(after - before).count() << "[s]\n";
     std::cout << "##########################################\n\n";
+    
+    // (8) Print numbers in a format that can be directly pasted into LaTeX
+    bool LaTeX = true;
+    std::cout << "\n\n";
+    std::cout << "###################\n";
+    std::cout << "LATEX Code:\n";
+    std::cout << "###################\n";
+    std::cout << "\n";
+    if (LaTeX){
+        
+        // 8.1 Print the absolute numbers in LaTeX table
+        std::cout << "\\begin{tabular}{c|";
+        for (int i = 0; i < h0Max - h0Min; i++){
+            std::cout << "cc|";
+        }
+        std::cout << "cc}\n";
+        std::cout << "\\toprule\n";
+        std::cout << "N & ";
+        for (int i = 0; i < h0Max - h0Min; i++){
+            std::cout << "$h^0 = " << h0Min + i << "$ & $h^0 \\geq " << h0Min + i << "$ & ";
+        }
+        std::cout << "$h^0 = " << h0Max << "$ & $h^0 \\geq " << h0Max << "$ \\\\\n";
+        std::cout << "\\midrule\n";
+        for (int j = 0; j <= numberBlowupsConsidered; j++){
+            std::cout << j + numNodesMin << " & ";
+            for (int i = 0; i < h0Max - h0Min; i++){
+                std::cout << n_exact[i][j] << " & " << n_lower_bound[i][j] << " & ";
+            }
+            std::cout << n_exact[h0Max - h0Min][j] << " & " << n_lower_bound[h0Max - h0Min][j] << " \\\\\n";
+        }
+        std::cout << "\\midrule\n";
+        std::cout << "\\Sigma & ";
+        for (int i = 0; i < h0Max - h0Min; i++){
+            std::cout << sum(n_exact[i]) << " & " << sum(n_lower_bound[i]) << " & ";
+        }
+        std::cout << sum(n_exact[h0Max - h0Min]) << " & " << sum(n_lower_bound[h0Max - h0Min]) << " \\\\\n";
+        std::cout << "\\bottomrule\n";
+        std::cout << "\\end{tabular}\n";
+        
+        std::cout << "\n\n";
+        
+        // 8.2 Print the percentages in LaTeX table
+        std::cout << "\\begin{tabular}{c|";
+        for (int i = 0; i < h0Max - h0Min; i++){
+            std::cout << "cc|";
+        }
+        std::cout << "cc}\n";
+        std::cout << "\\toprule\n";
+        std::cout << "N & ";
+        for (int i = 0; i < h0Max - h0Min; i++){
+            std::cout << "$h^0 = " << h0Min + i << "$ & $h^0 \\geq " << h0Min + i << "$ & ";
+        }
+        std::cout << "$h^0 = " << h0Max << "$ & $h^0 \\geq " << h0Max << "$ \\\\\n";
+        std::cout << "\\midrule\n";
+        for (int j = 0; j <= numberBlowupsConsidered; j++){
+            std::cout << j + numNodesMin << " & ";
+            for (int i = 0; i < h0Max - h0Min; i++){
+                std::cout << std::setprecision(3) << LongFloat(100) * LongFloat(n_exact[i][j]) / LongFloat(total_number_roots) << " & ";
+                std::cout << std::setprecision(3) << LongFloat(100) * LongFloat(n_lower_bound[i][j]) / LongFloat(total_number_roots) << " & ";
+            }
+            std::cout << std::setprecision(3) << LongFloat(100) * LongFloat(n_exact[h0Max - h0Min][j]) / LongFloat(total_number_roots) << " & ";
+            std::cout << std::setprecision(3) << LongFloat(100) * LongFloat(n_lower_bound[h0Max - h0Min][j]) / LongFloat(total_number_roots) << " \\\\\n";
+        }
+        std::cout << "\\midrule\n";
+        std::cout << "\\Sigma & ";
+        for (int i = 0; i < h0Max - h0Min; i++){
+            std::cout << std::setprecision(3) << LongFloat(100) * LongFloat(sum(n_exact[i])) / LongFloat(total_number_roots) << " & ";
+            std::cout << std::setprecision(3) << LongFloat(100) * LongFloat(sum(n_lower_bound[i])) / LongFloat(total_number_roots) << " & ";
+        }
+        std::cout << std::setprecision(3) << LongFloat(100) * LongFloat(sum(n_exact[h0Max - h0Min])) / LongFloat(total_number_roots) << " & ";
+        std::cout << std::setprecision(3) << LongFloat(100) * LongFloat(sum(n_lower_bound[h0Max - h0Min])) / LongFloat(total_number_roots) << " \\\\\n";
+        std::cout << "\\bottomrule\n";
+        std::cout << "\\end{tabular}\n";
+    }
     
 }
