@@ -332,7 +332,68 @@ void test28(){
 
 
 // ########################################
-// (6) Execute the tests
+// (6) Tests for standarizing graphs
+// ########################################
+
+void test29(){
+  std::vector<int> degrees = {0, 0, 0};
+  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {2, 0}};
+  std::vector<int> new_degrees;
+  std::vector<std::vector<int>> new_edges;
+  int offset = standardize(degrees, edges, new_degrees, new_edges);
+  std::vector<int> expected_new_degrees = {0, 0};
+  std::vector<std::vector<int>> expected_new_edges = {{0, 1}, {0, 1}};
+  int expected_offset = 0;
+  assert(offset == expected_offset && "Offset wrongly computed in graph standardization test 1");
+  assert(new_degrees == expected_new_degrees && "New degrees wrongly computed in graph standardization test 1");
+  assert(new_edges == expected_new_edges && "New degrees wrongly computed in graph standardization test 1");
+}
+
+void test30(){
+  std::vector<int> degrees = {0, -1, 0};
+  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {2, 0}};
+  std::vector<int> new_degrees;
+  std::vector<std::vector<int>> new_edges;
+  int offset = standardize(degrees, edges, new_degrees, new_edges);
+  std::vector<int> expected_new_degrees = {-1, 0};
+  std::vector<std::vector<int>> expected_new_edges = {{0, 1}, {0, 1}};
+  int expected_offset = 0;
+  assert(offset == expected_offset && "Offset wrongly computed in graph standardization test 2");
+  assert(new_degrees == expected_new_degrees && "New degrees wrongly computed in graph standardization test 2");
+  assert(new_edges == expected_new_edges && "New degrees wrongly computed in graph standardization test 2");
+}
+
+void test31(){
+  std::vector<int> degrees = {-1, 0, 0};
+  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {2, 0}};
+  std::vector<int> new_degrees;
+  std::vector<std::vector<int>> new_edges;
+  int offset = standardize(degrees, edges, new_degrees, new_edges);
+  std::vector<int> expected_new_degrees = {-2};
+  std::vector<std::vector<int>> expected_new_edges = {};
+  int expected_offset = 0;
+  assert(offset == expected_offset && "Offset wrongly computed in graph standardization test 3");
+  assert(new_degrees == expected_new_degrees && "New degrees wrongly computed in graph standardization test 3");
+  assert(new_edges == expected_new_edges && "New degrees wrongly computed in graph standardization test 3");
+}
+
+void test32(){
+  std::vector<int> degrees = {2, 0, 0};
+  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {2, 0}};
+  std::vector<int> new_degrees;
+  std::vector<std::vector<int>> new_edges;
+  int offset = standardize(degrees, edges, new_degrees, new_edges);
+  std::vector<int> expected_new_degrees = {0};
+  std::vector<std::vector<int>> expected_new_edges = {};
+  int expected_offset = 1;
+  assert(offset == expected_offset && "Offset wrongly computed in graph standardization test 4");
+  assert(new_degrees == expected_new_degrees && "New degrees wrongly computed in graph standardization test 4");
+  assert(new_edges == expected_new_edges && "New degrees wrongly computed in graph standardization test 4");
+}
+
+
+// ########################################
+// (7) Execute the tests
 // ########################################
 
 int main(int argc, char* argv[]){
@@ -364,4 +425,8 @@ int main(int argc, char* argv[]){
   test26();
   test27();
   test28();
+  test29();
+  test30();
+  test31();
+  test32();
 }
