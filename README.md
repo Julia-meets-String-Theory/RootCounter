@@ -38,8 +38,8 @@ Originally, this code was and currently still is available in the [ToricVarietie
 | 10 | :x: | 377, 499, 503 | 98 | [![Polytope377](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly377.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly377.yml) |
 | 10 | :x: | 1348 | 239 | [![Polytope1348](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1348.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1348.yml) |
 | 10 | :x: | 882, 856 | 96 | [![Polytope882](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly882.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly882.yml) |
-| 10 | :x: | 1340 | **> 6 hours** | [![Polytope1340](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1340.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1340.yml) |
-| 10 | :x: | 1879 | **> 6 hours** | [![Polytope1879](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1879.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1879.yml) |
-| 10 | :x: | 1384 | **> 6 hours** | [![Polytope1384](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1384.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1384.yml) |
+| 10 | :x: | 1340 | **> 6 hours** | :x: |
+| 10 | :x: | 1879 | **> 6 hours** | :x: |
+| 10 | :x: | 1384 | **> 6 hours** | :x: |
 
 (Runtimes are taken from https://github.com/Julia-meets-String-Theory/RootCounter/pull/28.)
