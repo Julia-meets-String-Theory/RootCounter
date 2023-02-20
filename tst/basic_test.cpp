@@ -393,7 +393,72 @@ void test32(){
 
 
 // ########################################
-// (7) Execute the tests
+// (7) Marielle's tests on h0-computation
+// ########################################
+
+void Marielle_test1(){
+  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {1, 2}, {0, 2}, {0, 3}, {2, 3}};
+  std::vector<int> degrees = {1, 1, 2, 0};
+  std::vector<int> genera = {0, 0, 0, 0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 2 && "Cohomology determined incorrectly for Marielle's test 1");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact for Marielle's test 1");
+}
+
+void Marielle_test2(){
+  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {1, 2}, {0, 2}, {0, 3}, {2, 3}};
+  std::vector<int> degrees = {2,1,1,-2};
+  std::vector<int> genera = {0,0,0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 1 && "Cohomology determined incorrectly for Marielle's test 2");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound for Marielle's test 2");
+}
+
+void Marielle_test3(){
+  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {1, 2}, {0, 2}, {0, 3}, {2, 3}, {3, 4}, {4, 5}};
+  std::vector<int> degrees = {2, 2, 2, -2, 1, -2};
+  std::vector<int> genera = {0, 0, 0, 0, 0, 0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 3 && "Cohomology determined incorrectly for Marielle's test 3");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound for Marielle's test 3");
+}
+
+void Marielle_test4(){
+  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {1, 2}, {0, 2}, {0, 3}, {2, 3}, {3, 4}, {4, 5}, {0, 5}};
+  std::vector<int> degrees = {2, 2, 2, -2, 1, 1};
+  std::vector<int> genera = {0, 0, 0, 0, 0, 0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 4 && "Cohomology determined incorrectly for Marielle's test 4");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound for Marielle's test 4");
+}
+
+void Marielle_test5(){
+  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {1, 2}, {0, 2}, {0, 3}, {2, 3}, {3, 4}, {4, 5}, {0, 5}};
+  std::vector<int> degrees = {1, 1, 2, 0, 2, 1};
+  std::vector<int> genera = {0, 0, 0, 0, 0, 0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 4 && "Cohomology determined incorrectly for Marielle's test 5");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact for Marielle's test 5");
+}
+
+void Marielle_test6(){
+  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {1, 2}, {0, 2}, {0, 3}, {2, 3}, {3, 4}, {4, 5}, {0, 5}};
+  std::vector<int> degrees = {2, 1, 2, 1, 0, 0};
+  std::vector<int> genera = {0, 0, 0, 0, 0, 0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 3 && "Cohomology determined incorrectly for Marielle's test 6");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact for Marielle's test 6");
+}
+
+
+// ########################################
+// (8) Execute the tests
 // ########################################
 
 int main(int argc, char* argv[]){
@@ -429,4 +494,10 @@ int main(int argc, char* argv[]){
   test30();
   test31();
   test32();
+  Marielle_test1();
+  Marielle_test2();
+  Marielle_test3();
+  Marielle_test4();
+  Marielle_test5();
+  Marielle_test6();
 }
