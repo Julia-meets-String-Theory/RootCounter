@@ -38,8 +38,8 @@ Originally, this code was and currently still is available in the [ToricVarietie
 | 377, 499, 503 | 10 | :x: | $20^{6}$ | $20^{12}$ | $4.461 \times 10^{9}$ | $10^{25}$ | 98 | [![Polytope377](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly377.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly377.yml) |
 | 1348 | 10 | :x: | $20^{6}$ | $20^{12}$ | $4.285 \times 10^{9}$ | $10^{25}$ | 239 | [![Polytope1348](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1348.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1348.yml) |
 | 882, 856 | 10 | :x: | $20^{6}$ | $20^{12}$ | $3.180 \times 10^{9}$ | $10^{25}$ | 96 | [![Polytope882](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly882.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly882.yml) |
-| 1340 | 10 | :x: | $20^{6}$ | $20^{12}$ | $4.496 \times 10^{9}$ | $10^{25}$ | **> 6 hours** | [![Polytope1340](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1340.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1340.yml) |
-| 1879 | 10 | :x: | $20^{6}$ | $20^{12}$ | $4.461 \times 10^{9}$ | $10^{25}$ | **> 6 hours** | [![Polytope1879](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1879.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1879.yml) |
-| 1384 | 10 | :x: | $20^{6}$ | $20^{12}$ | $7.040 \times 10^{9}$ | $10^{25}$ | **> 6 hours** | [![Polytope1384](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1384.yml/badge.svg)](https://github.com/Julia-meets-String-Theory/RootCounter/actions/workflows/Poly1384.yml) |
+| 1340 | 10 | :x: | $20^{6}$ | $20^{12}$ | $4.496 \times 10^{9}$ | $10^{25}$ | **> 6 hours** | :x: |
+| 1879 | 10 | :x: | $20^{6}$ | $20^{12}$ | $4.461 \times 10^{9}$ | $10^{25}$ | **> 6 hours** | :x: |
+| 1384 | 10 | :x: | $20^{6}$ | $20^{12}$ | $7.040 \times 10^{9}$ | $10^{25}$ | **> 6 hours** | :x: |
 
 (Runtimes are taken from https://github.com/Julia-meets-String-Theory/RootCounter/pull/28.)
