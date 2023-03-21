@@ -122,7 +122,7 @@ int h0_on_rational_bi_quadruple_circuit(const std::vector<int>& degrees,
     
     // Find global h0
     int local_sections = std::max(degrees[0] + 1, 0) + std::max(degrees[1] + 1, 0);
-    return std::max(local_sections - 3, 0);
+    return std::max(local_sections - 4, 0);
     
 }
 
