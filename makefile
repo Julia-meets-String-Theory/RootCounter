@@ -15,6 +15,7 @@ install: uninstall
 	g++ -std=c++17 src/root_counter.cpp -lboost_thread -lboost_system -lpthread -o RootCounter
 
 install-boost: uninstall-boost
+	mkdir boost
 	(cd boost && wget -O boost_1_81_0.tar.gz https://sourceforge.net/projects/boost/files/boost/1.81.0/boost_1_81_0.tar.gz/download; tar xzvf boost_1_81_0.tar.gz; rm boost_1_81_0.tar.gz)
 	(cd boost && mkdir -p library)
 	(cd boost/boost_1_81_0 && ./bootstrap.sh --prefix=$$(realpath ../library) && ./b2 --prefix=$$(realpath ../library) --threading=multi install)
