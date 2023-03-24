@@ -76,6 +76,6 @@ int h0_on_connected_rational_dumpbell(const std::vector<int>& degrees, const std
 int h0_on_connected_rational_triple_loop(const std::vector<int>& degrees, const std::vector<std::vector<int>>& edges, bool & lower_bound)
 {
     consistency_check({(int) edges.size(), (int) degrees.size(), betti_number(edges), self_loops(edges)}, {4, 2, 3, 0});
-    if (degrees[0] == 2 && degrees[1] == 2){lower_bound = true;} // Canonical bundle
+    if (degrees[0] >= 0 && degrees[1] >= 0 && degrees[0] <= 2 && degrees[1] <= 2){lower_bound = true;}
     return compute_h0(degrees, (int) edges.size());
 }
