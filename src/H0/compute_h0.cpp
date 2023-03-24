@@ -34,6 +34,10 @@ int h0_on_standardized_connected_nodal_curve(const std::vector<int>& degrees,
                 return h0_on_connected_rational_double_loop(degrees, edges, lower_bound);
             }
             
+            if (degrees.size() == 2 && self_loops(edges) == 2){
+                return h0_on_connected_rational_dumpbell(degrees, edges, lower_bound);
+            }
+            
         }
         
         /*if (betti_number(edges) == 3){
