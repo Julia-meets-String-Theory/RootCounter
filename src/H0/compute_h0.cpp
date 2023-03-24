@@ -17,26 +17,29 @@ int h0_on_standardized_connected_nodal_curve(const std::vector<int>& degrees,
     // (2) Only rational components and at least one edge
     if (edges.size() > 0 && (*std::max_element(std::begin(genera), std::end(genera)) == 0)){
         
-        if (betti_number(edges) == 1 && edges.size() == 2 && edges[0][0] != edges[0][1] && edges[1][0] != edges[1][1]){
-            return h0_on_rational_bi_circuit(degrees, edges, lower_bound);
+        if (betti_number(edges) == 1){
+            
+            if (degrees.size() == 1 && self_loops(edges) == 1){
+                return h0_on_connected_rational_one_loop(degrees, edges, lower_bound);
+            }
         }
         
         if (betti_number(edges) == 2){
             
-            if (edges.size() == 3 && edges[0][0] != edges[0][1] && edges[1][0] != edges[1][1] && edges[2][0] != edges[2][1]){
-                return h0_on_rational_bi_triple_circuit(degrees, edges, lower_bound);
+            if (degrees.size() == 1 && self_loops(edges) == 2){
+                return h0_on_connected_rational_two_loop(degrees, edges, lower_bound);
             }
             
-            if (edges.size() == 4 && edges[0][0] != edges[0][1] && edges[1][0] != edges[1][1] && edges[2][0] != edges[2][1] && edges[3][0] != edges[3][1]){
-                return h0_on_rational_bi_loop(degrees, edges, lower_bound);
+            if (degrees.size() == 2 && self_loops(edges) == 0){
+                return h0_on_connected_rational_double_loop(degrees, edges, lower_bound);
             }
             
         }
         
         /*if (betti_number(edges) == 3){
             
-            if (edges.size() == 4 && edges[0][0] != edges[0][1] && edges[1][0] != edges[1][1] && edges[2][0] != edges[2][1] && edges[3][0] != edges[3][1]){
-                return h0_on_rational_bi_quadruple_circuit(degrees, edges, lower_bound);
+            if (degrees.size() == 2 && self_loops(edges) == 0){
+                return h0_on_connected_rational_triple_loop(degrees, edges, lower_bound);
             }
             
         }*/
