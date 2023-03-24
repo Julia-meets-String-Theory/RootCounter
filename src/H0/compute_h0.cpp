@@ -40,13 +40,13 @@ int h0_on_standardized_connected_nodal_curve(const std::vector<int>& degrees,
             
         }
         
-        /*if (betti_number(edges) == 3){
+        if (betti_number(edges) == 3){
             
             if (degrees.size() == 2 && self_loops(edges) == 0){
                 return h0_on_connected_rational_triple_loop(degrees, edges, lower_bound);
             }
             
-        }*/
+        }
         
         
     }
