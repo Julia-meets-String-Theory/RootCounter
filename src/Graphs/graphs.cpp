@@ -253,7 +253,10 @@ void find_external_leafs(const std::vector<std::vector<int>> & edges,
     for (int i = 0; i < vertices.size(); i++){
         int count_for_component_i = 0;
         for (int j = 0; j < edges.size(); j++){
-            if ((edges[j][0] == i) || (edges[j][1] == i)){
+            if (edges[j][0] == i){
+                count_for_component_i++;
+            }
+            if (edges[j][1] == i){
                 count_for_component_i++;
             }
         }
@@ -381,6 +384,7 @@ int simplify_by_removing_leafs(const std::vector<int> & degrees,
 
 // (8) Find an internal leafs of a graph
 // (8) Find an internal leafs of a graph
+// Default is -1, which means: "There are no internal leafs/trees"
 int find_an_internal_vertex(const std::vector<std::vector<int>> & edges)
 {
     
@@ -389,39 +393,25 @@ int find_an_internal_vertex(const std::vector<std::vector<int>> & edges)
         return -1;
     }
     
-    // Find the vertices
     std::vector<int> vertices;
     find_vertices(vertices, edges);
-
-    // Iterate over all vertices
-    for (int i = 0; i < vertices.size(); i++){
-        int count_for_component_i = 0;
-        std::vector<int> connectors;
-        for (int j = 0; j < edges.size(); j++){
-            if (edges[j][0] == i){
-                count_for_component_i++;
-                connectors.push_back(edges[j][1]);
-            }
-            
-            if (edges[j][1] == i){
-                count_for_component_i++;
-                connectors.push_back(edges[j][0]);
-            }
-        }
-        if (count_for_component_i == 2){
-            // remove duplicates from connectors
-            std::sort(connectors.begin(), connectors.end()); 
-            auto last = std::unique(connectors.begin(), connectors.end());
-            connectors.erase(last, connectors.end());
-            
-            // If i is connnected to exactly two distint components and none of them is i itself, then we have found an internal leaf
-            if ((connectors.size() == 2) && (std::find(connectors.begin(), connectors.end(), i) == connectors.end())){
-                return i;
-            }
-        }
+    
+    // Degenerate case: one vertex
+    if (vertices.size() == 1){
+        return -1;
     }
     
-    // Default is -1, which means: "There are no internal leafs/trees"
+    // Find an internal vertex or tell that there are none.
+    for (int i = 0; i < vertices.size(); i++){
+        int count_for_component_i = 0;
+        for (int j = 0; j < edges.size(); j++){
+            if (edges[j][0] == i){count_for_component_i++;}
+            if (edges[j][1] == i){count_for_component_i++;}
+        }
+        if (count_for_component_i == 2){
+            return i;
+        }
+    }
     return -1;
 }
 
@@ -521,4 +511,25 @@ int standardize(const std::vector<int> & degrees,
     // return the offset
     return offset;
     
+}
+
+
+// (10) Compute the number of self-loops in a graph
+// (10) Compute the number of self-loops in a graph
+
+int self_loops(const std::vector<std::vector<int>>& edges)
+{
+    // Handle degenerate case
+    if (edges.size() == 0){
+        return 0;
+    }
+    
+    // Iterate over edges and count the number of self-loops
+    int self_loops = 0;
+    for (int i = 0; i < edges.size(); i++){
+        if (edges[i][0] == edges[i][1]){
+            self_loops++;
+        }
+    }
+    return self_loops;
 }
