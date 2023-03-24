@@ -33,13 +33,13 @@ int h0_on_standardized_connected_nodal_curve(const std::vector<int>& degrees,
             
         }
         
-        if (betti_number(edges) == 3){
+        /*if (betti_number(edges) == 3){
             
             if (edges.size() == 4 && edges[0][0] != edges[0][1] && edges[1][0] != edges[1][1] && edges[2][0] != edges[2][1] && edges[3][0] != edges[3][1]){
                 return h0_on_rational_bi_quadruple_circuit(degrees, edges, lower_bound);
             }
             
-        }
+        }*/
         
         
     }
