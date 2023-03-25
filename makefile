@@ -29,6 +29,7 @@ install_lb: uninstall
 
 clean: uninstall
 	(rm -f tst/basic_test.gcda && rm -f tst/basic_test.gcno)
+	(rm -f tst/h0_test.gcda && rm -f tst/h0_test.gcno)
 	(rm -f tst/simple_root_counting_test.gcda && rm -f tst/simple_root_counting_test.gcno)
 	(rm -f tst/poly8.gcda && rm -f tst/poly8.gcno)
 	(rm -f tst/poly4.gcda && rm -f tst/poly4.gcno)
@@ -58,6 +59,7 @@ clean: uninstall
 uninstall:
 	rm -f RootCounter
 	rm -f tst/basic_test
+	rm -f tst/h0_test
 	rm -f tst/simple_root_counting_test
 	rm -f tst/poly8
 	rm -f tst/poly4
@@ -95,6 +97,11 @@ basic_test:
 	g++ -std=c++17 tst/basic_test.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/basic_test
 	chmod +x tst/basic_test
 	tst/./basic_test
+
+h0_test:
+	g++ -std=c++17 tst/h0_test.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/h0_test
+	chmod +x tst/h0_test
+	tst/./h0_test
 
 simple_root_counting_test:
 	g++ -std=c++17 tst/simple_root_counting_test.cpp -lboost_thread -lboost_system -lpthread --coverage -o tst/simple_root_counting_test
@@ -224,6 +231,11 @@ basic_test_lb:
 	g++ -std=c++17 tst/basic_test.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread --coverage -o tst/basic_test
 	chmod +x tst/basic_test
 	tst/./basic_test
+
+h0_test_lb:
+	g++ -std=c++17 tst/h0_test.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread --coverage -o tst/h0_test
+	chmod +x tst/h0_test
+	tst/./h0_test
 
 simple_root_counting_test_lb:
 	g++ -std=c++17 tst/simple_root_counting_test.cpp -Wl,-rpath=${P1} -I${P2} -L${P1} -lboost_thread -lboost_system -lpthread --coverage -o tst/simple_root_counting_test
