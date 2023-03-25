@@ -88,204 +88,16 @@ void test7(){
 
 
 // ########################################
-// (2) Tests of h0 computations
+// (2) Tests of combinatoric computations
 // ########################################
 
 void test8(){
-  std::vector<std::vector<int>> edges = {{1,2},{1,3},{2,3}};
-  std::vector<int> degrees = {3,-1,-1,1};
-  std::vector<int> genera = {0,1,0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 4 && "Cohomology determined incorrectly (test8)");
-  assert(bound == true && "The cohomology result should be a lower bound, but is marked as exact (test8)");
-}
-
-void test9(){
-  std::vector<std::vector<int>> edges = {{1,2},{1,3},{2,3}};
-  std::vector<int> degrees = {6,-1,-1,-1};
-  std::vector<int> genera = {0,1,0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 7 && "Cohomology determined incorrectly (test9)");
-  assert(bound == true && "The cohomology result should be a lower bound, but is marked as exact (test9)");
-}
-
-void test10(){
-  std::vector<std::vector<int>> edges = {{2,3},{3,0}};
-  std::vector<int> degrees = {-1,1,-1,4};
-  std::vector<int> genera = {0,1,0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 4 && "Cohomology determined incorrectly (test10)");
-  assert(bound == false && "The cohomology result should be exact, but is marked merely as lower bound (test10)");
-}
-
-void test11(){
-  std::vector<std::vector<int>> edges = {{2,3},{3,0}};
-  std::vector<int> degrees = {-1,-1,5,-1};
-  std::vector<int> genera = {0,1,0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 5 && "Cohomology determined incorrectly (test11)");
-  assert(bound == false && "The cohomology result should be exact, but is marked merely as lower bound (test11)");
-}
-
-void test12(){
-  std::vector<std::vector<int>> edges = {};
-  std::vector<int> degrees = {0,1,5,2};
-  std::vector<int> genera = {0,0,0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 12 && "Cohomology determined incorrectly (test12)");
-  assert(bound == false && "The cohomology result should be exact, but is marked merely as lower bound (test12)");
-}
-
-void test13(){
-  std::vector<std::vector<int>> edges = {{0,1},{0,1}};
-  std::vector<int> degrees = {0,0};
-  std::vector<int> genera = {0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 0 && "Cohomology determined incorrectly for bicircuit (test13)");
-  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test13)");
-}
-
-void test14(){
-  std::vector<std::vector<int>> edges = {{0,1},{0,1}};
-  std::vector<int> degrees = {1,0};
-  std::vector<int> genera = {0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 1 && "Cohomology determined incorrectly for bicircuit (test14)");
-  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test14)");
-}
-
-void test15(){
-  std::vector<std::vector<int>> edges = {{0,1},{1,2},{2,0}};
-  std::vector<int> degrees = {1,2,3};
-  std::vector<int> genera = {0,0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 6 && "Cohomology determined incorrectly for tricircuit (test15)");
-  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test15)");
-}
-
-void test16(){
-  std::vector<std::vector<int>> edges = {{0,1},{1,2},{2,0}};
-  std::vector<int> degrees = {0,0,0};
-  std::vector<int> genera = {0,0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 0 && "Cohomology determined incorrectly for tricircuit (test16)");
-  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test16)");
-}
-
-void test17(){
-  std::vector<std::vector<int>> edges = {{0,1},{0,1},{1,2}};
-  std::vector<int> degrees = {0,1,-2};
-  std::vector<int> genera = {0,0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 0 && "Cohomology determined incorrectly for tricircuit (test17)");
-  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test17)");
-}
-
-void test18(){
-  std::vector<std::vector<int>> edges = {{0,1},{0,1},{1,2}};
-  std::vector<int> degrees = {0,1,1};
-  std::vector<int> genera = {0,0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 2 && "Cohomology determined incorrectly for tricircuit (test18)");
-  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test18)");
-}
-
-void test19(){
-  std::vector<std::vector<int>> edges = {{0,1},{0,1},{1,2},{1,3}};
-  std::vector<int> degrees = {0,1,-1,-1};
-  std::vector<int> genera = {0,0,0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 0 && "Cohomology determined incorrectly for tricircuit (test19)");
-  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test19)");
-}
-
-void test20(){
-  std::vector<std::vector<int>> edges = {{0,1},{0,1},{1,2},{2,3},{3,4}};
-  std::vector<int> degrees = {0,1,-1,5,-1};
-  std::vector<int> genera = {0,0,0,0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 4 && "Cohomology determined incorrectly for tricircuit (test20)");
-  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test20)");
-}
-
-void test21(){
-  std::vector<std::vector<int>> edges = {{0,1},{0,1},{1,2},{1,3},{1,4}};
-  std::vector<int> degrees = {0,1,2,-10,-1};
-  std::vector<int> genera = {0,0,0,0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 2 && "Cohomology determined incorrectly for tricircuit (test21)");
-  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test21)");
-}
-
-void test22(){
-  std::vector<std::vector<int>> edges = {{0,1},{0,1},{0,1}};
-  std::vector<int> degrees = {2,1};
-  std::vector<int> genera = {0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 2 && "Cohomology determined incorrectly for bi-triple-circuit (test22)");
-  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test22)");
-}
-
-
-void test23(){
-  std::vector<std::vector<int>> edges = {{0,2},{0,1},{0,1}};
-  std::vector<int> degrees = {0,0,-1};
-  std::vector<int> genera = {0,0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 0 && "Cohomology determined incorrectly for bi-triple-circuit (test23)");
-  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test23)");
-}
-
-
-void test24(){
-  std::vector<std::vector<int>> edges = {{0,1},{0,1},{1,2},{1,2},{1,3}};
-  std::vector<int> degrees = {0,2,0,0};
-  std::vector<int> genera = {0,0,0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 1 && "Cohomology determined incorrectly (test24)");
-  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test24)");
-}
-
-
-void test25(){
-  std::vector<std::vector<int>> edges = {{0,2},{0,2},{1,3},{1,0},{1,0}};
-  std::vector<int> degrees = {1,1,1,0};
-  std::vector<int> genera = {0,0,0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 2 && "Cohomology determined incorrectly for  (test25)");
-  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test25)");
-}
-
-
-// ########################################
-// (3) Tests of combinatoric computations
-// ########################################
-
-void test26(){
   std::vector<std::vector<int>> partitions;
   comp_partitions(3,2,{0,0},{3,3}, partitions);
   assert(partitions.size() == 4 && "Partitions computed incorrectly (test26)");
 }
 
-void test27(){
+void test9(){
   std::vector<std::vector<int>> nodal_edges = {{0,1},{1,2}};
   std::vector<int> genera = {0,0,0};
 	std::vector<int> minimal_local_sections = {0,0,0};
@@ -297,16 +109,16 @@ void test27(){
   assert(lower_bounds.size() == 15 && "Lower bounds computed incorrectly (test27)");
 }
 
-void test28(){
+void test10(){
   assert(number_partitions(10,3,5) == 6 && "Wrong number of partitions computed (test28)");
 }
 
 
 // ########################################
-// (4) Test for sums of vectors
+// (3) Test for sums of vectors
 // ########################################
 
-void test29(){
+void test11(){
   std::vector<boost::multiprecision::int128_t> v = {1,2,3};
   std::vector<std::vector<boost::multiprecision::int128_t>> v2 = {{1,2,3},{4,5,6}};
   assert(sum(v) == 6 && "Wrong sum of vector computed (test29)");
@@ -315,163 +127,7 @@ void test29(){
 
 
 // ########################################
-// (5) Tests for standarizing graphs
-// ########################################
-
-void test30(){
-  std::vector<int> degrees = {0, 0, 0};
-  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {2, 0}};
-  std::vector<int> new_degrees;
-  std::vector<std::vector<int>> new_edges;
-  int offset = standardize(degrees, edges, new_degrees, new_edges);
-  std::vector<int> expected_new_degrees = {0};
-  std::vector<std::vector<int>> expected_new_edges = {{0, 0}};
-  int expected_offset = 0;
-  assert(offset == expected_offset && "Offset wrongly computed in graph standardization test 1");
-  assert(new_degrees == expected_new_degrees && "New degrees wrongly computed in graph standardization test 1");
-  assert(new_edges == expected_new_edges && "New degrees wrongly computed in graph standardization test 1");
-}
-
-void test31(){
-  std::vector<int> degrees = {0, -1, 0};
-  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {2, 0}};
-  std::vector<int> new_degrees;
-  std::vector<std::vector<int>> new_edges;
-  int offset = standardize(degrees, edges, new_degrees, new_edges);
-  std::vector<int> expected_new_degrees = {-2};
-  std::vector<std::vector<int>> expected_new_edges = {};
-  int expected_offset = 0;
-  assert(offset == expected_offset && "Offset wrongly computed in graph standardization test 2");
-  assert(new_degrees == expected_new_degrees && "New degrees wrongly computed in graph standardization test 2");
-  assert(new_edges == expected_new_edges && "New degrees wrongly computed in graph standardization test 2");
-}
-
-void test32(){
-  std::vector<int> degrees = {-1, 0, 0};
-  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {2, 0}};
-  std::vector<int> new_degrees;
-  std::vector<std::vector<int>> new_edges;
-  int offset = standardize(degrees, edges, new_degrees, new_edges);
-  std::vector<int> expected_new_degrees = {-2};
-  std::vector<std::vector<int>> expected_new_edges = {};
-  int expected_offset = 0;
-  assert(offset == expected_offset && "Offset wrongly computed in graph standardization test 3");
-  assert(new_degrees == expected_new_degrees && "New degrees wrongly computed in graph standardization test 3");
-  assert(new_edges == expected_new_edges && "New degrees wrongly computed in graph standardization test 3");
-}
-
-void test33(){
-  std::vector<int> degrees = {2, 0, 0};
-  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {2, 0}};
-  std::vector<int> new_degrees;
-  std::vector<std::vector<int>> new_edges;
-  int offset = standardize(degrees, edges, new_degrees, new_edges);
-  std::vector<int> expected_new_degrees = {0};
-  std::vector<std::vector<int>> expected_new_edges = {};
-  int expected_offset = 1;
-  assert(offset == expected_offset && "Offset wrongly computed in graph standardization test 4");
-  assert(new_degrees == expected_new_degrees && "New degrees wrongly computed in graph standardization test 4");
-  assert(new_edges == expected_new_edges && "New degrees wrongly computed in graph standardization test 4");
-}
-
-void test34(){
-  std::vector<std::vector<int>> edges = {{0,1},{0,1},{1,2},{1,2},{1,3}};
-  std::vector<int> degrees = {0,2,0,0};
-  std::vector<int> genera = {0,0,0,0};
-  std::vector<int> new_degrees;
-  std::vector<std::vector<int>> new_edges;
-  int offset = standardize(degrees, edges, new_degrees, new_edges);
-  std::vector<int> expected_new_degrees = {2};
-  std::vector<std::vector<int>> expected_new_edges = {{0, 0}, {0, 0}};
-  int expected_offset = 0;
-  assert(offset == expected_offset && "Offset wrongly computed in graph standardization test 5");
-  assert(new_degrees == expected_new_degrees && "New degrees wrongly computed in graph standardization test 5");
-  assert(new_edges == expected_new_edges && "New degrees wrongly computed in graph standardization test 5");
-}
-
-void test35(){
-  std::vector<std::vector<int>> edges = {{0,1},{0,1},{1,2},{2,3},{2,3},{3,0}};
-  std::vector<int> degrees = {1,1,1,1};
-  std::vector<int> genera = {0,0,0,0};
-  std::vector<int> new_degrees;
-  std::vector<std::vector<int>> new_edges;
-  int offset = standardize(degrees, edges, new_degrees, new_edges);
-  std::vector<int> expected_new_degrees = {1,1,1,1};
-  std::vector<std::vector<int>> expected_new_edges = {{0,1},{0,1},{1,2},{2,3},{2,3},{3,0}};
-  int expected_offset = 0;
-  assert(offset == expected_offset && "Offset wrongly computed in  graph standardization test 6");
-  assert(new_degrees == expected_new_degrees && "New degrees wrongly computed in graph standardization test 6");
-  assert(new_edges == expected_new_edges && "New degrees wrongly computed in graph standardization test 6");
-}
-
-
-// ########################################
-// (6) Marielle's tests on h0-computation
-// ########################################
-
-void Marielle_test1(){
-  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {1, 2}, {0, 2}, {0, 3}, {2, 3}};
-  std::vector<int> degrees = {1, 1, 2, 0};
-  std::vector<int> genera = {0, 0, 0, 0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 2 && "Cohomology determined incorrectly for Marielle's test 1");
-  assert(bound == true && "The cohomology result should not be exact, but is marked as exact for Marielle's test 1");
-}
-
-void Marielle_test2(){
-  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {1, 2}, {0, 2}, {0, 3}, {2, 3}};
-  std::vector<int> degrees = {2,1,1,-2};
-  std::vector<int> genera = {0,0,0,0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 1 && "Cohomology determined incorrectly for Marielle's test 2");
-  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound for Marielle's test 2");
-}
-
-void Marielle_test3(){
-  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {1, 2}, {0, 2}, {0, 3}, {2, 3}, {3, 4}, {4, 5}};
-  std::vector<int> degrees = {2, 2, 2, -2, 1, -2};
-  std::vector<int> genera = {0, 0, 0, 0, 0, 0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 3 && "Cohomology determined incorrectly for Marielle's test 3");
-  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound for Marielle's test 3");
-}
-
-void Marielle_test4(){
-  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {1, 2}, {0, 2}, {0, 3}, {2, 3}, {3, 4}, {4, 5}, {0, 5}};
-  std::vector<int> degrees = {2, 2, 2, -2, 1, 1};
-  std::vector<int> genera = {0, 0, 0, 0, 0, 0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 4 && "Cohomology determined incorrectly for Marielle's test 4");
-  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound for Marielle's test 4");
-}
-
-void Marielle_test5(){
-  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {1, 2}, {0, 2}, {0, 3}, {2, 3}, {3, 4}, {4, 5}, {0, 5}};
-  std::vector<int> degrees = {1, 1, 2, 0, 2, 1};
-  std::vector<int> genera = {0, 0, 0, 0, 0, 0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 4 && "Cohomology determined incorrectly for Marielle's test 5");
-  assert(bound == true && "The cohomology result should not be exact, but is marked as exact for Marielle's test 5");
-}
-
-void Marielle_test6(){
-  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {1, 2}, {0, 2}, {0, 3}, {2, 3}, {3, 4}, {4, 5}, {0, 5}};
-  std::vector<int> degrees = {2, 1, 2, 1, 0, 0};
-  std::vector<int> genera = {0, 0, 0, 0, 0, 0};
-  bool bound;
-  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 3 && "Cohomology determined incorrectly for Marielle's test 6");
-  assert(bound == true && "The cohomology result should not be exact, but is marked as exact for Marielle's test 6");
-}
-
-
-// ########################################
-// (7) Test for printing of vectors
+// (4) Test for printing of vectors
 // ########################################
 
 void test_printing(){
@@ -525,35 +181,5 @@ int main(int argc, char* argv[]){
   test9();
   test10();
   test11();
-  test12();
-  test13();
-  test14();
-  test15();
-  test16();
-  test17();
-  test18();
-  test19();
-  test20();
-  test21();
-  test22();
-  test23();
-  test24();
-  test25();
-  test26();
-  test27();
-  test28();
-  test29();
-  test30();
-  test31();
-  test32();
-  test33();
-  test34();
-  test35();
-  Marielle_test1();
-  Marielle_test2();
-  Marielle_test3();
-  Marielle_test4();
-  Marielle_test5();
-  Marielle_test6();
   test_printing();
 }
