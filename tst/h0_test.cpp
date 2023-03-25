@@ -189,6 +189,336 @@ void test18(){
   assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test18)");
 }
 
+void test19(){
+  std::vector<std::vector<int>> edges = {{0,0}};
+  std::vector<int> degrees = {-3};
+  std::vector<int> genera = {0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for (test19)");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test19)");
+}
+
+void test20(){
+  std::vector<std::vector<int>> edges = {{0,0}};
+  std::vector<int> degrees = {0};
+  std::vector<int> genera = {0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for (test20)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test20)");
+}
+
+void test21(){
+  std::vector<std::vector<int>> edges = {{0,0}};
+  std::vector<int> degrees = {4};
+  std::vector<int> genera = {0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 4 && "Cohomology determined incorrectly for (test21)");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test21)");
+}
+
+void test22(){
+  std::vector<std::vector<int>> edges = {{0,0}, {0,0}};
+  std::vector<int> degrees = {-2};
+  std::vector<int> genera = {0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for (test22)");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test22)");
+}
+
+void test23(){
+  std::vector<std::vector<int>> edges = {{0,0}, {0,0}};
+  std::vector<int> degrees = {0};
+  std::vector<int> genera = {0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for (test23)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test23)");
+}
+
+void test24(){
+  std::vector<std::vector<int>> edges = {{0,0}, {0,0}};
+  std::vector<int> degrees = {1};
+  std::vector<int> genera = {0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for (test24)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test24)");
+}
+
+void test25(){
+  std::vector<std::vector<int>> edges = {{0,0}, {0,0}};
+  std::vector<int> degrees = {2};
+  std::vector<int> genera = {0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 1 && "Cohomology determined incorrectly for (test25)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test25)");
+}
+
+void test26(){
+  std::vector<std::vector<int>> edges = {{0,0}, {0,0}};
+  std::vector<int> degrees = {3};
+  std::vector<int> genera = {0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 2 && "Cohomology determined incorrectly for (test26)");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test26)");
+}
+
+void test27(){
+  std::vector<std::vector<int>> edges = {{0,1}, {0,1}, {0,1}};
+  std::vector<int> degrees = {-1,-2};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for (test27)");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test27)");
+}
+
+void test28(){
+  std::vector<std::vector<int>> edges = {{0,1}, {0,1}, {0,1}};
+  std::vector<int> degrees = {0,0};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for (test28)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test28)");
+}
+
+void test29(){
+  std::vector<std::vector<int>> edges = {{0,1}, {0,1}, {0,1}};
+  std::vector<int> degrees = {1,0};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for (test29)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test29)");
+}
+
+void test30(){
+  std::vector<std::vector<int>> edges = {{0,1}, {0,1}, {0,1}};
+  std::vector<int> degrees = {0,1};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for (test30)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test30)");
+}
+
+void test31(){
+  std::vector<std::vector<int>> edges = {{0,1}, {0,1}, {0,1}};
+  std::vector<int> degrees = {1,1};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 1 && "Cohomology determined incorrectly for (test31)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test31)");
+}
+
+void test32(){
+  std::vector<std::vector<int>> edges = {{0,1}, {0,1}, {0,1}};
+  std::vector<int> degrees = {1,2};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 2 && "Cohomology determined incorrectly for (test32)");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test32)");
+}
+
+void test33(){
+  std::vector<std::vector<int>> edges = {{0,1}, {0,1}, {0,1}};
+  std::vector<int> degrees = {2,1};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 2 && "Cohomology determined incorrectly for (test33)");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test33)");
+}
+
+void test34(){
+  std::vector<std::vector<int>> edges = {{0,0}, {0,1}, {1,1}};
+  std::vector<int> degrees = {-2,-4};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for (test34)");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test34)");
+}
+
+void test35(){
+  std::vector<std::vector<int>> edges = {{0,0}, {0,1}, {1,1}};
+  std::vector<int> degrees = {0,0};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for (test35)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test35)");
+}
+
+void test36(){
+  std::vector<std::vector<int>> edges = {{0,0}, {0,1}, {1,1}};
+  std::vector<int> degrees = {0,1};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for (test36)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test36)");
+}
+
+void test37(){
+  std::vector<std::vector<int>> edges = {{0,0}, {0,1}, {1,1}};
+  std::vector<int> degrees = {1,0};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for (test37)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test37)");
+}
+
+void test38(){
+  std::vector<std::vector<int>> edges = {{0,0}, {0,1}, {1,1}};
+  std::vector<int> degrees = {1,1};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 1 && "Cohomology determined incorrectly for (test38)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test38)");
+}
+
+void test39(){
+  std::vector<std::vector<int>> edges = {{0,0}, {0,1}, {1,1}};
+  std::vector<int> degrees = {0,10};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 9 && "Cohomology determined incorrectly for (test39)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test39)");
+}
+
+void test40(){
+  std::vector<std::vector<int>> edges = {{0,0}, {0,1}, {1,1}};
+  std::vector<int> degrees = {10,0};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 9 && "Cohomology determined incorrectly for (test40)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test40)");
+}
+
+void test41(){
+  std::vector<std::vector<int>> edges = {{0,0}, {0,1}, {1,1}};
+  std::vector<int> degrees = {2,2};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 3 && "Cohomology determined incorrectly for (test41)");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test41)");
+}
+
+void test42(){
+  std::vector<std::vector<int>> edges = {{0,1},{0,1},{0,1},{0,1}};
+  std::vector<int> degrees = {-3,-7};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for (test42)");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test42)");
+}
+
+void test43(){
+  std::vector<std::vector<int>> edges = {{0,1},{0,1},{0,1},{0,1}};
+  std::vector<int> degrees = {0,0};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for (test43)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test43)");
+}
+
+void test44(){
+  std::vector<std::vector<int>> edges = {{0,1},{0,1},{0,1},{0,1}};
+  std::vector<int> degrees = {1,0};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for (test44)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test44)");
+}
+
+void test45(){
+  std::vector<std::vector<int>> edges = {{0,1},{0,1},{0,1},{0,1}};
+  std::vector<int> degrees = {0,1};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for (test45)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test45)");
+}
+
+void test46(){
+  std::vector<std::vector<int>> edges = {{0,1},{0,1},{0,1},{0,1}};
+  std::vector<int> degrees = {1,1};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for (test46)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test46)");
+}
+
+void test47(){
+  std::vector<std::vector<int>> edges = {{0,1},{0,1},{0,1},{0,1}};
+  std::vector<int> degrees = {1,2};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 1 && "Cohomology determined incorrectly for (test47)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test47)");
+}
+
+void test48(){
+  std::vector<std::vector<int>> edges = {{0,1},{0,1},{0,1},{0,1}};
+  std::vector<int> degrees = {2,1};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 1 && "Cohomology determined incorrectly for (test48)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test48)");
+}
+
+void test49(){
+  std::vector<std::vector<int>> edges = {{0,1},{0,1},{0,1},{0,1}};
+  std::vector<int> degrees = {1,2};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 1 && "Cohomology determined incorrectly for (test49)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test49)");
+}
+
+void test50(){
+  std::vector<std::vector<int>> edges = {{0,1},{0,1},{0,1},{0,1}};
+  std::vector<int> degrees = {2,2};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 2 && "Cohomology determined incorrectly for (test50)");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact (test50)");
+}
+
+void test51(){
+  std::vector<std::vector<int>> edges = {{0,1},{0,1},{0,1},{0,1}};
+  std::vector<int> degrees = {3,3};
+  std::vector<int> genera = {0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 4 && "Cohomology determined incorrectly for (test51)");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test51)");
+}
+
 
 // ########################################
 // (2) Marielle's tests on h0-computation
@@ -348,7 +678,7 @@ void standardize_test6(){
 
 
 // ########################################
-// (8) Execute the tests
+// (4) Execute the tests
 // ########################################
 
 int main(int argc, char* argv[]){
@@ -370,6 +700,39 @@ int main(int argc, char* argv[]){
   test16();
   test17();
   test18();
+  test19();
+  test20();
+  test21();
+  test22();
+  test23();
+  test24();
+  test25();
+  test26();
+  test27();
+  test28();
+  test29();
+  test30();
+  test31();
+  test32();
+  test33();
+  test34();
+  test35();
+  test36();
+  test37();
+  test38();
+  test39();
+  test40();
+  test41();
+  test42();
+  test43();
+  test44();
+  test45();
+  test46();
+  test47();
+  test48();
+  test49();
+  test50();
+  test51();
   Marielle_test1();
   Marielle_test2();
   Marielle_test3();
