@@ -235,8 +235,9 @@ void find_connected_components( const std::vector<std::vector<int>> & input_edge
 
 // (6) Find all external leafs of a graph
 // (6) Find all external leafs of a graph
-void find_external_leafs(const std::vector<std::vector<int>> & edges,
-                         std::vector<int> & leafs)
+void find_external_rational_leafs(const std::vector<std::vector<int>> & edges,
+                                  const std::vector<int> & genera,
+                                  std::vector<int> & leafs)
 {
     
     // Degenerate case: no edges
@@ -251,17 +252,19 @@ void find_external_leafs(const std::vector<std::vector<int>> & edges,
 
     // Iterate over all vertices
     for (int i = 0; i < vertices.size(); i++){
-        int count_for_component_i = 0;
-        for (int j = 0; j < edges.size(); j++){
-            if (edges[j][0] == i){
-                count_for_component_i++;
+        if (genera[i] == 0){
+            int count_for_component_i = 0;
+            for (int j = 0; j < edges.size(); j++){
+                if (edges[j][0] == i){
+                    count_for_component_i++;
+                }
+                if (edges[j][1] == i){
+                    count_for_component_i++;
+                }
             }
-            if (edges[j][1] == i){
-                count_for_component_i++;
+            if (count_for_component_i == 1){
+                leafs.push_back(i);
             }
-        }
-        if (count_for_component_i == 1){
-            leafs.push_back(i);
         }
     }
     
@@ -274,26 +277,30 @@ void find_external_leafs(const std::vector<std::vector<int>> & edges,
 
 // (7) Remove all leafs of a graph with degrees
 // (7) Remove all leafs of a graph with degrees
-int simplify_by_removing_leafs(const std::vector<int> & degrees,
-                               const std::vector<std::vector<int>> & edges,
-                               std::vector<int> & new_degrees,
-                               std::vector<std::vector<int>> & new_edges)
+int simplify_by_removing_rational_leafs(const std::vector<int> & degrees,
+                                        const std::vector<std::vector<int>> & edges,
+                                        const std::vector<int> & genera,
+                                        std::vector<int> & new_degrees,
+                                        std::vector<std::vector<int>> & new_edges,
+                                        std::vector<int> & new_genera)
 {
     
     // Find all leafs
     std::vector<int> leafs;
-    find_external_leafs(edges, leafs);
+    find_external_rational_leafs(edges, genera, leafs);
     
     // Degenerate case
     if (leafs.size() == 0){
         new_degrees = degrees;
         new_edges = edges;
+        new_genera = genera;
         return 0;
     }
     
     // Save input information in internal variables that we can manipulate as we simplify the graph
     std::vector<int> internal_degrees = degrees;
     std::vector<std::vector<int>> internal_edges = edges;
+    std::vector<int> internal_genera = genera;
     
     // Initialize an integer to record the offset
     int offset = 0;
@@ -304,6 +311,7 @@ int simplify_by_removing_leafs(const std::vector<int> & degrees,
         // Empty new_degrees and new_edges
         new_degrees.clear();
         new_edges.clear();
+        new_genera.clear();
         
         // To remove the leafs, make a dictionary from the old component names to the new ones
         std::map<int, int> dictionary;
@@ -322,13 +330,15 @@ int simplify_by_removing_leafs(const std::vector<int> & degrees,
             }
         }
         
-        // Copy the old degrees for the remaining vertices
+        // Copy the old degrees and genera for the remaining vertices
         for (int i = 0; i < internal_degrees.size() - leafs.size(); i++){
             new_degrees.push_back(0);
+            new_genera.push_back(0);
         }
         for (int i = 0; i < internal_degrees.size(); i++){
             if (std::find(leafs.begin(), leafs.end(), i) == leafs.end()){
                 new_degrees[dictionary[i]] = internal_degrees[i];
+                new_genera[dictionary[i]] = internal_genera[i];
             }
         }
         
@@ -367,13 +377,14 @@ int simplify_by_removing_leafs(const std::vector<int> & degrees,
         
         }
         
-        // Copy new_degrees and new_edges to internal_degrees and internal_edges
+        // Copy new_degrees, new_edges, new_genera to internal_degrees, internal_edges, internal_genera
         internal_degrees = new_degrees;
         internal_edges = new_edges;
+        internal_genera = new_genera;
         
         // Compute the leafs anew
         leafs.clear();
-        find_external_leafs(internal_edges, leafs);
+        find_external_rational_leafs(internal_edges, internal_genera, leafs);
         
     }
     
@@ -385,7 +396,8 @@ int simplify_by_removing_leafs(const std::vector<int> & degrees,
 // (8) Find an internal leafs of a graph
 // (8) Find an internal leafs of a graph
 // Default is -1, which means: "There are no internal leafs/trees"
-int find_an_internal_vertex(const std::vector<std::vector<int>> & edges)
+int find_an_internal_rational_vertex(const std::vector<std::vector<int>> & edges,
+                                     const std::vector<int> & genera)
 {
     
     // Degenerate case: no edges
@@ -403,13 +415,15 @@ int find_an_internal_vertex(const std::vector<std::vector<int>> & edges)
     
     // Find an internal vertex or tell that there are none.
     for (int i = 0; i < vertices.size(); i++){
-        int count_for_component_i = 0;
-        for (int j = 0; j < edges.size(); j++){
-            if (edges[j][0] == i){count_for_component_i++;}
-            if (edges[j][1] == i){count_for_component_i++;}
-        }
-        if (count_for_component_i == 2){
-            return i;
+        if (genera[i] == 0){
+            int count_for_component_i = 0;
+            for (int j = 0; j < edges.size(); j++){
+                if (edges[j][0] == i){count_for_component_i++;}
+                if (edges[j][1] == i){count_for_component_i++;}
+            }
+            if (count_for_component_i == 2){
+                return i;
+            }
         }
     }
     return -1;
@@ -420,22 +434,25 @@ int find_an_internal_vertex(const std::vector<std::vector<int>> & edges)
 // (9) Standardize a graph with degrees
 int standardize(const std::vector<int> & degrees,
                 const std::vector<std::vector<int>> & edges,
+                const std::vector<int> & genera,
                 std::vector<int> & new_degrees,
-                std::vector<std::vector<int>> & new_edges)
+                std::vector<std::vector<int>> & new_edges,
+                std::vector<int> & new_genera)
 {
     
     // Remove leafs
-    std::vector<int> internal_degrees;
+    std::vector<int> internal_degrees, internal_genera;
     std::vector<std::vector<int>> internal_edges;
-    int offset = simplify_by_removing_leafs(degrees, edges, internal_degrees, internal_edges);
+    int offset = simplify_by_removing_rational_leafs(degrees, edges, genera, internal_degrees, internal_edges, internal_genera);
     
     // Check for an internal vertex
-    int internal_vertex = find_an_internal_vertex(internal_edges);
+    int internal_vertex = find_an_internal_rational_vertex(internal_edges, internal_genera);
     
     // Degenerate case
     if (internal_vertex == -1){
         new_degrees = internal_degrees;
         new_edges = internal_edges;
+        new_genera = internal_genera;
         return offset;
     }
     
@@ -445,6 +462,7 @@ int standardize(const std::vector<int> & degrees,
         // Empty new_degrees and new_edges
         new_degrees.clear();
         new_edges.clear();
+        new_genera.clear();
         
         // To remove the internal vertex, make a dictionary from the old component names to the new ones
         std::map<int, int> dictionary;
@@ -474,13 +492,15 @@ int standardize(const std::vector<int> & degrees,
             }
         }
         
-        // Copy the old degrees for the remaining vertices
+        // Copy the old degrees and genera for the remaining vertices
         for (int i = 0; i < internal_degrees.size() - 1; i++){
             new_degrees.push_back(0);
+            new_genera.push_back(0);
         }
         for (int i = 0; i < internal_degrees.size(); i++){
             if (i != internal_vertex){
                 new_degrees[dictionary[i]] = internal_degrees[i];
+                new_genera[dictionary[i]] = internal_genera[i];
             }
         }
         
@@ -497,14 +517,15 @@ int standardize(const std::vector<int> & degrees,
         }
         
         // We might have introduced new leafs, so prune again.
-        offset += simplify_by_removing_leafs(new_degrees, new_edges, internal_degrees, internal_edges);
+        offset += simplify_by_removing_rational_leafs(new_degrees, new_edges, new_genera, internal_degrees, internal_edges, internal_genera);
         
         // Update new_degree and new_edges again
         new_degrees = internal_degrees;
         new_edges = internal_edges;
+        new_genera = internal_genera;
         
         // Try to find another internal vertex.
-        internal_vertex = find_an_internal_vertex(internal_edges);
+        internal_vertex = find_an_internal_rational_vertex(internal_edges, internal_genera);
         
     }
     

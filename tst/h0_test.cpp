@@ -591,57 +591,69 @@ void Marielle_test6(){
 
 void standardize_test1(){
   std::vector<int> degrees = {0, 0, 0};
+  std::vector<int> genera = {0, 0, 0};
   std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {2, 0}};
-  std::vector<int> new_degrees;
+  std::vector<int> new_degrees, new_genera;
   std::vector<std::vector<int>> new_edges;
-  int offset = standardize(degrees, edges, new_degrees, new_edges);
+  int offset = standardize(degrees, edges, genera, new_degrees, new_edges, new_genera);
   std::vector<int> expected_new_degrees = {0};
+  std::vector<int> expected_new_genera = {0};
   std::vector<std::vector<int>> expected_new_edges = {{0, 0}};
   int expected_offset = 0;
   assert(offset == expected_offset && "Offset wrongly computed in graph standardization test 1");
   assert(new_degrees == expected_new_degrees && "New degrees wrongly computed in graph standardization test 1");
+  assert(new_genera == expected_new_genera && "New genera wrongly computed in graph standardization test 1");
   assert(new_edges == expected_new_edges && "New degrees wrongly computed in graph standardization test 1");
 }
 
 void standardize_test2(){
   std::vector<int> degrees = {0, -1, 0};
+  std::vector<int> genera = {0, 0, 0};
   std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {2, 0}};
-  std::vector<int> new_degrees;
+  std::vector<int> new_degrees, new_genera;
   std::vector<std::vector<int>> new_edges;
-  int offset = standardize(degrees, edges, new_degrees, new_edges);
+  int offset = standardize(degrees, edges, genera, new_degrees, new_edges, new_genera);
   std::vector<int> expected_new_degrees = {-2};
+  std::vector<int> expected_new_genera = {0};
   std::vector<std::vector<int>> expected_new_edges = {};
   int expected_offset = 0;
   assert(offset == expected_offset && "Offset wrongly computed in graph standardization test 2");
   assert(new_degrees == expected_new_degrees && "New degrees wrongly computed in graph standardization test 2");
+  assert(new_genera == expected_new_genera && "New genera wrongly computed in graph standardization test 2");
   assert(new_edges == expected_new_edges && "New degrees wrongly computed in graph standardization test 2");
 }
 
 void standardize_test3(){
   std::vector<int> degrees = {-1, 0, 0};
+  std::vector<int> genera = {0, 0, 0};
   std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {2, 0}};
-  std::vector<int> new_degrees;
+  std::vector<int> new_degrees, new_genera;
   std::vector<std::vector<int>> new_edges;
-  int offset = standardize(degrees, edges, new_degrees, new_edges);
+  int offset = standardize(degrees, edges, genera, new_degrees, new_edges, new_genera);
   std::vector<int> expected_new_degrees = {-2};
+  std::vector<int> expected_new_genera = {0};
   std::vector<std::vector<int>> expected_new_edges = {};
   int expected_offset = 0;
   assert(offset == expected_offset && "Offset wrongly computed in graph standardization test 3");
   assert(new_degrees == expected_new_degrees && "New degrees wrongly computed in graph standardization test 3");
+  assert(new_genera == expected_new_genera && "New genera wrongly computed in graph standardization test 3");
   assert(new_edges == expected_new_edges && "New degrees wrongly computed in graph standardization test 3");
 }
 
 void standardize_test4(){
   std::vector<int> degrees = {2, 0, 0};
+  std::vector<int> genera = {0, 0, 0};
   std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {2, 0}};
-  std::vector<int> new_degrees;
+  std::vector<int> new_degrees, new_genera;
   std::vector<std::vector<int>> new_edges;
-  int offset = standardize(degrees, edges, new_degrees, new_edges);
+  int offset = standardize(degrees, edges, genera, new_degrees, new_edges, new_genera);
   std::vector<int> expected_new_degrees = {0};
+  std::vector<int> expected_new_genera = {0};
   std::vector<std::vector<int>> expected_new_edges = {};
   int expected_offset = 1;
   assert(offset == expected_offset && "Offset wrongly computed in graph standardization test 4");
   assert(new_degrees == expected_new_degrees && "New degrees wrongly computed in graph standardization test 4");
+  assert(new_genera == expected_new_genera && "New genera wrongly computed in graph standardization test 4");
   assert(new_edges == expected_new_edges && "New degrees wrongly computed in graph standardization test 4");
 }
 
@@ -649,14 +661,16 @@ void standardize_test5(){
   std::vector<std::vector<int>> edges = {{0,1},{0,1},{1,2},{1,2},{1,3}};
   std::vector<int> degrees = {0,2,0,0};
   std::vector<int> genera = {0,0,0,0};
-  std::vector<int> new_degrees;
+  std::vector<int> new_degrees, new_genera;
   std::vector<std::vector<int>> new_edges;
-  int offset = standardize(degrees, edges, new_degrees, new_edges);
+  int offset = standardize(degrees, edges, genera, new_degrees, new_edges, new_genera);
   std::vector<int> expected_new_degrees = {2};
+  std::vector<int> expected_new_genera = {0};
   std::vector<std::vector<int>> expected_new_edges = {{0, 0}, {0, 0}};
   int expected_offset = 0;
   assert(offset == expected_offset && "Offset wrongly computed in graph standardization test 5");
   assert(new_degrees == expected_new_degrees && "New degrees wrongly computed in graph standardization test 5");
+  assert(new_genera == expected_new_genera && "New genera wrongly computed in graph standardization test 5");
   assert(new_edges == expected_new_edges && "New degrees wrongly computed in graph standardization test 5");
 }
 
@@ -664,21 +678,88 @@ void standardize_test6(){
   std::vector<std::vector<int>> edges = {{0,1},{0,1},{1,2},{2,3},{2,3},{3,0}};
   std::vector<int> degrees = {1,1,1,1};
   std::vector<int> genera = {0,0,0,0};
-  std::vector<int> new_degrees;
+  std::vector<int> new_degrees, new_genera;
   std::vector<std::vector<int>> new_edges;
-  int offset = standardize(degrees, edges, new_degrees, new_edges);
+  int offset = standardize(degrees, edges, genera, new_degrees, new_edges, new_genera);
   std::vector<int> expected_new_degrees = {1,1,1,1};
+  std::vector<int> expected_new_genera = {0,0,0,0};
   std::vector<std::vector<int>> expected_new_edges = {{0,1},{0,1},{1,2},{2,3},{2,3},{3,0}};
   int expected_offset = 0;
   assert(offset == expected_offset && "Offset wrongly computed in  graph standardization test 6");
   assert(new_degrees == expected_new_degrees && "New degrees wrongly computed in graph standardization test 6");
+  assert(new_genera == expected_new_genera && "New genera wrongly computed in graph standardization test 6");
   assert(new_edges == expected_new_edges && "New degrees wrongly computed in graph standardization test 6");
+}
+
+
+// #############################################
+// (4) Tests for h0 on trees with elliptic curve
+// #############################################
+
+void h0_elliptic_tree_test1(){
+  std::vector<std::vector<int>> edges = {{0, 1}, {0, 2}, {0, 3}};
+  std::vector<int> degrees = {0, -2, -2, -2};
+  std::vector<int> genera = {1, 0, 0, 0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for elliptic tree 1");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound for elliptic tree 1");
+}
+
+void h0_elliptic_tree_test2(){
+  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {2, 3}};
+  std::vector<int> degrees = {2, 0, -2, 1};
+  std::vector<int> genera = {1, 0, 0, 0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 2 && "Cohomology determined incorrectly for elliptic tree 2");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound for elliptic tree 2");
+}
+
+void h0_elliptic_tree_test3(){
+  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {2, 3}};
+  std::vector<int> degrees = {2, 1, -2, 1};
+  std::vector<int> genera = {1, 0, 0, 0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 3 && "Cohomology determined incorrectly for elliptic tree 3");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound for elliptic tree 3");
+}
+
+void h0_elliptic_tree_test4(){
+  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {1, 3}, {1, 4}};
+  std::vector<int> degrees = {2, 0, -2, -2, -2};
+  std::vector<int> genera = {1, 0, 0, 0, 0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 1 && "Cohomology determined incorrectly for elliptic tree 4");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound for elliptic tree 4");
+}
+
+void h0_elliptic_tree_test5(){
+  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {1, 3}, {1, 4}};
+  std::vector<int> degrees = {1, 2, -2, -2, -2};
+  std::vector<int> genera = {1, 0, 0, 0, 0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for elliptic tree 5");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound for elliptic tree 5");
+}
+
+void h0_elliptic_tree_test6(){
+  std::vector<std::vector<int>> edges = {{0, 1}, {1, 2}, {1, 3}, {1, 4}};
+  std::vector<int> degrees = {0, 2, -2, -2, -2};
+  std::vector<int> genera = {1, 0, 0, 0, 0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for elliptic tree 6");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound for elliptic tree 6");
 }
 
 
 
 // ########################################
-// (4) Execute the tests
+// (5) Execute the tests
 // ########################################
 
 int main(int argc, char* argv[]){
@@ -745,4 +826,10 @@ int main(int argc, char* argv[]){
   standardize_test4();
   standardize_test5();
   standardize_test6();
+  h0_elliptic_tree_test1();
+  h0_elliptic_tree_test2();
+  h0_elliptic_tree_test3();
+  h0_elliptic_tree_test4();
+  h0_elliptic_tree_test5();
+  h0_elliptic_tree_test6();
 }

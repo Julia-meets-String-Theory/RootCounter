@@ -46,42 +46,51 @@ void test4(){
 
 void test5(){
   std::vector<int> degrees = {0,1,2};
+  std::vector<int> genera = {0,0,0};
   std::vector<std::vector<int>> edges = {{0,1},{0,1},{1,2}};
-  std::vector<int> new_degrees;
+  std::vector<int> new_degrees, new_genera;
   std::vector<std::vector<int>> new_edges;
-  int offset = simplify_by_removing_leafs(degrees, edges, new_degrees, new_edges);
+  int offset = simplify_by_removing_rational_leafs(degrees, edges, genera, new_degrees, new_edges, new_genera);
   std::vector<int> new_expected_degrees = {0,1};
+  std::vector<int> new_expected_genera = {0,0};
   std::vector<std::vector<int>> new_expected_edges = {{0,1},{0,1}};
   int expected_offset = 2;
   assert(new_degrees == new_expected_degrees && "Removal of leafs (part 1) led to unexpected degrees");
+  assert(new_genera == new_expected_genera && "Removal of leafs (part 1) led to unexpected genera");
   assert(new_edges == new_expected_edges && "Removal of leafs (part 1) led to unexpected edges");
   assert(offset == expected_offset && "Removal of leafs (part 1) led to unexpected offset");
 }
 
 void test6(){
   std::vector<int> degrees = {0,-1};
+  std::vector<int> genera = {0,0};
   std::vector<std::vector<int>> edges = {{0,1}};
-  std::vector<int> new_degrees;
+  std::vector<int> new_degrees, new_genera;
   std::vector<std::vector<int>> new_edges;
-  int offset = simplify_by_removing_leafs(degrees, edges, new_degrees, new_edges);
+  int offset = simplify_by_removing_rational_leafs(degrees, edges, genera, new_degrees, new_edges, new_genera);
   std::vector<int> new_expected_degrees = {-1};
+  std::vector<int> new_expected_genera = {0};
   std::vector<std::vector<int>> new_expected_edges = {};
   int expected_offset = 0;
   assert(new_degrees == new_expected_degrees && "Removal of leafs (part 2) led to unexpected degrees");
+  assert(new_genera == new_expected_genera && "Removal of leafs (part 2) led to unexpected genera");
   assert(new_edges == new_expected_edges && "Removal of leafs (part 2) led to unexpected edges");
   assert(offset == expected_offset && "Removal of leafs (part 2) led to unexpected offset");
 }
 
 void test7(){
   std::vector<int> degrees = {0,1,2,3};
+  std::vector<int> genera = {0,0,0,0};
   std::vector<std::vector<int>> edges = {{0,1},{1,2},{2,3}};
-  std::vector<int> new_degrees;
+  std::vector<int> new_degrees, new_genera;
   std::vector<std::vector<int>> new_edges;
-  int offset = simplify_by_removing_leafs(degrees, edges, new_degrees, new_edges);
+  int offset = simplify_by_removing_rational_leafs(degrees, edges, genera, new_degrees, new_edges, new_genera);
   std::vector<int> new_expected_degrees = {1};
+  std::vector<int> new_expected_genera = {0};
   std::vector<std::vector<int>> new_expected_edges = {};
   int expected_offset = 5;
   assert(new_degrees == new_expected_degrees && "Removal of leafs (part 3) led to unexpected degrees 3");
+  assert(new_genera == new_expected_genera && "Removal of leafs (part 3) led to unexpected genera");
   assert(new_edges == new_expected_edges && "Removal of leafs (part 3) led to unexpected edges");
   assert(offset == expected_offset && "Removal of leafs (part 3) led to unexpected offset");
 }

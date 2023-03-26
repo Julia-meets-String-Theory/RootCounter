@@ -134,16 +134,36 @@ void worker(const std::vector<int> & degrees,
 				                only_isolated_elliptic_curves_cause_trouble = false;
 		                    }
                             
-                            // If there are only rational components, then let us standardize the graph, iterate over its connected components and only save those that we cannot sort (yet)
-                            if (*std::max_element(std::begin(gens_of_cc[j]), std::end(gens_of_cc[j])) == 0){
+                            // How many rational and elliptic curves?
+                            int number_rational = 0;
+                            int number_elliptic = 0;
+                            for (int k = 0; k < gens_of_cc[j].size(); k++){
+                                if (gens_of_cc[j][k] == 0){
+                                    number_rational++;
+                                }
+                                if (gens_of_cc[j][k] == 1){
+                                    number_elliptic++;
+                                }
+                            }
+                            
+                            // Are we either looking at a nodal curve that we can simplify to compute h0 more accurately?
+                            bool can_simplify_curve = false;
+                            if (number_rational == gens_of_cc[i].size()){
+                                can_simplify_curve = true;
+                            }
+                            if ((betti_number(edges_of_cc[j]) == 0) && (number_rational == gens_of_cc[j].size() - 1) && (number_elliptic == 1)){
+                                can_simplify_curve = true;
+                            }
+                            
+                            // Simplify the curve to work out h0 more accurately.
+                            if (can_simplify_curve){
                                 
                                 // Standardize the graph
-                                std::vector<int> new_degrees;
+                                std::vector<int> new_degrees, new_genera;
                                 std::vector<std::vector<int>> new_edges;
-                                int offset = standardize(degs_of_cc[j], edges_of_cc[j], new_degrees, new_edges);
+                                int offset = standardize(degs_of_cc[j], edges_of_cc[j], gens_of_cc[j], new_degrees, new_edges, new_genera);
                                 
                                 // Identify the connected components
-                                std::vector<int> new_genera(new_degrees.size(), 0);
                                 std::vector<std::vector<std::vector<int>>> standardized_edges_of_cc;
                                 std::vector<std::vector<int>> standardized_degs_of_cc, standardized_gens_of_cc;
                                 find_connected_components(new_edges, new_degrees, new_genera, standardized_edges_of_cc, standardized_degs_of_cc, standardized_gens_of_cc);

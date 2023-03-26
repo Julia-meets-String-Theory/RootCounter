@@ -86,17 +86,36 @@ int h0_on_nodal_curve(const std::vector<int>& degrees,
     int h0 = 0;
     for (int i = 0; i < edges_of_cc.size(); i++){
         
-        // Are we looking at a nodal curve with rational components only?
-        // If so, standardize it and iterate over the resulting connected components.
-        if (*std::max_element(std::begin(gens_of_cc[i]), std::end(gens_of_cc[i])) == 0){
+        // How many rational and elliptic curves?
+        int number_rational = 0;
+        int number_elliptic = 0;
+        for (int j = 0; j < gens_of_cc[i].size(); j++){
+            if (gens_of_cc[i][j] == 0){
+                number_rational++;
+            }
+            if (gens_of_cc[i][j] == 1){
+                number_elliptic++;
+            }
+        }
+        
+        // Are we either looking at a nodal curve that we can simplify to compute h0 more accurately?
+        bool can_simplify_curve = false;
+        if (number_rational == gens_of_cc[i].size()){
+            can_simplify_curve = true;
+        }
+        if ((betti_number(edges_of_cc[i]) == 0) && (number_rational == gens_of_cc[i].size() - 1) && (number_elliptic == 1)){
+            can_simplify_curve = true;
+        }
+        
+        // Simplify the curve to work out h0 more accurately.
+        if (can_simplify_curve){
             
             // Standardize the graph
-            std::vector<int> new_degrees;
+            std::vector<int> new_degrees, new_genera;
             std::vector<std::vector<int>> new_edges;
-            int offset = standardize(degs_of_cc[i], edges_of_cc[i], new_degrees, new_edges);
+            int offset = standardize(degs_of_cc[i], edges_of_cc[i], gens_of_cc[i], new_degrees, new_edges, new_genera);
             
             // Identify the connected components
-            std::vector<int> new_genera(new_degrees.size(), 0);
             std::vector<std::vector<std::vector<int>>> standardized_edges_of_cc;
             std::vector<std::vector<int>> standardized_degs_of_cc, standardized_gens_of_cc;
             find_connected_components(new_edges, new_degrees, new_genera, standardized_edges_of_cc, standardized_degs_of_cc, standardized_gens_of_cc);
