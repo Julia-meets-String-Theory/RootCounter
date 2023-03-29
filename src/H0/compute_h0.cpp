@@ -9,6 +9,9 @@ int h0_on_standardized_connected_nodal_curve(const std::vector<int>& degrees,
     // (1) No edge, so must be a single component that is not self-connected.
     if (edges.size() == 0){
         if (degrees[0] == 0 && genera[0] == 1){
+            /*for (int k = 0; k < 20; k++){
+                exit(-1);
+            }*/
             lower_bound = true;
         }
         return std::max(degrees[0] - genera[0] + 1, 0);
