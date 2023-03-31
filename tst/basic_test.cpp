@@ -85,10 +85,10 @@ void test7(){
   std::vector<int> new_degrees, new_genera;
   std::vector<std::vector<int>> new_edges;
   int offset = simplify_by_removing_rational_leafs(degrees, edges, genera, new_degrees, new_edges, new_genera);
-  std::vector<int> new_expected_degrees = {1};
+  std::vector<int> new_expected_degrees = {3};
   std::vector<int> new_expected_genera = {0};
   std::vector<std::vector<int>> new_expected_edges = {};
-  int expected_offset = 5;
+  int expected_offset = 3;
   assert(new_degrees == new_expected_degrees && "Removal of leafs (part 3) led to unexpected degrees 3");
   assert(new_genera == new_expected_genera && "Removal of leafs (part 3) led to unexpected genera");
   assert(new_edges == new_expected_edges && "Removal of leafs (part 3) led to unexpected edges");
