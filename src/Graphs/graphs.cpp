@@ -235,15 +235,13 @@ void find_connected_components( const std::vector<std::vector<int>> & input_edge
 
 // (6) Find all external leafs of a graph
 // (6) Find all external leafs of a graph
-void find_external_rational_leafs(const std::vector<std::vector<int>> & edges,
-                                  const std::vector<int> & genera,
-                                  std::vector<int> & leafs)
+int find_external_rational_leaf(const std::vector<std::vector<int>> & edges,
+                                 const std::vector<int> & genera)
 {
     
     // Degenerate case: no edges
     if (edges.size() == 0){
-        leafs.clear();
-        return;
+        return -1;
     }
     
     // Find the vertices
@@ -263,15 +261,14 @@ void find_external_rational_leafs(const std::vector<std::vector<int>> & edges,
                 }
             }
             if (count_for_component_i == 1){
-                leafs.push_back(i);
+                return i;
             }
         }
     }
     
-    // In principle, all components could be leafs. In this case, by convention we leave the component 0.
-    if (leafs.size() == vertices.size()){
-        leafs.erase(std::find(leafs.begin(), leafs.end(), 0));
-    }
+    // Default return value in case there are no leafs
+    return -1;
+    
 }
 
 
@@ -286,11 +283,10 @@ int simplify_by_removing_rational_leafs(const std::vector<int> & degrees,
 {
     
     // Find all leafs
-    std::vector<int> leafs;
-    find_external_rational_leafs(edges, genera, leafs);
+    int leaf = find_external_rational_leaf(edges, genera);
     
     // Degenerate case
-    if (leafs.size() == 0){
+    if (leaf == -1){
         new_degrees = degrees;
         new_edges = edges;
         new_genera = genera;
@@ -306,18 +302,18 @@ int simplify_by_removing_rational_leafs(const std::vector<int> & degrees,
     int offset = 0;
     
     // Simplify until no leafs are left
-    while (leafs.size() > 0){
+    while (leaf != -1){
         
         // Empty new_degrees and new_edges
         new_degrees.clear();
         new_edges.clear();
         new_genera.clear();
         
-        // To remove the leafs, make a dictionary from the old component names to the new ones
+        // To remove the leaf, make a dictionary from the old component names to the new ones
         std::map<int, int> dictionary;
         int counter = 0;
         for (int i = 0; i < internal_degrees.size(); i++){
-            if (std::find(leafs.begin(), leafs.end(), i) == leafs.end()){
+            if (i != leaf){
                 dictionary.insert(std::pair<int, int>(i, counter));
                 counter++;
             }
@@ -325,49 +321,62 @@ int simplify_by_removing_rational_leafs(const std::vector<int> & degrees,
         
         // Make list with the new edges
         for (int i = 0; i < internal_edges.size(); i++){
-            if ((std::find(leafs.begin(), leafs.end(), internal_edges[i][0]) == leafs.end()) && (std::find(leafs.begin(), leafs.end(), internal_edges[i][1]) == leafs.end())){
+            if ((internal_edges[i][0] != leaf) && (internal_edges[i][1] != leaf)){
                 new_edges.push_back({dictionary[internal_edges[i][0]], dictionary[internal_edges[i][1]]});
             }
         }
         
         // Copy the old degrees and genera for the remaining vertices
-        for (int i = 0; i < internal_degrees.size() - leafs.size(); i++){
+        for (int i = 0; i < internal_degrees.size() - 1; i++){
             new_degrees.push_back(0);
             new_genera.push_back(0);
         }
         for (int i = 0; i < internal_degrees.size(); i++){
-            if (std::find(leafs.begin(), leafs.end(), i) == leafs.end()){
+            if (i != leaf){
                 new_degrees[dictionary[i]] = internal_degrees[i];
                 new_genera[dictionary[i]] = internal_genera[i];
             }
         }
         
-        // Adjust the degrees of the remaining vertices to reflect the leafs that we removed
+        // Adjust the degrees of the remaining vertices to reflect the leaf that we removed
         for(int i = 0; i < internal_degrees.size(); i++){
             
             // Only degrees of vertices that are not leafs are to be recorded
-            if (std::find(leafs.begin(), leafs.end(), i) == leafs.end()){
+            if (i != leaf){
                 
-                // Iterate over all edges, to find the leafs attached to i
+                // Iterate over all edges, to find out if the leaf is attached to i
                 for (int j = 0; j < internal_edges.size(); j++){
                     
-                    if ((internal_edges[j][0] == i) && (std::find(leafs.begin(), leafs.end(), internal_edges[j][1]) != leafs.end())){
+                    // Leaf is attached to vertex i, react accordingly
+                    if ((internal_edges[j][0] == i) && (internal_edges[j][1] == leaf)){
                         
-                        if (internal_degrees[internal_edges[j][1]] < 0){
-                            new_degrees[dictionary[i]]--;
+                        if ((internal_genera[i] == 1) && (internal_degrees[i] == 1) && (internal_degrees[leaf] < 0) && (new_edges.size() == 0)){
+                            new_degrees[dictionary[i]] = new_degrees[dictionary[i]] - 2;
                         }
-                        if (internal_degrees[internal_edges[j][1]] >= 0){
-                            offset += internal_degrees[internal_edges[j][1]];
+                        else{
+                            if (internal_degrees[internal_edges[j][1]] < 0){
+                                new_degrees[dictionary[i]]--;
+                            }
+                            if (internal_degrees[internal_edges[j][1]] >= 0){
+                                offset += internal_degrees[internal_edges[j][1]];
+                            }
                         }
+                        
                     }
                     
-                    if ((internal_edges[j][1] == i) && (std::find(leafs.begin(), leafs.end(), internal_edges[j][0]) != leafs.end())){
+                    // Leaf is attached to vertex i, react accordingly
+                    if ((internal_edges[j][1] == i) && (internal_edges[j][0] == leaf)){
                         
-                        if (internal_degrees[internal_edges[j][0]] < 0){
-                            new_degrees[dictionary[i]]--;
+                        if ((internal_genera[i] == 1) && (internal_degrees[i] == 1) && (internal_degrees[leaf] < 0) && (new_edges.size() == 0)){
+                            new_degrees[dictionary[i]] = new_degrees[dictionary[i]] - 2;
                         }
-                        if (internal_degrees[internal_edges[j][0]] >= 0){
-                            offset += internal_degrees[internal_edges[j][0]];
+                        else{
+                            if (internal_degrees[internal_edges[j][0]] < 0){
+                                new_degrees[dictionary[i]]--;
+                            }
+                            if (internal_degrees[internal_edges[j][0]] >= 0){
+                                offset += internal_degrees[internal_edges[j][0]];
+                            }
                         }
                     }
                 
@@ -383,8 +392,7 @@ int simplify_by_removing_rational_leafs(const std::vector<int> & degrees,
         internal_genera = new_genera;
         
         // Compute the leafs anew
-        leafs.clear();
-        find_external_rational_leafs(internal_edges, internal_genera, leafs);
+        leaf = find_external_rational_leaf(internal_edges, internal_genera);
         
     }
     
