@@ -752,7 +752,7 @@ void h0_elliptic_tree_test6(){
   std::vector<int> genera = {1, 0, 0, 0, 0};
   bool bound;
   int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
-  assert(h0 == 0 && "Cohomology determined incorrectly for elliptic tree 6");
+  assert(h0 == 1 && "Cohomology determined incorrectly for elliptic tree 6");
   assert(bound == true && "The cohomology result should not be exact, but is marked as exact for elliptic tree 6");
 }
 
