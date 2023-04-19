@@ -743,7 +743,7 @@ void h0_elliptic_tree_test5(){
   bool bound;
   int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
   assert(h0 == 0 && "Cohomology determined incorrectly for elliptic tree 5");
-  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound for elliptic tree 5");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact for elliptic tree 5");
 }
 
 void h0_elliptic_tree_test6(){
@@ -776,17 +776,16 @@ void h0_elliptic_tree_test8(){
   assert(bound == true && "The cohomology result should not be exact, but is marked as exact for elliptic tree 8");
 }
 
+void h0_elliptic_tree_test9(){
+  std::vector<std::vector<int>> edges = {{0, 1}};
+  std::vector<int> degrees = {1, -1};
+  std::vector<int> genera = {1, 0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for elliptic tree 9");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact for elliptic tree 9");
+}
 
-/*
-  std::vector<int> new_degrees, new_genera;
-  std::vector<std::vector<int>> new_edges;
-  int offset = standardize(degrees, edges, genera, new_degrees, new_edges, new_genera);
-  std::cout << "\n\n\n";
-  print_vector("New degrees: ", new_degrees);
-  print_vector("New genera: ", new_genera);
-  print_vector_of_vector("New edges:\n", new_edges);
-  std::cout << "Offset: " << offset << "\n\n\n";
-*/
 
 
 // ########################################
@@ -865,4 +864,5 @@ int main(int argc, char* argv[]){
   h0_elliptic_tree_test6();
   h0_elliptic_tree_test7();
   h0_elliptic_tree_test8();
+  h0_elliptic_tree_test9();
 }
