@@ -350,16 +350,11 @@ int simplify_by_removing_rational_leafs(const std::vector<int> & degrees,
                     // Leaf is attached to vertex i, react accordingly
                     if ((internal_edges[j][0] == i) && (internal_edges[j][1] == leaf)){
                         
-                        if ((internal_genera[i] == 1) && (internal_degrees[i] == 1) && (internal_degrees[leaf] < 0) && (new_edges.size() == 0)){
-                            new_degrees[dictionary[i]] = new_degrees[dictionary[i]] - 2;
+                        if (internal_degrees[leaf] < 0){
+                            new_degrees[dictionary[i]]--;
                         }
-                        else{
-                            if (internal_degrees[internal_edges[j][1]] < 0){
-                                new_degrees[dictionary[i]]--;
-                            }
-                            if (internal_degrees[internal_edges[j][1]] >= 0){
-                                offset += internal_degrees[internal_edges[j][1]];
-                            }
+                        if (internal_degrees[leaf] >= 0){
+                            offset += internal_degrees[leaf];
                         }
                         
                     }
@@ -367,17 +362,13 @@ int simplify_by_removing_rational_leafs(const std::vector<int> & degrees,
                     // Leaf is attached to vertex i, react accordingly
                     if ((internal_edges[j][1] == i) && (internal_edges[j][0] == leaf)){
                         
-                        if ((internal_genera[i] == 1) && (internal_degrees[i] == 1) && (internal_degrees[leaf] < 0) && (new_edges.size() == 0)){
-                            new_degrees[dictionary[i]] = new_degrees[dictionary[i]] - 2;
+                        if (internal_degrees[leaf] < 0){
+                            new_degrees[dictionary[i]]--;
                         }
-                        else{
-                            if (internal_degrees[internal_edges[j][0]] < 0){
-                                new_degrees[dictionary[i]]--;
-                            }
-                            if (internal_degrees[internal_edges[j][0]] >= 0){
-                                offset += internal_degrees[internal_edges[j][0]];
-                            }
+                        if (internal_degrees[leaf] >= 0){
+                            offset += internal_degrees[leaf];
                         }
+                        
                     }
                 
                 }
