@@ -146,49 +146,27 @@ void worker(const std::vector<int> & degrees,
                                 }
                             }
                             
-                            // Are we either looking at a nodal curve that we can simplify to compute h0 more accurately?
-                            bool can_simplify_curve = false;
-                            if (number_rational == gens_of_cc[i].size()){
-                                can_simplify_curve = true;
-                            }
-                            if ((betti_number(edges_of_cc[j]) == 0) && (number_rational == gens_of_cc[j].size() - 1) && (number_elliptic == 1)){
-                                can_simplify_curve = true;
-                            }
+                            // Standardize the graph
+                            std::vector<int> new_degrees, new_genera;
+                            std::vector<std::vector<int>> new_edges;
+                            int offset = standardize(degs_of_cc[j], edges_of_cc[j], gens_of_cc[j], new_degrees, new_edges, new_genera);
                             
-                            // Simplify the curve to work out h0 more accurately.
-                            if (can_simplify_curve){
-                                
-                                // Standardize the graph
-                                std::vector<int> new_degrees, new_genera;
-                                std::vector<std::vector<int>> new_edges;
-                                int offset = standardize(degs_of_cc[j], edges_of_cc[j], gens_of_cc[j], new_degrees, new_edges, new_genera);
-                                
-                                // Identify the connected components
-                                std::vector<std::vector<std::vector<int>>> standardized_edges_of_cc;
-                                std::vector<std::vector<int>> standardized_degs_of_cc, standardized_gens_of_cc;
-                                find_connected_components(new_edges, new_degrees, new_genera, standardized_edges_of_cc, standardized_degs_of_cc, standardized_gens_of_cc);
-                                
-                                // Iterate over the standardized connected components
-                                for (int k = 0; k < standardized_edges_of_cc.size(); k++){
-                                    bool lower_bound_test = false;
-                                    int sections = h0_on_standardized_connected_nodal_curve(standardized_degs_of_cc[k], standardized_edges_of_cc[k], standardized_gens_of_cc[k], lower_bound_test);
-                                    if (lower_bound_test){
-                                        std::vector<std::vector<int>> new_unsorted_setup = {standardized_gens_of_cc[k], standardized_degs_of_cc[k], {sections}};
-                                        for (int l = 0; l < standardized_edges_of_cc[k].size(); l++){
-                                            new_unsorted_setup.push_back(standardized_edges_of_cc[k][l]);
-                                        }
-                                        UpdateUnsortedThreadSafe(unsorted_setups, new_unsorted_setup);
+                            // Identify the connected components
+                            std::vector<std::vector<std::vector<int>>> standardized_edges_of_cc;
+                            std::vector<std::vector<int>> standardized_degs_of_cc, standardized_gens_of_cc;
+                            find_connected_components(new_edges, new_degrees, new_genera, standardized_edges_of_cc, standardized_degs_of_cc, standardized_gens_of_cc);
+                            
+                            // Iterate over the standardized connected components
+                            for (int k = 0; k < standardized_edges_of_cc.size(); k++){
+                                bool lower_bound_test = false;
+                                int sections = h0_on_standardized_connected_nodal_curve(standardized_degs_of_cc[k], standardized_edges_of_cc[k], standardized_gens_of_cc[k], lower_bound_test);
+                                if (lower_bound_test){
+                                    std::vector<std::vector<int>> new_unsorted_setup = {standardized_gens_of_cc[k], standardized_degs_of_cc[k], {sections}};
+                                    for (int l = 0; l < standardized_edges_of_cc[k].size(); l++){
+                                        new_unsorted_setup.push_back(standardized_edges_of_cc[k][l]);
                                     }
+                                    UpdateUnsortedThreadSafe(unsorted_setups, new_unsorted_setup);
                                 }
-                                
-                            }
-                            // Otherwise, just save the unsorted setup as is...
-                            else{
-                                std::vector<std::vector<int>> new_unsorted_setup = {gens_of_cc[j], degs_of_cc[j], {h0_of_cc}};
-                                for (int k = 0; k < edges_of_cc[j].size(); k++){
-                                    new_unsorted_setup.push_back(edges_of_cc[j][k]);
-                                }
-                                UpdateUnsortedThreadSafe(unsorted_setups, new_unsorted_setup);
                             }
                             
                         }
