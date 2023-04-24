@@ -16,7 +16,7 @@ void test1(){
   bool bound;
   int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
   assert(h0 == 4 && "Cohomology determined incorrectly (test1)");
-  assert(bound == true && "The cohomology result should be a lower bound, but is marked as exact (test1)");
+  assert(bound == false && "The cohomology result should be exact, but is marked merely as lower bound (test1)");
 }
 
 void test2(){
@@ -26,7 +26,7 @@ void test2(){
   bool bound;
   int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
   assert(h0 == 7 && "Cohomology determined incorrectly (test2)");
-  assert(bound == true && "The cohomology result should be a lower bound, but is marked as exact (test2)");
+  assert(bound == false && "The cohomology result should be exact, but is marked merely as lower bound (test2)");
 }
 
 void test3(){

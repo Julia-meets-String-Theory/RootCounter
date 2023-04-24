@@ -6,6 +6,7 @@ tst/*.gcno
 tst/*.gcda
 tst/*.gcov
 
+tst/h0_test
 tst/basic_test
 tst/simple_root_counting_test
 
@@ -15,13 +16,24 @@ tst/poly134
 tst/poly128
 
 tst/poly88
+tst/poly52
 tst/poly110
 tst/poly272
 tst/poly387
 tst/poly798
 tst/poly254
-tst/poly52
 tst/poly302
+tst/poly762
+tst/poly786
+tst/poly838
+tst/poly377
+tst/poly417
+tst/poly782
+tst/poly882
+tst/poly1348
+tst/poly1384
+tst/poly1340
+tst/poly1879
 
 tst/result.txt
 tst/unsorted_setups.txt
