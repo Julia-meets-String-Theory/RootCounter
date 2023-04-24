@@ -788,8 +788,64 @@ void h0_elliptic_tree_test9(){
 
 
 
+// #############################################
+// (5) Tests for h0 on elliptic circuits
+// #############################################
+
+void h0_elliptic_circuit1(){
+  std::vector<std::vector<int>> edges = {{0, 0}};
+  std::vector<int> degrees = {1};
+  std::vector<int> genera = {1};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 0 && "Cohomology determined incorrectly for elliptic circuit 1");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact for elliptic circuit 1");
+}
+
+void h0_elliptic_circuit2(){
+  std::vector<std::vector<int>> edges = {{0, 0}};
+  std::vector<int> degrees = {3};
+  std::vector<int> genera = {1};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 2 && "Cohomology determined incorrectly for elliptic circuit 2");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound for elliptic circuit 2");
+}
+
+void h0_elliptic_circuit3(){
+  std::vector<std::vector<int>> edges = {{0, 1}, {0, 1}, {0, 1}};
+  std::vector<int> degrees = {4, 1};
+  std::vector<int> genera = {1, 0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 3 && "Cohomology determined incorrectly for elliptic circuit 3");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound for elliptic circuit 3");
+}
+
+void h0_elliptic_circuit4(){
+  std::vector<std::vector<int>> edges = {{0, 1}, {1, 1}};
+  std::vector<int> degrees = {2, 2};
+  std::vector<int> genera = {1, 0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 3 && "Cohomology determined incorrectly for elliptic circuit 4");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound for elliptic circuit 4");
+}
+
+void h0_elliptic_circuit5(){
+  std::vector<std::vector<int>> edges = {{0, 1}, {1, 1}};
+  std::vector<int> degrees = {1, 1};
+  std::vector<int> genera = {1, 0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 1 && "Cohomology determined incorrectly for elliptic circuit 5");
+  assert(bound == true && "The cohomology result should not be exact, but is marked as exact for elliptic circuit 5");
+}
+
+
+
 // ########################################
-// (5) Execute the tests
+// (6) Execute the tests
 // ########################################
 
 int main(int argc, char* argv[]){
@@ -865,4 +921,5 @@ int main(int argc, char* argv[]){
   h0_elliptic_tree_test7();
   h0_elliptic_tree_test8();
   h0_elliptic_tree_test9();
+  h0_elliptic_circuit1();
 }

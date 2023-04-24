@@ -14,11 +14,26 @@ int h0_on_standardized_connected_nodal_curve(const std::vector<int>& degrees,
         return std::max(degrees[0] - genera[0] + 1, 0);
     }
     
-    // (2) Only rational components and at least one edge
-    if (edges.size() > 0 && (*std::max_element(std::begin(genera), std::end(genera)) == 0)){
+    // (2) Count the number of elliptic curves
+    int number_rational_curves = 0;
+    int number_elliptic_curves = 0;
+    int number_higher_genus_curves = 0;
+    for (int i = 0; i < genera.size(); i++){
+        if (genera[i] == 0){
+            number_rational_curves++;
+        }
+        else if (genera[i] == 1){
+            number_elliptic_curves++;
+        }
+        else{
+            number_higher_genus_curves++;
+        }
+    }
+    
+    // (3) Only rational components and at least one edge
+    if (edges.size() > 0 && (number_rational_curves == genera.size()) && (number_elliptic_curves == 0) && (number_higher_genus_curves == 0)){
         
         if (betti_number(edges) == 1){
-            
             if (degrees.size() == 1 && self_loops(edges) == 1){
                 return h0_on_connected_rational_one_loop(degrees, edges, lower_bound);
             }
@@ -48,10 +63,29 @@ int h0_on_standardized_connected_nodal_curve(const std::vector<int>& degrees,
             
         }
         
+    }
+    
+    // (4) One elliptic component, otherwise only rational components and at least one edge
+    if (edges.size() > 0 && (number_rational_curves == genera.size() - 1) && (number_elliptic_curves == 1) && (number_higher_genus_curves == 0)){
+        
+        if (betti_number(edges) == 1){
+            if (degrees.size() == 1 && self_loops(edges) == 1){
+                return h0_on_connected_elliptic_one_loop(degrees, genera, edges, lower_bound);
+            }
+            if (degrees.size() == 2 && self_loops(edges) == 1){
+                return h0_on_connected_elliptic_tapole(degrees, genera, edges, lower_bound);
+            }
+        }
+        
+        if (betti_number(edges) == 2){
+            if (degrees.size() == 2 && self_loops(edges) == 0){
+                return h0_on_connected_elliptic_double_loop(degrees, genera, edges, lower_bound);
+            }
+        }
         
     }
     
-    // (3) Lower bound if all else fails
+    // (5) Lower bound if all else fails
     lower_bound = true;
     int local_sections = 0;
     for (int i = 0; i < degrees.size(); i++){

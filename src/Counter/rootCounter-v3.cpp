@@ -134,18 +134,6 @@ void worker(const std::vector<int> & degrees,
 				                only_isolated_elliptic_curves_cause_trouble = false;
 		                    }
                             
-                            // How many rational and elliptic curves?
-                            int number_rational = 0;
-                            int number_elliptic = 0;
-                            for (int k = 0; k < gens_of_cc[j].size(); k++){
-                                if (gens_of_cc[j][k] == 0){
-                                    number_rational++;
-                                }
-                                if (gens_of_cc[j][k] == 1){
-                                    number_elliptic++;
-                                }
-                            }
-                            
                             // Standardize the graph
                             std::vector<int> new_degrees, new_genera;
                             std::vector<std::vector<int>> new_edges;
