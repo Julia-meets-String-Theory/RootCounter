@@ -158,7 +158,7 @@ void return_result(const std::string & full_path,
             std::cout << std::setprecision(3) << LongFloat(100) * LongFloat(n_lower_bound[h0Max - h0Min][j]) / LongFloat(total_number_roots) << " \\\\\n";
         }
         std::cout << "\\midrule\n";
-        std::cout << "\\Sigma & ";
+        std::cout << "$\\Sigma$ & ";
         for (int i = 0; i < h0Max - h0Min; i++){
             std::cout << std::setprecision(3) << LongFloat(100) * LongFloat(sum(n_exact[i])) / LongFloat(total_number_roots) << " & ";
             std::cout << std::setprecision(3) << LongFloat(100) * LongFloat(sum(n_lower_bound[i])) / LongFloat(total_number_roots) << " & ";
