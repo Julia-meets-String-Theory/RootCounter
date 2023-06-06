@@ -62,6 +62,8 @@ int h0_on_connected_rational_double_loop(const std::vector<int>& degrees, const 
 int h0_on_connected_rational_dumpbell(const std::vector<int>& degrees, const std::vector<std::vector<int>>& edges, bool & lower_bound)
 {
     consistency_check({(int) edges.size(), (int) degrees.size(), betti_number(edges), self_loops(edges)}, {3, 2, 2, 2});
+    if (degrees[0] < 0 && degrees[1] == 1){lower_bound = true;}
+    if (degrees[0] == 1 && degrees[1] < 0){lower_bound = true;}
     if (degrees[0] == 0 && degrees[1] >= 0){lower_bound = true;}
     if (degrees[1] == 0 && degrees[0] >= 0){lower_bound = true;}
     if (degrees[0] == 1 && degrees[1] == 1){lower_bound = true;}
