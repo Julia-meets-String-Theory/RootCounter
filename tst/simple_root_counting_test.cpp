@@ -75,6 +75,17 @@ void test5(const std::string & full_path){
   assert(n_lower_bound == n_lower_bound_expected && "Test for simple root counting 5 failed");
 }
 
+void test6(const std::string & full_path){
+  std::vector<std::vector<boost::multiprecision::int128_t>> n_exact, n_lower_bound;
+  std::vector<std::vector<std::vector<int>>> unsorted_setups;
+  count_roots("5 6 0 4 6 0 0 0 0 0 0 9 0 1 0 1 0 2 0 2 0 3 2 3 2 3 3 4 3 4 5 2 8 4 4 0 9", full_path, true, n_exact, n_lower_bound, unsorted_setups);
+  std::vector<std::vector<boost::multiprecision::int128_t>> n_exact_expected = {{0, 1, 4, 4, 8, 5, 4, 2, 0, 0}};
+  std::vector<std::vector<boost::multiprecision::int128_t>> n_lower_bound_expected = {{0, 0, 0, 0, 0, 1, 0, 2, 0, 1}};
+  assert(sum(n_exact) + sum(n_lower_bound) == sum(n_exact_expected) + sum(n_lower_bound_expected) && "Test for simple root counting 6 failed");
+  assert(n_exact == n_exact_expected && "Test for simple root counting 6 failed");
+  assert(n_lower_bound == n_lower_bound_expected && "Test for simple root counting 6 failed");
+}
+
 
 // ########################################
 // (2) Execute the tests
@@ -87,4 +98,5 @@ int main(int argc, char* argv[]){
 	test3(argv[0]);
 	test4(argv[0]);
 	test5(argv[0]);
+  test6(argv[0]);
 }
