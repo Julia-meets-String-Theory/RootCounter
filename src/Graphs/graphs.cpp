@@ -421,7 +421,11 @@ int find_an_internal_rational_vertex(const std::vector<std::vector<int>> & edges
                 if (edges[j][1] == i){count_for_component_i++;}
             }
             if (count_for_component_i == 2){
-                return i;
+                // Check if this is a self-loop
+                for (int j = 0; j < edges.size(); j++){
+                    if (edges[j][0] == i && edges[j][1] != i){return i;}
+                    if (edges[j][1] == i && edges[j][0] != i){return i;}
+                }
             }
         }
     }

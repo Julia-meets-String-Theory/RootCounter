@@ -519,6 +519,16 @@ void test51(){
   assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test51)");
 }
 
+void test52(){
+  std::vector<std::vector<int>> edges = {{3,4},{3,4},{2,3},{0,2},{0,1},{0,1}};
+  std::vector<int> degrees = {2,0,1,2,0};
+  std::vector<int> genera = {0,0,0,0,0};
+  bool bound;
+  int h0 = h0_on_nodal_curve(degrees, edges, genera, bound);
+  assert(h0 == 4 && "Cohomology determined incorrectly for (test52)");
+  assert(bound == false && "The cohomology result should be exact, but is marked as lower bound (test52)");
+}
+
 
 // ########################################
 // (2) Marielle's tests on h0-computation
@@ -844,6 +854,7 @@ int main(int argc, char* argv[]){
   test49();
   test50();
   test51();
+  test52();
   Marielle_test1();
   Marielle_test2();
   Marielle_test3();
