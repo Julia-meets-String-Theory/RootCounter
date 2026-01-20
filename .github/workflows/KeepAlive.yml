@@ -1,18 +1,28 @@
 name: KeepAlive
 on:
+  workflow_dispatch:
   schedule:
-    - cron: "0 0 * * *"
-  workflow_dispatch: {}
+    - cron: "0 0 1 * *"
 
 permissions:
-  actions: write
+  contents: write
+  pull-requests: write
 
 jobs:
   keepalive:
-    name: Keep repository alive
     runs-on: ubuntu-latest
     steps:
-      - uses: gautamkrishnar/keepalive-workflow@v2
-        with:
-          time_elapsed: "0"
-          auto_write_check: "true"
+      - uses: actions/checkout@v4
+
+      - name: Create keepalive change on a branch
+        run: |
+          BRANCH="keepalive"
+          echo -n " " >> whitespace.txt
+
+          git config user.name "White Space Bot"
+          git config user.email "whitespace[bot]@users.noreply.github.com"
+
+          git checkout -B "$BRANCH"
+          git add whitespace.txt
+          git commit -m "chore: keepalive [skip ci]" || exit 0
+          git push -u origin "$BRANCH" --force
