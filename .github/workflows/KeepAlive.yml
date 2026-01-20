@@ -5,22 +5,14 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  contents: write
+  actions: write
 
 jobs:
-  main-job:
-    name: Main Job
+  keepalive:
+    name: Keep repository alive
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      # - step1
-      # - step 2
-      # - Step N
-  keepalive-job:
-    name: Keepalive Workflow
-    runs-on: ubuntu-latest
-    permissions:
-      actions: write
-    steps:
-      - uses: actions/checkout@v4
       - uses: gautamkrishnar/keepalive-workflow@v2
+        with:
+          time_elapsed: "0"
+          auto_write_check: "true"
