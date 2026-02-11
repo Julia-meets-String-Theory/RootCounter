@@ -15,8 +15,10 @@ jobs:
     runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v3
-      - name: Install boost
-        run: sudo apt install -y libboost-all-dev
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -o Acquire::Retries=3
+          sudo apt-get install -y -o Acquire::Retries=3 --no-install-recommends libboost-all-dev
       - name: Configure
         run: ./configure
       - name: Install
